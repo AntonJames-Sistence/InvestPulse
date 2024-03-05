@@ -1,6 +1,7 @@
 import React from "react";
 import NavBar from "./components/NavBar";
 import CryptoPrices from "./components/CryptoPrices";
+import TradingViewWidget from "./components/TradingViewWidget";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <div className="p-4 flex justify-start">Cryptocurrencies &gt;&gt; Bitcoin</div>
 
       {/* <CryptoPrices /> */}
+      <TradingViewWidget />
 
     </main>
   );
