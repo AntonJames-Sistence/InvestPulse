@@ -9,7 +9,7 @@ export default function Home() {
 
       <div className="p-4 flex justify-start">Cryptocurrencies &gt;&gt; Bitcoin</div>
 
-      <CryptoPrices />
+      {/* <CryptoPrices /> */}
 
     </main>
   );
