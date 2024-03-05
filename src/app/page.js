@@ -8,10 +8,16 @@ export default function Home() {
     <main className="flex w-full flex-col justify-between bg-gray">
       <NavBar/>
 
-      <div className="p-4 flex justify-start">Cryptocurrencies &gt;&gt; Bitcoin</div>
+      <div className="flex flex-col self-center w-full px-16">
+        <div className="p-4 flex justify-start">Cryptocurrencies &gt;&gt; Bitcoin need to complete this section later</div>
 
-      {/* <CryptoPrices /> */}
-      <TradingViewWidget />
+        {/* <CryptoPrices /> */}
+        <div className="w-4/6">
+
+          <TradingViewWidget />
+        </div>
+
+      </div>
 
     </main>
   );

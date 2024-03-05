@@ -6,7 +6,7 @@ const NavBar = () => {
 
 
     return (
-        <nav className="flex w-full bg-white px-10 justify-between shadow-lg h-20">
+        <nav className="flex w-full bg-white px-16 justify-between shadow-lg h-20">
             <Link href="/">
                 <img className="h-[50px] lg:h-full" src="https://www.koinx.com/_next/static/media/Logo.5f2ad8d5.svg" />
             </Link>
