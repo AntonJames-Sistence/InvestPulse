@@ -2,8 +2,24 @@
 'use client';
 import React, { useEffect, useRef, memo } from 'react';
 
-function TradingViewWidget() {
+const TradingViewWidget = () => {
+  let coinName = "bitcoin";
+  const [coinData, setCoinData] = useState(null);
   const container = useRef();
+
+
+  const handleFetchPrices = async () => {
+    const priceUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${coinName}&vs_currencies=inr%2Cusd&include_24hr_change=true`;
+    
+    try {
+      let data = await fetch(priceUrl);
+      let jsonData = await data.json();
+      setCoinData(jsonData);
+    } catch (error) {
+      console.log(error)
+    }
+    
+  }
 
   useEffect(
     () => {
@@ -15,7 +31,6 @@ function TradingViewWidget() {
         {
           "height": "510",
           "symbol": "BITSTAMP:BTCUSD",
-          "hide_top_toolbar": true,
           "hide_legend": true,
           "interval": "D",
           "timezone": "Etc/UTC",
@@ -31,6 +46,9 @@ function TradingViewWidget() {
           "support_host": "https://www.tradingview.com"
         }`;
       container.current.appendChild(script);
+      // handleFetchPrices();
+
+      // "hide_top_toolbar": true,
 
       // Cleanup function to remove the script when the component unmounts
       return () => {
@@ -45,7 +63,11 @@ function TradingViewWidget() {
   return (
     <div className="flex flex-col">
       <div className="h-40 bg-white">
-
+        {coinData ? (
+          <div>loading...</div>
+        ):(
+          <div>loading...</div>
+        )}
       </div>
       <div className="tradingview-widget-container" ref={container}>
       </div>
