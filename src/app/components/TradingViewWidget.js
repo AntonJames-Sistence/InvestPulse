@@ -1,6 +1,7 @@
 // TradingViewWidget.jsx
 'use client';
 import React, { useEffect, useState, useRef, memo } from 'react';
+// import bitcoinLogo from '../../public/bitcoin.png';
 
 const TradingViewWidget = () => {
   let coinName = "bitcoin";
@@ -74,18 +75,18 @@ const TradingViewWidget = () => {
         ):(
           <div className='flex flex-col justify-between'>
             <div className='flex flex-row m-5'>
-              <img></img>
-              <div>Bitcoin</div>
-              <div>BTC</div>
+              <img src="../../public/bitcoin.png" alt="Bitcoin logo" className='h-10 w-10'></img>
+              <div className='text-black text-2xl font-semibold self-center mr-2'>Bitcoin</div>
+              <div className='text-gray-500 self-center font-semibold mr-2'>BTC</div>
 
-              <div className='flex flex-row bg-gray-600 bg-opacity-70 rounded-lg p-2 text-white self-center'>
+              <div className='flex flex-row bg-gray-600 bg-opacity-70 rounded-lg p-2 ml-10 text-white self-center'>
                 Rank #1
               </div>
             </div>
             <div className='flex flex-row my-2'>
               <div className='text-black text-3xl font-semibold pl-4 self-center'>{`$46,953.04`}</div>
 
-              <div class="flex flex-row bg-green-100 bg-opacity-50 rounded-md px-6 py-1 mx-4 text-green-600 self-center">
+              <div className="flex flex-row bg-green-100 bg-opacity-50 rounded-md px-6 py-1 mx-4 text-green-600 self-center">
                 <div className="triangle-green self-center border-red"></div>
                 <div>2.51%</div>
               </div>
