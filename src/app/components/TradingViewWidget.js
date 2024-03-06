@@ -1,27 +1,12 @@
 // TradingViewWidget.jsx
 'use client';
 import React, { useEffect, useState, useRef, memo } from 'react';
-// import bitcoinLogo from '../../public/bitcoin.png';
 
 const TradingViewWidget = () => {
   let coinName = "bitcoin";
-  const [coinData, setCoinData] = useState(null);
+  
   const container = useRef();
-
-
-  const handleFetchPrices = async () => {
-    const priceUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${coinName}&vs_currencies=inr%2Cusd&include_24hr_change=true`;
-    
-    try {
-      let data = await fetch(priceUrl);
-      let jsonData = await data.json();
-      // console.log(jsonData);
-      setCoinData(jsonData);
-    } catch (error) {
-      console.log(error)
-    }
-    
-  }
+  const [coinData, setCoinData] = useState(null);
 
   const fetchCoinInfo = async (name) => {
     const infoUrl = `https://api.coingecko.com/api/v3/search?query=${name}`;
@@ -33,7 +18,37 @@ const TradingViewWidget = () => {
     } catch (error) {
       console.log(error)
     }
+
+    fetchCoinPrice(name);
+  }
+
+  const fetchCoinPrice = async (id) => {
+    const priceUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=inr%2Cusd&include_24hr_change=true`;
     
+    try {
+      let data = await fetch(priceUrl);
+      let jsonData = await data.json();
+
+      // Add prices to coinData
+      setCoinData(prevData => {
+        if (prevData) {
+          return {
+              ...prevData,
+              ['prices']: {
+                  ...jsonData[id]
+              }
+          };
+        } else {
+            return {
+                ['prices']: {
+                    ...jsonData[id]
+                }
+            };
+        }
+      });
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(
@@ -62,7 +77,7 @@ const TradingViewWidget = () => {
           "support_host": "https://www.tradingview.com"
         }`;
       container.current.appendChild(script);
-      fetchCoinInfo("bitcoin");
+      // fetchCoinInfo(coinName);
 
       // Cleanup function to remove the script when the component unmounts
       return () => {
@@ -73,6 +88,7 @@ const TradingViewWidget = () => {
     },
     []
   );
+  console.log(coinData);
 
   return (
     <div className="flex flex-col">
@@ -111,12 +127,5 @@ const TradingViewWidget = () => {
     </div>
   );
 }
-
-// "bitcoin": {
-//   "inr": 5697177,
-//   "inr_24h_change": 3.6596920153414336,
-//   "usd": 68726,
-//   "usd_24h_change": 3.6767559459431545
-// }
 
 export default memo(TradingViewWidget);
