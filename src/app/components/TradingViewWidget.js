@@ -72,24 +72,28 @@ const TradingViewWidget = () => {
             {/* <div className='text-black'>loading...</div> */}
           </div>
         ):(
-          <>
-          <div></div>
+          <div className='flex flex-col justify-between'>
+            <div className='flex flex-row m-5'>
+              <img></img>
+              <div>Bitcoin</div>
+              <div>BTC</div>
 
-          <div>
-            <div></div>
-          </div>
-          <div className='flex flex-row my-2'>
-            <div className='text-black text-3xl font-semibold pl-4 self-center'>{`$46,953.04`}</div>
-
-            <div class="flex flex-row bg-green-100 bg-opacity-50 rounded-md px-6 py-1 mx-4 text-green-600 self-center relative">
-              <div className="triangle-green self-center border-red"></div>
-              <div>2.51%</div>
+              <div className='flex flex-row bg-gray-600 bg-opacity-70 rounded-lg p-2 text-white self-center'>
+                Rank #1
+              </div>
             </div>
+            <div className='flex flex-row my-2'>
+              <div className='text-black text-3xl font-semibold pl-4 self-center'>{`$46,953.04`}</div>
 
-            <div className="text-gray-500 text-sm self-center">{`(24H)`}</div>
+              <div class="flex flex-row bg-green-100 bg-opacity-50 rounded-md px-6 py-1 mx-4 text-green-600 self-center">
+                <div className="triangle-green self-center border-red"></div>
+                <div>2.51%</div>
+              </div>
+
+              <div className="text-gray-500 text-sm self-center">{`(24H)`}</div>
+            </div>
+            <div className='text-black text-lg pl-5'>{`\u20B9 ${56,97,177 }`}</div>
           </div>
-          <div className='text-black text-lg pl-5'>{`\u20B9 ${56,97,177 }`}</div>
-          </>
         )}
       </div>
       <div className="tradingview-widget-container" ref={container}>
