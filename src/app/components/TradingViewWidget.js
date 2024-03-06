@@ -23,6 +23,19 @@ const TradingViewWidget = () => {
     
   }
 
+  const fetchCoinInfo = async (name) => {
+    const infoUrl = `https://api.coingecko.com/api/v3/search?query=${name}`;
+    
+    try {
+      let data = await fetch(infoUrl);
+      let jsonData = await data.json();
+      setCoinData(jsonData.coins[0]);
+    } catch (error) {
+      console.log(error)
+    }
+    
+  }
+
   useEffect(
     () => {
       const script = document.createElement("script");
@@ -45,12 +58,11 @@ const TradingViewWidget = () => {
           "save_image": false,
           "calendar": false,
           "hide_volume": true,
+          "hide_top_toolbar": true,
           "support_host": "https://www.tradingview.com"
         }`;
       container.current.appendChild(script);
-      // handleFetchPrices();
-      
-      // "hide_top_toolbar": true,
+      fetchCoinInfo("bitcoin");
 
       // Cleanup function to remove the script when the component unmounts
       return () => {
@@ -61,30 +73,27 @@ const TradingViewWidget = () => {
     },
     []
   );
-  console.log(coinData)
 
   return (
     <div className="flex flex-col">
-      <div className="h-40 bg-white rounded-t-lg">
-        {coinData ? (
-          <div>
-            <div className='text-black font-xl'>{`${coinData[0].usd}`}</div>
-            <div className='text-black font-xl'>$46,953.04</div>
-            {/* <div className='text-black'>loading...</div> */}
+      <div className="h-auto flex flex-col bg-white rounded-t-lg">
+        {!coinData ? (
+          <div className='m-10'>
+            ...Loading
           </div>
         ):(
-          <div className='flex flex-col justify-between'>
-            <div className='flex flex-row m-5'>
-              <img src="../../public/bitcoin.png" alt="Bitcoin logo" className='h-10 w-10'></img>
-              <div className='text-black text-2xl font-semibold self-center mr-2'>Bitcoin</div>
-              <div className='text-gray-500 self-center font-semibold mr-2'>BTC</div>
+          <div className='flex flex-col justify-between ml-5'>
+            <div className='flex flex-row mt-7 mb-10'>
+              <img src={coinData.large} alt={`${coinData.api_symbol} logo`} className='h-10 w-10 bg-white'></img>
+              <div className='text-black text-2xl font-semibold self-center mx-2'>{coinData.name}</div>
+              <div className='text-gray-500 self-center font-semibold mr-2'>{coinData.symbol}</div>
 
               <div className='flex flex-row bg-gray-600 bg-opacity-70 rounded-lg p-2 ml-10 text-white self-center'>
-                Rank #1
+                {`Rank #${coinData.market_cap_rank}`}
               </div>
             </div>
-            <div className='flex flex-row my-2'>
-              <div className='text-black text-3xl font-semibold pl-4 self-center'>{`$46,953.04`}</div>
+            <div className='flex flex-row'>
+              <div className='text-black text-3xl font-semibold self-center'>{`$46,953.04`}</div>
 
               <div className="flex flex-row bg-green-100 bg-opacity-50 rounded-md px-6 py-1 mx-4 text-green-600 self-center">
                 <div className="triangle-green self-center border-red"></div>
@@ -93,7 +102,7 @@ const TradingViewWidget = () => {
 
               <div className="text-gray-500 text-sm self-center">{`(24H)`}</div>
             </div>
-            <div className='text-black text-lg pl-5'>{`\u20B9 ${56,97,177 }`}</div>
+            <div className='text-black text-lg'>{`\u20B9 ${56,97,177 }`}</div>
           </div>
         )}
       </div>
