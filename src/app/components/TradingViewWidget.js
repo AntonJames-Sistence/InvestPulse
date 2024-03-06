@@ -19,7 +19,7 @@ const TradingViewWidget = () => {
       console.log(error)
     }
 
-    fetchCoinPrice(name);
+    await fetchCoinPrice(name);
   }
 
   const fetchCoinPrice = async (id) => {
@@ -59,6 +59,7 @@ const TradingViewWidget = () => {
       script.async = true;
       script.innerHTML = `
         {
+          "width": "100%",
           "height": "510",
           "symbol": "BITSTAMP:BTCUSD",
           "hide_legend": true,
@@ -77,7 +78,7 @@ const TradingViewWidget = () => {
           "support_host": "https://www.tradingview.com"
         }`;
       container.current.appendChild(script);
-      // fetchCoinInfo(coinName);
+      fetchCoinInfo(coinName);
 
       // Cleanup function to remove the script when the component unmounts
       return () => {
@@ -88,17 +89,18 @@ const TradingViewWidget = () => {
     },
     []
   );
-  console.log(coinData);
+  // console.log(coinData); 
 
+  
   return (
     <div className="flex flex-col">
-      <div className="h-auto flex flex-col bg-white rounded-t-lg">
+      <div className="h-auto flex flex-col bg-white rounded-lg">
         {!coinData ? (
-          <div className='m-10'>
+          <div className='m-10 h-[172px]'>
             ...Loading
           </div>
         ):(
-          <div className='flex flex-col justify-between ml-5'>
+          <div className='flex flex-col justify-between mx-5'>
             <div className='flex flex-row mt-7 mb-10'>
               <img src={coinData.large} alt={`${coinData.api_symbol} logo`} className='h-10 w-10 bg-white'></img>
               <div className='text-black text-2xl font-semibold self-center mx-2'>{coinData.name}</div>
@@ -109,21 +111,37 @@ const TradingViewWidget = () => {
               </div>
             </div>
             <div className='flex flex-row'>
-              <div className='text-black text-3xl font-semibold self-center'>{`$46,953.04`}</div>
+              <div className='text-black text-3xl font-semibold self-center'>{coinData.prices?.usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>
 
-              <div className="flex flex-row bg-green-100 bg-opacity-50 rounded-md px-6 py-1 mx-4 text-green-600 self-center">
+              <div className="flex flex-row bg-green-100 bg-opacity-50 rounded-md px-6 py-1 ml-6 mr-2 text-green-600 self-center">
                 <div className="triangle-green self-center border-red"></div>
-                <div>2.51%</div>
+                <div>{`${coinData.prices?.usd_24h_change.toFixed(2)}%`}</div>
               </div>
 
               <div className="text-gray-500 text-sm self-center">{`(24H)`}</div>
             </div>
-            <div className='text-black text-lg'>{`\u20B9 ${56,97,177 }`}</div>
+            <div className='text-black text-lg'>{coinData.prices?.inr.toLocaleString('en-IN', { 
+                                                                                      style: 'currency', 
+                                                                                      currency: 'INR',
+                                                                                      minimumFractionDigits: 0,
+                                                                                      maximumFractionDigits: 0
+                                                                                    })}
+            </div>
+            <hr className='my-5 border-gray-400'></hr>
+
+            <div className='mb-10 font-semibold text'>{`${coinData.name} Price Chart (USD)`}</div>
           </div>
+
+          
         )}
-      </div>
-      <div className="tradingview-widget-container" ref={container}>
-      </div>
+
+        
+
+        <div className='mx-5 mb-5'>
+          <div className="tradingview-widget-container self-center" ref={container}></div>
+        </div>
+
+      </div>                                                                 
     </div>
   );
 }
