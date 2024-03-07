@@ -13,9 +13,9 @@ const Team = () => {
                     <div className="flex flex-col mx-4">
                         <img className="w-24 rounded-lg self-center" src="https://antonjames.dev/images/profile_pic.jpg"></img>
                         <div className="font-semibold text-center text-sm">{member.name}</div>
-                        <div className="text-gray-500 text-xs text-center">{member.title}</div>
+                        <div className="text-gray-600 text-xs text-center">{member.title}</div>
                     </div>
-                    <div className="w-4/5  self-center text-sm ml-4">
+                    <div className="w-4/5 self-center text-sm ml-4">
                         {member.description}
                     </div>
                 </div>
