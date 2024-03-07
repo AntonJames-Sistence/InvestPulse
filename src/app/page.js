@@ -9,6 +9,7 @@ import Sentiment from "./components/Sentiment/Sentiment";
 import Perfomance from "./components/Perfomance";
 import PerfomanceNav from "./components/PerfomanceNav";
 import Banner from "./components/Banner";
+import TrendingCoins from "./components/TrendingCoins";
 
 export default function Home() {
   return (
@@ -34,6 +35,7 @@ export default function Home() {
 
         <div className="flex flex-col ml-4 w-1/3">
           <Banner />
+          <TrendingCoins />
         </div>
       </div>
 

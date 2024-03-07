@@ -7,10 +7,10 @@ const About = () => {
 
     return (
         <ReusableInfoBlock title="About Bitcoin">
-            <div className="font-semibold text-lg mb-2 -mt-2">What is Bitcoin?</div>
+            <div className="font-semibold mb-2 -mt-2">What is Bitcoin?</div>
             <div className="text-gray-600">{whatIsBitcoin}</div>
             <hr className="border-gray-200 my-4" />
-            <div className="font-semibold text-lg mb-2">What is Bitcoin?</div>
+            <div className="font-semibold mb-2">What is Bitcoin?</div>
             <div className="text-gray-600">
                 Bitcoin is a decentralized digital currency, often referred to as cryptocurrency, that 
                 operates without the need for a central authority or intermediary. Introduced in 2009 by 
