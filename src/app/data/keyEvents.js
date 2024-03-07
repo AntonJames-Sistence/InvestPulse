@@ -14,22 +14,22 @@ export const keyEvents = [
         icon: <FaArrowTrendUp />,
         color: 'green',
     },
-    {
-        title: 'Regulatory Crackdown in China (2021)',
-        description: 'In 2021, China intensified its regulatory crackdown on cryptocurrencies, banning financial institutions and payment companies from providing services related to cryptocurrency transactions. This move by Chinese authorities had a profound impact on the global cryptocurrency market, causing widespread uncertainty and volatility.',
-        icon: <HiOutlineNewspaper />,
-        color: 'blue',
-    },
-    {
-        title: 'Institutional Adoption (2021)',
-        description: 'Institutional adoption of Bitcoin and other cryptocurrencies gained momentum in 2021, with major financial institutions, corporations, and investment funds increasingly embracing digital assets as part of their investment strategies. This trend towards institutional adoption has contributed to the legitimization and mainstream acceptance of cryptocurrencies.',
-        icon: <FaArrowTrendUp />,
-        color: 'blue',
-    },
-    {
-        title: 'Bitcoin ETF Approval (TBD)',
-        description: 'A Bitcoin exchange-traded fund (ETF) is a financial product that tracks the price of Bitcoin and allows investors to buy and sell shares representing ownership of Bitcoin without needing to directly own or store the digital currency. The approval of a Bitcoin ETF by regulatory authorities would provide mainstream investors with easier access to Bitcoin, potentially leading to increased demand and price appreciation.',
-        icon: <HiOutlineNewspaper />,
-        color: 'blue',
-    }
+    // {
+    //     title: 'Regulatory Crackdown in China (2021)',
+    //     description: 'In 2021, China intensified its regulatory crackdown on cryptocurrencies, banning financial institutions and payment companies from providing services related to cryptocurrency transactions. This move by Chinese authorities had a profound impact on the global cryptocurrency market, causing widespread uncertainty and volatility.',
+    //     icon: <HiOutlineNewspaper />,
+    //     color: 'blue',
+    // },
+    // {
+    //     title: 'Institutional Adoption (2021)',
+    //     description: 'Institutional adoption of Bitcoin and other cryptocurrencies gained momentum in 2021, with major financial institutions, corporations, and investment funds increasingly embracing digital assets as part of their investment strategies. This trend towards institutional adoption has contributed to the legitimization and mainstream acceptance of cryptocurrencies.',
+    //     icon: <FaArrowTrendUp />,
+    //     color: 'blue',
+    // },
+    // {
+    //     title: 'Bitcoin ETF Approval (TBD)',
+    //     description: 'A Bitcoin exchange-traded fund (ETF) is a financial product that tracks the price of Bitcoin and allows investors to buy and sell shares representing ownership of Bitcoin without needing to directly own or store the digital currency. The approval of a Bitcoin ETF by regulatory authorities would provide mainstream investors with easier access to Bitcoin, potentially leading to increased demand and price appreciation.',
+    //     icon: <HiOutlineNewspaper />,
+    //     color: 'blue',
+    // }
 ];

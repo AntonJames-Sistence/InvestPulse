@@ -35,7 +35,7 @@ const Sentiment = () => {
     return (
         <ReusableInfoBlock title="Sentiment">
             <div className='flex flex-col -mt-4'>
-                <div className='flex'>
+                <div className='flex mb-3'>
                     <p className="text-gray-600 text-lg font-semibold">
                         Key Events
                     </p>
