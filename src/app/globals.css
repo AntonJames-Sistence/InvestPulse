@@ -8,13 +8,13 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-}
+} */
 
 body {
   color: rgb(var(--foreground-rgb));
@@ -36,11 +36,11 @@ body {
   transform: translateX(-50%);
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-bottom: 10px solid rgba(16, 185, 129, 0.5); /* Same color as container background */
+  border-bottom: 10px solid rgba(16, 185, 129, 0.5);
 }
 .triangle-red {
   transform: translateX(-50%);
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-bottom: 10px solid rgba(235, 7, 7, 0.5); /* Same color as container background */
+  border-bottom: 10px solid rgba(235, 7, 7, 0.5);
 }
