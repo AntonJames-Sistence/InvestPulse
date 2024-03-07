@@ -5,7 +5,7 @@ import Team from "./components/Team";
 import Tokenomics from "./components/Tokenomics";
 import About from "./components/About";
 import { HiMiniChevronDoubleRight } from "react-icons/hi2";
-import Sentiment from "./components/Sentiment";
+import Sentiment from "./components/Sentiment/Sentiment";
 
 export default function Home() {
   return (
