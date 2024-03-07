@@ -15,17 +15,14 @@ export default function Home() {
     <main className="flex w-full flex-col justify-between bg-gray-200">
       <NavBar/>
 
-      <div className="flex flex-col self-center w-full px-16">
-        <div className="py-4 flex justify-start">
-          <p className="text-gray-600">Cryptocurrencies</p>
-          <HiMiniChevronDoubleRight className="self-center ml-2 mr-1 text-gray-600" /> 
-          <p>Bitcoin </p>
-        </div>
+      <div className="py-4 flex px-16">
+        <p className="text-gray-600">Cryptocurrencies</p>
+        <HiMiniChevronDoubleRight className="self-center ml-2 mr-1 text-gray-600" /> 
+        <p>Bitcoin </p>
+      </div>
 
-        
-        <div className="w-4/6">
-
-          <Banner />
+      <div className="flex flex-row self-center w-full px-16">
+        <div className="flex flex-col w-5/6">
           {/* <TradingViewWidget /> */}
           <PerfomanceNav />
           <Perfomance />
@@ -35,6 +32,9 @@ export default function Home() {
           <Team />
         </div>
 
+        <div className="flex flex-col ml-4 w-1/3">
+          <Banner />
+        </div>
       </div>
 
     </main>
