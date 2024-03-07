@@ -10,6 +10,29 @@ const Perfomance = () => {
         <ReusableInfoBlock title="Perfomance">
             <div className="flex flex-col">
 
+                <div className="flex text-sm mb-8">
+                    <div>
+                        <p className="mb-2 w-24 text-gray-600">Today's Low</p>
+                        <p>46,930.22</p>
+                    </div>
+                    <div className="h-1.5 w-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 rounded-lg self-center mx-14"></div>
+                    <div>
+                        <p className="mb-2 w-24 text-end text-gray-600">Today's High</p>
+                        <p className="text-end">49,343.83</p>
+                    </div>
+                </div>
+
+                <div className="flex text-sm mb-8">
+                    <div>
+                        <p className="mb-2 w-24 text-gray-600">52W Low</p>
+                        <p>16,930.22</p>
+                    </div>
+                    <div className="h-1.5 w-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 rounded-lg self-center mx-14"></div>
+                    <div>
+                        <p className="mb-2 w-24 text-end text-gray-600">52W High</p>
+                        <p className="text-end">49,743.83</p>
+                    </div>
+                </div>
 
                 <div className='flex mb-3'>
                     <p className="text-gray-600 text-lg font-semibold">
@@ -75,7 +98,6 @@ const Perfomance = () => {
                         </div>
                         <hr className="border-gray-400 my-4" />
                     </div>
-                    
                     
                 </div>
             </div>

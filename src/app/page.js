@@ -17,7 +17,7 @@ export default function Home() {
         <div className="py-4 flex justify-start">
           <p className="text-gray-600">Cryptocurrencies</p>
           <HiMiniChevronDoubleRight className="self-center ml-2 mr-1 text-gray-600" /> 
-          <p className="font-semibold">Bitcoin need to complete this section later and dynamic arrow as well</p>
+          <p className="font-semibold">Bitcoin </p>
         </div>
 
         
