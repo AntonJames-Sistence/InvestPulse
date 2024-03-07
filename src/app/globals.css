@@ -38,9 +38,12 @@ body {
   border-right: 5px solid transparent;
   border-bottom: 10px solid rgba(16, 185, 129, 0.5);
 }
+
 .triangle-red {
+  width: 0;
+  height: 0;
   transform: translateX(-50%);
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-bottom: 10px solid rgba(235, 7, 7, 0.5);
+  border-top: 10px solid rgba(235, 7, 7, 0.5);
 }

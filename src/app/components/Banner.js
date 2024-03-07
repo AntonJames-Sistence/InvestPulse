@@ -2,7 +2,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 
 const Banner = () => {
     return (
-        <div className="p-10 bg-[#1f54f4] rounded-xl flex flex-col items-center text-center text-white">
+        <div className="p-10 bg-[#1f54f4] rounded-xl flex flex-col items-center text-center text-white mb-4">
             <p className="text-xl font-semibold mb-4 max-w-[300px]">Get Started with KoinX for FREE</p>
             <p className="text-xs">
                 With our range of features that you can equip for free, KoinX 
