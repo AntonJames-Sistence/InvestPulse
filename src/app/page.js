@@ -4,6 +4,7 @@ import TradingViewWidget from "./components/TradingViewWidget";
 import Team from "./components/Team";
 import Tokenomics from "./components/Tokenomics";
 import About from "./components/About";
+import { HiMiniChevronDoubleRight } from "react-icons/hi2";
 
 export default function Home() {
   return (
@@ -11,7 +12,11 @@ export default function Home() {
       <NavBar/>
 
       <div className="flex flex-col self-center w-full px-16">
-        <div className="p-4 flex justify-start">Cryptocurrencies &gt;&gt; Bitcoin need to complete this section later and dynamic arrow as well</div>
+        <div className="py-4 flex justify-start">
+          <p className="text-gray-600">Cryptocurrencies</p>
+          <HiMiniChevronDoubleRight className="self-center ml-2 mr-1 text-gray-600" /> 
+          <p className="font-semibold">Bitcoin need to complete this section later and dynamic arrow as well</p>
+        </div>
 
         
         <div className="w-4/6">

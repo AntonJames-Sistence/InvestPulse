@@ -7,7 +7,7 @@ const About = () => {
 
     return (
         <ReusableInfoBlock title="About Bitcoin">
-            <div className="font-semibold text-lg mb-2">What is Bitcoin?</div>
+            <div className="font-semibold text-lg mb-2 -mt-2">What is Bitcoin?</div>
             <div className="text-gray-600">{whatIsBitcoin}</div>
             <hr className="border-gray-200 my-4" />
             <div className="font-semibold text-lg mb-2">What is Bitcoin?</div>
@@ -32,7 +32,7 @@ const About = () => {
             </div>
             <hr className="border-gray-200 my-4" />
 
-            <div className="font-semibold text-2xl mb-8">Already Holding Bitcoin?</div>
+            <div className="font-semibold text-2xl mb-4 mt-2">Already Holding Bitcoin?</div>
 
             <div className="flex">
                 <div className="h-40 w-[47%] bg-gradient-to-br from-green-500 to-blue-500 rounded-lg flex mr-8">
