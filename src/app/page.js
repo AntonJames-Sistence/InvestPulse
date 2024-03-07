@@ -5,6 +5,7 @@ import Team from "./components/Team";
 import Tokenomics from "./components/Tokenomics";
 import About from "./components/About";
 import { HiMiniChevronDoubleRight } from "react-icons/hi2";
+import Sentiment from "./components/Sentiment";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
         <div className="w-4/6">
 
           {/* <TradingViewWidget /> */}
+          <Sentiment />
           <About />
           <Tokenomics />
           <Team />
