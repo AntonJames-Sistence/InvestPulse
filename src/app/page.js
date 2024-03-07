@@ -3,6 +3,7 @@ import NavBar from "./components/NavBar";
 import TradingViewWidget from "./components/TradingViewWidget";
 import Team from "./components/Team";
 import Tokenomics from "./components/Tokenomics";
+import About from "./components/About";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
         <div className="w-4/6">
 
           {/* <TradingViewWidget /> */}
+          <About />
           <Tokenomics />
           <Team />
         </div>

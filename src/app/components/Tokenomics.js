@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { VictoryPie} from 'victory';
+import { VictoryPie, VictoryLabel} from 'victory';
 import ReusableInfoBlock from './ReusableInfoBlock';
 
 const Tokenomics = () => {

@@ -110,6 +110,7 @@ const TradingViewWidget = () => {
                 {`Rank #${coinData.market_cap_rank}`}
               </div>
             </div>
+
             <div className='flex flex-row'>
               <div className='text-black text-3xl font-semibold self-center'>{coinData.prices?.usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>
 
@@ -120,6 +121,7 @@ const TradingViewWidget = () => {
 
               <div className="text-gray-500 text-sm self-center">{`(24H)`}</div>
             </div>
+
             <div className='text-black text-lg'>{coinData.prices?.inr.toLocaleString('en-IN', { 
                                                                                       style: 'currency', 
                                                                                       currency: 'INR',
@@ -127,16 +129,14 @@ const TradingViewWidget = () => {
                                                                                       maximumFractionDigits: 0
                                                                                     })}
             </div>
-            <hr className='my-5 border-gray-400'></hr>
+            <hr className='my-5 border-gray-400' />
 
             <div className='mb-10 font-semibold text'>{`${coinData.name} Price Chart (USD)`}</div>
           </div>
 
           
         )}
-
         
-
         <div className='mx-5 mb-5'>
           <div className="tradingview-widget-container self-center" ref={container}></div>
         </div>
