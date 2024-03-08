@@ -4,7 +4,36 @@ import React, { useState, useEffect } from "react";
 
 
 const TrendingCoins = () => {
-    const [trendingCoins, setTrendingCoins] = useState([]);
+    const [trendingCoins, setTrendingCoins] = useState([
+        {}
+
+    ]);
+
+    const testObject = {
+        coin_id: 30633,
+        data: {
+            content: null,
+            market_cap: "$35,070,659",
+            market_cap_btc: "518.18066",
+            price: "$0.03651",
+            price_otc: "0.000000542362",
+            price_change_percentage_24h: {
+                sparkline: "https://www.co",
+            },
+            total_volume: "53,385.95",
+            total_volume_btc: "50.2960",
+            id: "deepfakeai",
+            large: "https://assets.coing",
+            market_cap_rank: 878,
+            name: "Deepfake AI",
+            price_btc: 5.423623496779317,
+            score: 0,
+            slug: "deepfakeai",
+            small: "https://assets.coing",
+            symbol: "FAKEAI",
+            thumb: "https://assets.coing"
+        }
+    };
 
     useEffect(() => {
         fetchTrendingCoins();
@@ -53,6 +82,5 @@ const TrendingCoins = () => {
         </ReusableInfoBlock>
     )
 }
-// text-sm
 
 export default TrendingCoins;

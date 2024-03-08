@@ -47,3 +47,27 @@ body {
   border-right: 5px solid transparent;
   border-top: 10px solid rgba(235, 7, 7, 0.5);
 }
+
+.slick-prev,
+.slick-next {
+  font-size: 24px;
+  color: black !important;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+}
+.slick-prev:hover,
+.slick-next:hover {
+  color: red !important;
+}
+
+.slick-prev {
+  left: 20px;
+}
+
+.slick-next {
+  right: 20px;
+}
