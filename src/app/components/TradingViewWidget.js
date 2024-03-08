@@ -10,7 +10,7 @@ const TradingViewWidget = () => {
   
   const container = useRef();
   const [coinData, setCoinData] = useState(null);
-  const isMobile = window.innerWidth <= 768;
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 
   const formatCoinName = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);

@@ -12,12 +12,12 @@ const Perfomance = () => {
 
                 <div className="flex text-sm mb-8">
                     <div>
-                        <p className="mb-2 w-24 text-gray-600">Today's Low</p>
+                        <p className="mb-2 w-24 text-gray-600">Today&apos;s Low</p>
                         <p>46,930.22</p>
                     </div>
                     <div className="h-1.5 w-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 rounded-lg self-center mx-2 lg:mx-14"></div>
                     <div>
-                        <p className="mb-2 w-24 text-end text-gray-600">Today's High</p>
+                        <p className="mb-2 w-24 text-end text-gray-600">Today&apos;s High</p>
                         <p className="text-end">49,343.83</p>
                     </div>
                 </div>
@@ -34,7 +34,7 @@ const Perfomance = () => {
                     </div>
                 </div>
 
-                <div className='flex mb-3'>
+                <div className="flex mb-3">
                     <p className="text-gray-600 text-lg font-semibold">
                         Fundamentals
                     </p>
@@ -61,8 +61,8 @@ const Perfomance = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-20">
                     <div>
                         {fundamentals.slice(0, 5).map((event, index) => 
-                            <div>
-                                <div key={index} className="flex justify-between text-sm">
+                            <div key={index}>
+                                <div className="flex justify-between text-sm">
                                     <span className="text-gray-500">{event.title}</span>
                                     <span>{event.numbers}</span>
                                 </div>
@@ -72,8 +72,8 @@ const Perfomance = () => {
                     </div>
                     <div>
                         {fundamentals.slice(5).map((event, index) => 
-                            <div>
-                                <div key={index} className="flex justify-between text-sm">
+                            <div key={index}>
+                                <div className="flex justify-between text-sm">
                                     <span className="text-gray-500">{event.title}</span>
                                     <span>{event.numbers}</span>
                                 </div>

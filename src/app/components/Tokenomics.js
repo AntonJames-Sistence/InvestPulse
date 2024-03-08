@@ -34,7 +34,7 @@ const Tokenomics = () => {
                         innerRadius={100}
                         data={data}
                         colorScale={colorScale}
-                        labelComponent={<customLabelComponent />}
+                        // labelComponent={customLabelComponent}
                     />
                 </div>
                 <div className='self-center text-gray-600'>

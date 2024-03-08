@@ -59,14 +59,14 @@ const Sentiment = () => {
                     </div>
                 </div>
 
-                <div className='flex overflow-auto overflow-scroll w-[100%]'>
+                <div className="flex overflow-auto overflow-scroll w-[100%]">
                     {keyEvents.map((event, index) =>
                         <SentimentCard title={event.title} icon={event.icon} description={event.description} color={event.color} key={index} />   
                     )}
                 </div>
 
                 <div>
-                    <div className='flex mb-4 mt-8'>
+                    <div className="flex mb-4 mt-8">
                         <p className="text-gray-600 text-lg font-semibold">
                             Analyst Estimates
                         </p>
@@ -83,8 +83,8 @@ const Sentiment = () => {
                                     <ul className="list-disc pl-4">
                                         <li>Price Target Increase by Leading Analysts</li>
                                         <li>Bullish Sentiment from Wall Street Experts</li>
-                                        <li>Analyst Predictions for Bitcoin's Market Cap Growth</li>
-                                        <li>Consensus Forecast on Bitcoin's Price Performance</li>
+                                        <li>Analyst Predictions for Bitcoin&apos;s Market Cap Growth</li>
+                                        <li>Consensus Forecast on Bitcoin&apos;s Price Performance</li>
                                         <li>Analyst Upgrades Following Positive Market Trends</li>
                                     </ul>
                                 </div>
@@ -92,28 +92,28 @@ const Sentiment = () => {
                         </div>
                     </div>
 
-                    <div className='flex'>
+                    <div className="flex">
                         <div className={`rounded-full ${maxColor} h-28 w-32 lg:w-28 flex justify-center items-center mr-4 lg:mr-10`}>
-                            <p className='font-semibold text-4xl'>{maxPercentage}</p><p className='text-sm'>%</p>
+                            <p className="font-semibold text-4xl">{maxPercentage}</p><p className="text-sm">%</p>
                         </div>
                         
                         <div className="flex flex-col h-12 w-52 text-gray-600 w-[80%]">
-                            <div className='flex my-2'>
-                                <p className='w-16'>Buy</p>
+                            <div className="flex my-2">
+                                <p className="w-16">Buy</p>
                                 <div className="bg-green-600 rounded-sm h-2 self-center mr-2" style={{ width: `${buyPercentage > 70 ? buyPercentage - 30 : buyPercentage}%` }}></div>
-                                <p className='text-sm self-center'>{buyPercentage}%</p>
+                                <p className="text-sm self-center">{buyPercentage}%</p>
                             </div>
 
-                            <div className='flex mb-2'>
-                                <p className='w-16'>Hold</p>
+                            <div className="flex mb-2">
+                                <p className="w-16">Hold</p>
                                 <div className="bg-gray-300 rounded-sm h-2 self-center mr-2" style={{ width: `${holdPercentage > 70 ? holdPercentage - 30 : holdPercentage}%` }}></div>
-                                <p className='text-sm self-center'>{holdPercentage}%</p>
+                                <p className="text-sm self-center">{holdPercentage}%</p>
                             </div>
 
-                            <div className='flex'>
-                                <p className='w-16'>Sell</p>
+                            <div className="flex">
+                                <p className="w-16">Sell</p>
                                 <div className="bg-red-500 rounded-sm h-2 self-center mr-2" style={{ width: `${sellPercentage > 70 ? sellPercentage - 30 : sellPercentage}%` }}></div>
-                                <p className='text-sm self-center'>{sellPercentage}%</p>
+                                <p className="text-sm self-center">{sellPercentage}%</p>
                             </div>
                         </div>
                     </div>

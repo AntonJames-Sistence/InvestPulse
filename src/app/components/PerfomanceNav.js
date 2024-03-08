@@ -14,7 +14,7 @@ const PerfomanceNav = () => {
             <div className="container mx-auto flex justify-between">
                 <div className="flex space-x-8">
                     {perfomanceNav.map((navItem, idx) =>
-                        <NavItem tab={navItem.title} activeTab={activeTab} onClick={handleTabClick} />
+                        <NavItem key={idx} tab={navItem.title} activeTab={activeTab} onClick={handleTabClick} />
                     )}
                 </div>
             </div>

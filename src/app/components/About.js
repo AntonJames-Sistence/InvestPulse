@@ -22,7 +22,7 @@ const About = () => {
                 At its core, 
                 Bitcoin represents a shift towards a trustless financial system, where transactions are 
                 verified by network participants through a process called mining. The limited supply of 
-                21 million bitcoins and the decentralized nature of its network contribute to Bitcoin's 
+                21 million bitcoins and the decentralized nature of its network contribute to Bitcoins 
                 value proposition as a store of value and a hedge against traditional financial systems.
                 <br></br><br></br>
                 Despite its volatile price history and regulatory challenges, Bitcoin has gained 
@@ -63,7 +63,7 @@ const About = () => {
             <hr className="border-gray-200 my-4 hidden lg:block" />
             
             <div className="text-gray-600 hidden lg:block">
-                Start your journey into the world of Bitcoin today. Invest in the future of finance with the world's leading cryptocurrency. Join millions of users worldwide and experience the power of decentralized currency firsthand. Get started now!
+                Start your journey into the world of Bitcoin today. Invest in the future of finance with the worlds leading cryptocurrency. Join millions of users worldwide and experience the power of decentralized currency firsthand. Get started now!
             </div>
         </ReusableInfoBlock>
     )
