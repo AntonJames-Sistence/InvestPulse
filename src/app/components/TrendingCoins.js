@@ -57,15 +57,15 @@ const TrendingCoins = () => {
         <ReusableInfoBlock title="Trending Coins (24h)">
             {trendingCoins.length > 0 ? (
                 trendingCoins.map((coin, idx) => {
-                    const priceChange = coin.item.data.price_change_percentage_24h.usd.toFixed(2);
+                    const priceChange = coin.item?.data.price_change_percentage_24h.usd.toFixed(2);
                     const isNegative = priceChange < 0;
                     return (
                         <div className="flex justify-between mb-6" key={idx}>
                             <div className="flex self-center">
-                                <img className="h-6 w-6 rounded-full" src={coin.item.thumb} alt={`${coin.item.name} image`} />
+                                <img className="h-6 w-6 rounded-full" src={coin.item?.thumb} alt={`${coin.item?.name} image`} />
                                 <div className="flex self-center ml-2 font-[400]">
-                                    <p>{coin.item.name}</p>
-                                    <p className="ml-1">{`(${coin.item.symbol})`}</p>
+                                    <p>{coin.item?.name}</p>
+                                    <p className="ml-1">{`(${coin.item?.symbol})`}</p>
                                 </div>
                             </div>
 

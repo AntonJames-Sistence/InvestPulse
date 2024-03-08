@@ -25,7 +25,7 @@ export default function Home() {
 
       <div className="flex flex-row self-center w-full px-16">
         <div className="flex flex-col w-5/6">
-          {/* <TradingViewWidget /> */}
+          <TradingViewWidget />
           <PerfomanceNav />
           <Perfomance />
           <Sentiment />
@@ -36,7 +36,7 @@ export default function Home() {
 
         <div className="flex flex-col ml-4 w-1/3">
           <Banner />
-          {/* <TrendingCoins /> */}
+          <TrendingCoins />
         </div>
       </div>
 
