@@ -2,10 +2,25 @@
 
 const SentimentCard = ({ title, icon, description, color }) => {
 
+    const colorClasses = {
+        red: 'bg-red-100',
+        green: 'bg-green-100',
+        blue: 'bg-blue-100',
+    };
+
+    const colorForIcon = {
+        red: 'bg-red-600',
+        green: 'bg-green-600',
+        blue: 'bg-blue-600',
+    }
+
+    const bgColorClass = colorClasses[color] || '';
+    const bgColorIcon = colorForIcon[color] || '';
+
     return (
-        <div className={`w-[45%] mr-8 h-48 rounded-lg bg-${color}-100 flex p-4`}>
+        <div className={`w-[45%] mr-8 h-48 rounded-lg ${bgColorClass} flex p-4`}>
             <div className="mr-4">
-                <div className={`h-10 w-10 bg-${color}-600 rounded-full flex justify-center`}>
+                <div className={`h-10 w-10 ${bgColorIcon} rounded-full flex justify-center`}>
                     <div className="text-white text-2xl font-bold self-center">
                         {icon}
                     </div>

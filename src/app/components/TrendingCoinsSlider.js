@@ -34,10 +34,10 @@ const TrendingCoinsSlider = ({ trendingCoins }) => {
           return (
             <div key={index} className="rounded-lg bg-white border-2 p-4 flex flex-col" style={{ margin: '10px 10px' }}>
               <div className="flex">
-                <img className="h-6 w-6 rounded-full mr-2 mb-2" src={coin.item.thumb} alt={coin.name} />
-                <p>{coin.item.symbol}</p>
-                <div className={`flex flex-row bg-${isNegative ? 'red' : 'green'}-100 bg-opacity-50 rounded-md max-w-[100px] px-6 py-1 text-${isNegative ? 'red' : 'green'}-600 self-center text-sm`}>
-                    <div className={`triangle-${isNegative ? 'red' : 'green'} self-center border-${isNegative ? 'red' : 'green'} mr-1`}></div>
+                <img className="h-6 w-6 rounded-full self-center mr-2 mb-2" src={coin.item.thumb} alt={coin.name} />
+                <p className="self-center mr-2">{coin.item.symbol}</p>
+                <div className={`flex flex-row bg-${isNegative ? 'red' : 'green'}-100 bg-opacity-50 rounded-md max-w-[100px] px-3 py-1 text-${isNegative ? 'red' : 'green'}-600 self-center text-sm`}>
+                    <p>{isNegative ? '' : '+'}</p>
                     <div>{`${priceChange}%`}</div>
                 </div>
               </div>

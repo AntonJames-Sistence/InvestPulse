@@ -22,7 +22,6 @@ const Footer = () => {
             console.log(error);
         }
     };
-    console.log(trendingCoins);
 
     return (
         <div className='min-h-[400px] bg-white p-10 py-16'>
