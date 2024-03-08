@@ -1,14 +1,20 @@
 // TradingViewWidget.jsx
 'use client';
-import React, { useEffect, useState, useRef, memo } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { useRouter } from "next/navigation";
+import { HiMiniChevronDoubleRight } from "react-icons/hi2";
 
 const TradingViewWidget = () => {
   let coinName = "bitcoin";
+  const { token } = useRouter();
   
   const container = useRef();
   const [coinData, setCoinData] = useState(null);
-
   const isMobile = window.innerWidth <= 768;
+
+  const formatCoinName = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
   const fetchCoinInfo = async (name) => {
     const infoUrl = `https://api.coingecko.com/api/v3/search?query=${name}`;
@@ -91,11 +97,16 @@ const TradingViewWidget = () => {
     },
     []
   );
-  // console.log(coinData); 
 
   
   return (
     <div className="flex flex-col">
+      <div className="py-4 flex">
+        <p className="text-gray-600">Cryptocurrencies</p>
+        <HiMiniChevronDoubleRight className="self-center ml-2 mr-1 text-gray-600" /> 
+        <p>{formatCoinName(coinName)}</p>
+      </div>
+
       <div className="h-auto flex flex-col bg-white rounded-lg">
         {!coinData ? (
           <div className='m-10 h-[172px]'>
@@ -148,4 +159,4 @@ const TradingViewWidget = () => {
   );
 }
 
-export default memo(TradingViewWidget);
+export default TradingViewWidget;
