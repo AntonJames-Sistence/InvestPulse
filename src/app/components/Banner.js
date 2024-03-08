@@ -8,7 +8,7 @@ const Banner = () => {
                 With our range of features that you can equip for free, KoinX 
                 allows you to be more educated and aware or your lax reports.
             </p>
-            <img className="w-40 h-40 mt-4" src="./Placeholder3.png" />
+            <img className="w-40 h-40 mt-4" src="./placeholder3.png" />
             
             <button className="flex bg-white text-black rounded-lg py-3 px-4 mt-4 font-semibold text-sm hover:bg-gray-200"> 
                 <p>Get Started for FREE</p>
