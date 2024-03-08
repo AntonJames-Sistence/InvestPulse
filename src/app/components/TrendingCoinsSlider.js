@@ -5,7 +5,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { CiCircleChevLeft, CiCircleChevRight } from "react-icons/ci";
 
-const TrendingCoinsSlider = () => {
+const TrendingCoinsSlider = ({ trendingCoins }) => {
   
   const settings = {
     dots: false,
@@ -23,33 +23,18 @@ const TrendingCoinsSlider = () => {
   return (
     <div className="slider-container">
       <Slider {...settings}>
-        <div>
-          <h3>1</h3>
-        </div>
-        <div>
-          <h3>2</h3>
-        </div>
-        <div>
-          <h3>3</h3>
-        </div>
-        <div>
-          <h3>4</h3>
-        </div>
-        <div>
-          <h3>5</h3>
-        </div>
-        <div>
-          <h3>6</h3>
-        </div>
-        <div>
-          <h3>7</h3>
-        </div>
-        <div>
-          <h3>8</h3>
-        </div>
-        <div>
-          <h3>9</h3>
-        </div>
+        {trendingCoins.map((coin, index) => (
+            <div key={index} className="rounded-lg bg-white border-2 p-4 flex flex-col" style={{ margin: '10px 10px' }}>
+              <div className="flex">
+                <img className="h-6 w-6 rounded-full mr-2 mb-2" src={coin.item.thumb} alt={coin.name} />
+                <p>{coin.item.symbol}</p>
+              </div>
+              <div className="overflow-auto">{coin.item.data.price}</div>
+              <div className="flex justify-center">
+                <img src={coin.item.data.sparkline}></img>
+              </div>
+            </div>
+        ))}
       </Slider>
     </div>
   );

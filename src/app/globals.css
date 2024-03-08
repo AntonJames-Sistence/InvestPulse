@@ -50,7 +50,7 @@ body {
 
 .slick-prev,
 .slick-next {
-  font-size: 24px;
+  font-size: 32px !important;
   color: black !important;
   border: none;
   cursor: pointer;
@@ -65,9 +65,9 @@ body {
 }
 
 .slick-prev {
-  left: 20px;
+  left: 40px;
 }
 
 .slick-next {
-  right: 20px;
+  right: 40px;
 }

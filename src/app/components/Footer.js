@@ -6,7 +6,7 @@ const Footer = () => {
     const [trendingCoins, setTrendingCoins] = useState([]);
 
     useEffect(() => {
-        // fetchTrendingCoins();
+        fetchTrendingCoins();
     }, [])
 
     const fetchTrendingCoins = async () => {
@@ -25,10 +25,11 @@ const Footer = () => {
     console.log(trendingCoins);
 
     return (
-        <div className='h-[400px] bg-white p-10'>
+        <div className='min-h-[400px] bg-white p-10 py-16'>
             <div className='font-semibold text-xl mb-8'>You May Also Like</div>
-            <TrendingCoinsSlider items={['item1', 'item2', 'item3']} />
-            <div className='font-semibold text-xl mb-8'>Trending Coins</div>
+            <TrendingCoinsSlider trendingCoins={trendingCoins} />
+            <div className='font-semibold text-xl my-8'>Trending Coins</div>
+            <TrendingCoinsSlider trendingCoins={trendingCoins} />
         </div>
     );
 
