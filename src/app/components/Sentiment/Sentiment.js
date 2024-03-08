@@ -93,7 +93,7 @@ const Sentiment = () => {
                     </div>
 
                     <div className='flex'>
-                        <div className={`rounded-full ${maxColor} h-28 w-28 flex justify-center items-center mr-10`}>
+                        <div className={`rounded-full ${maxColor} h-28 w-32 lg:w-28 flex justify-center items-center mr-4 lg:mr-10`}>
                             <p className='font-semibold text-4xl'>{maxPercentage}</p><p className='text-sm'>%</p>
                         </div>
                         

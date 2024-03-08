@@ -17,15 +17,15 @@ export default function Home() {
     <main className="flex w-full flex-col justify-between bg-gray-200">
       <NavBar/>
 
-      <div className="py-4 flex px-16">
+      <div className="py-4 flex px-2 lg:px-16">
         <p className="text-gray-600">Cryptocurrencies</p>
         <HiMiniChevronDoubleRight className="self-center ml-2 mr-1 text-gray-600" /> 
         <p>Bitcoin </p>
       </div>
 
-      <div className="flex flex-row self-center w-full px-16">
-        <div className="flex flex-col w-5/6">
-          <TradingViewWidget />
+      <div className="flex flex-col lg:flex-row self-center w-full px-2 lg:px-16">
+        <div className="flex flex-col w-full lg:w-5/6">
+          {/* <TradingViewWidget /> */}
           <PerfomanceNav />
           <Perfomance />
           <Sentiment />

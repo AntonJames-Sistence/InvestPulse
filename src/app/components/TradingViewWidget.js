@@ -8,6 +8,8 @@ const TradingViewWidget = () => {
   const container = useRef();
   const [coinData, setCoinData] = useState(null);
 
+  const isMobile = window.innerWidth <= 768;
+
   const fetchCoinInfo = async (name) => {
     const infoUrl = `https://api.coingecko.com/api/v3/search?query=${name}`;
     
@@ -60,7 +62,7 @@ const TradingViewWidget = () => {
       script.innerHTML = `
         {
           "width": "100%",
-          "height": "510",
+          "height": "${isMobile ? 300 : 510}",
           "symbol": "BITSTAMP:BTCUSD",
           "hide_legend": true,
           "interval": "D",

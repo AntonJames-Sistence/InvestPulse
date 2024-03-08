@@ -9,8 +9,8 @@ const About = () => {
         <ReusableInfoBlock title="About Bitcoin">
             <div className="font-semibold mb-2 -mt-2">What is Bitcoin?</div>
             <div className="text-gray-600">{whatIsBitcoin}</div>
-            <hr className="border-gray-200 my-4" />
-            <div className="font-semibold mb-2">What is Bitcoin?</div>
+            <hr className="border-gray-200 my-4 lg:block hidden" />
+            <div className="font-semibold mb-2 mt-2 lg:mt-0">Lorem ipsum dolor sit amet</div>
             <div className="text-gray-600">
                 Bitcoin is a decentralized digital currency, often referred to as cryptocurrency, that 
                 operates without the need for a central authority or intermediary. Introduced in 2009 by 
@@ -30,12 +30,12 @@ const About = () => {
                 from investors, institutions, and technologists alike in its potential to reshape the 
                 future of finance.
             </div>
-            <hr className="border-gray-200 my-4" />
+            <hr className="border-gray-200 my-4 hidden lg:block" />
 
             <div className="font-semibold text-2xl mb-4 mt-2">Already Holding Bitcoin?</div>
 
-            <div className="flex">
-                <div className="h-40 w-[47%] bg-gradient-to-br from-green-500 to-blue-500 rounded-lg flex mr-8">
+            <div className="flex flex-col lg:flex-row">
+                <div className="w-full lg:h-40 w-[47%] bg-gradient-to-br from-green-500 to-blue-500 rounded-lg flex mr-8">
                     <img className="w-1/3 rounded-lg m-3" src="./placeholder1.png"></img>
 
                     <div className="self-center ml-3">
@@ -47,7 +47,7 @@ const About = () => {
                     </div>
                 </div>
 
-                <div className="h-40 w-[47%] bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex">
+                <div className="w-full my-4 lg:my-0 lg:h-40 w-[47%] bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex">
                     <img className="w-1/3 rounded-lg m-3" src="./placeholder2.png"></img>
 
                     <div className="self-center ml-3">
@@ -60,9 +60,9 @@ const About = () => {
                 </div>
             </div>
 
-            <hr className="border-gray-200 my-4" />
+            <hr className="border-gray-200 my-4 hidden lg:block" />
             
-            <div className="text-gray-600">
+            <div className="text-gray-600 hidden lg:block">
                 Start your journey into the world of Bitcoin today. Invest in the future of finance with the world's leading cryptocurrency. Join millions of users worldwide and experience the power of decentralized currency firsthand. Get started now!
             </div>
         </ReusableInfoBlock>
