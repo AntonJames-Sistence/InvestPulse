@@ -10,7 +10,7 @@ const PerfomanceNav = () => {
     };
 
     return (
-        <nav className="text-gray-600 py-4 mt-4 text-xs lg:text-main overflow-auto">
+        <nav className="text-gray-600 py-4 mt-4 text-xs lg:text-base overflow-auto">
             <div className="container mx-auto flex justify-between">
                 <div className="flex space-x-8">
                     {perfomanceNav.map((navItem, idx) =>

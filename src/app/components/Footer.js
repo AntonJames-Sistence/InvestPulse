@@ -24,7 +24,7 @@ const Footer = () => {
     };
 
     return (
-        <div className='min-h-[400px] bg-white p-10 py-16'>
+        <div className='min-h-[400px] bg-white lg:p-10 p-2 py-4 lg:py-16'>
             <div className='font-semibold text-xl mb-8'>You May Also Like</div>
             <TrendingCoinsSlider trendingCoins={trendingCoins} />
             <div className='font-semibold text-xl my-8'>Trending Coins</div>

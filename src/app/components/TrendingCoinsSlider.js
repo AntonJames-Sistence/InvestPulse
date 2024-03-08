@@ -13,11 +13,23 @@ const TrendingCoinsSlider = ({ trendingCoins }) => {
     speed: 500,
     autoplay: true,
     slidesToShow: 5,
-    slidesToScroll: 1,
+    slidesToScroll: 3,
     nextArrow: <CiCircleChevRight />
     ,
     prevArrow: <CiCircleChevLeft />
     ,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: false,
+          arrows: false
+        }
+      },
+    ]
   };
 
   const isPepe = (s) => {
@@ -32,7 +44,7 @@ const TrendingCoinsSlider = ({ trendingCoins }) => {
           const isNegative = priceChange < 0;
           
           return (
-            <div key={index} className="rounded-lg bg-white border-2 p-4 flex flex-col" style={{ margin: '10px 10px' }}>
+            <div key={index} className="rounded-lg bg-white border-2 p-4 flex flex-col">
               <div className="flex">
                 <img className="h-6 w-6 rounded-full self-center mr-2 mb-2" src={coin.item.thumb} alt={coin.name} />
                 <p className="self-center mr-2">{coin.item.symbol}</p>

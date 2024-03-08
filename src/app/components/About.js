@@ -40,7 +40,7 @@ const About = () => {
 
                     <div className="self-center ml-3">
                         <p className="font-semibold text-white text-xl w-3/4">Calculate your Profits</p>
-                        <button className="flex bg-white text-black rounded-lg py-1.5 px-4 mt-4 font-semibold text-sm"> 
+                        <button className="flex bg-white text-black rounded-lg py-1.5 px-4 mt-4 font-semibold text-sm hover:bg-gray-200"> 
                             <p>Check Now</p>
                             <FaArrowRightLong className="self-center ml-2" />
                         </button>
@@ -52,7 +52,7 @@ const About = () => {
 
                     <div className="self-center ml-3">
                         <p className="font-semibold text-white text-xl w-3/4">Calculate your tax liability</p>
-                        <button className="flex bg-white text-black rounded-lg py-1.5 px-4 mt-4 font-semibold text-sm"> 
+                        <button className="flex bg-white text-black rounded-lg py-1.5 px-4 mt-4 font-semibold text-sm hover:bg-gray-200"> 
                             <p>Check Now</p>
                             <FaArrowRightLong className="self-center ml-2" />
                         </button>

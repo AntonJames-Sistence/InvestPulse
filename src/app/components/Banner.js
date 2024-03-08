@@ -10,7 +10,7 @@ const Banner = () => {
             </p>
             <img className="w-40 h-40 mt-4" src="./Placeholder3.png" />
             
-            <button className="flex bg-white text-black rounded-lg py-3 px-4 mt-4 font-semibold text-sm"> 
+            <button className="flex bg-white text-black rounded-lg py-3 px-4 mt-4 font-semibold text-sm hover:bg-gray-200"> 
                 <p>Get Started for FREE</p>
                 <FaArrowRightLong className="self-center ml-2" />
             </button>
