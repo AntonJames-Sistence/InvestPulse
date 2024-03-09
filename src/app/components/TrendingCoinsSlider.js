@@ -6,6 +6,35 @@ import 'slick-carousel/slick/slick-theme.css';
 import { CiCircleChevLeft, CiCircleChevRight } from "react-icons/ci";
 
 const TrendingCoinsSlider = ({ trendingCoins }) => {
+
+  const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => (
+    <button
+      {...props}
+      className={
+        "slick-prev slick-arrow" +
+        (currentSlide === 0 ? " slick-disabled" : "")
+      }
+      aria-hidden="true"
+      aria-disabled={currentSlide === 0 ? true : false}
+      type="button"
+    >
+      <CiCircleChevLeft />
+    </button>
+  );
+  const SlickArrowRight = ({ currentSlide, slideCount, ...props }) => (
+    <button
+      {...props}
+      className={
+        "slick-next slick-arrow" +
+        (currentSlide === slideCount - 1 ? " slick-disabled" : "")
+      }
+      aria-hidden="true"
+      aria-disabled={currentSlide === slideCount - 1 ? true : false}
+      type="button"
+    >
+      <CiCircleChevRight />
+    </button>
+  );
   
   const settings = {
     dots: false,
@@ -14,9 +43,9 @@ const TrendingCoinsSlider = ({ trendingCoins }) => {
     autoplay: true,
     slidesToShow: 5,
     slidesToScroll: 3,
-    nextArrow: <CiCircleChevRight />
+    nextArrow: <SlickArrowRight />
     ,
-    prevArrow: <CiCircleChevLeft />
+    prevArrow: <SlickArrowLeft />
     ,
     responsive: [
       {
