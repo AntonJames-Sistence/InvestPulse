@@ -1,5 +1,6 @@
 'use client';
 import { FaArrowRightLong } from "react-icons/fa6";
+import { useEffect } from "react";
 
 const Banner = () => {
 
@@ -9,7 +10,10 @@ const Banner = () => {
         });
     }
 
-    myFetch();
+    useEffect(() => {
+
+        myFetch();
+    }, [])
 
     return (
         <div className="p-10 bg-[#1f54f4] rounded-xl flex flex-col items-center text-center text-white mb-4">

@@ -1,8 +1,17 @@
-
 import { NextResponse } from "next/server";
-import { set, ref, push, update, get, off } from "firebase/database";
-import { DB } from "../../data/firebase";
-import { register } from "module";
+import postgres from "postgres";
+
+let { PGHOST, PGDATABASE, PGUSER, PGPASSWORD } = process.env;
+
+
+const conn = postgres({
+  host: PGHOST,
+  database: PGDATABASE,
+  username: PGUSER,
+  password: PGPASSWORD,
+  port: 5432,
+  ssl: "require",
+});
 
 // export async function GET() {
 //     const facebookRef = ref(DB, "trending_coins");
@@ -31,41 +40,20 @@ import { register } from "module";
       if (!res.ok) {
         throw new Error("Failed to fetch trending coins");
       }
-  
-      const coinsData = await res.json();
 
-      console.log(coinsData);
-  
-    //   const postData = fbData.posts.data;
-  
-    //   const cleanData = postData.map((post) => {
-    //     if (!post) {
-    //       return null;
-    //     }
-    //     const newPost = {};
-  
-    //     newPost.id = post.id;
-    //     newPost.likes = post.likes.summary.total_count;
-    //     newPost.comments = post.comments.summary.total_count;
-    //     newPost.shares = post.shares?.count || 0;
-    //     newPost.url = post.permalink_url;
-    //     newPost.createdAt = post["created_time"];
-  
-    //     newPost.name = fbData.name;
-    //     newPost.pfp = fbData.photos.data[0].images[0].source;
-  
-    //     const hasManyMedia = post.attachments.data[0].subattachments;
-    //     newPost.images = [];
-  
-    //     return newPost;
-    //   });
+      const jsonData = await res.json();
 
-    //   const firebase = {};
-    //   firebase["trending_coins"] = cleanData;
-    //   update(ref(DB), firebase);
+      // console.log(jsonData)
+      console.log(conn.query("SELECT * FROM hello_world"))
   
+      // const coinsData = await res.json();
+
+      // const trendingCoinsCollection = db.collection('trending_coins');
+  
+      // trendingCoinsCollection.insert(coinsData);
+
       return NextResponse.json("Successfully updated data");
     } catch (error) {
-      return NextResponse.error("Couldn't retrieve Facebook data, PUT route");
+      return NextResponse.error("Couldn't retrieve trending coins data");
     }
   }
