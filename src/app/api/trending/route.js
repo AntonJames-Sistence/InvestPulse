@@ -1,59 +1,52 @@
 import { NextResponse } from "next/server";
-import postgres from "postgres";
+import postgres from 'postgres';
 
-let { PGHOST, PGDATABASE, PGUSER, PGPASSWORD } = process.env;
+export async function PUT() {
+  const url = 'https://api.coingecko.com/api/v3/search/trending';
 
+  const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
 
-const conn = postgres({
-  host: PGHOST,
-  database: PGDATABASE,
-  username: PGUSER,
-  password: PGPASSWORD,
-  port: 5432,
-  ssl: "require",
-});
+  try {
+    const res = await fetch(url);
 
-// export async function GET() {
-//     const facebookRef = ref(DB, "trending_coins");
-
-//     try {
-//       const snapshot = await get(facebookRef);
-
-//       if (snapshot.exists()) {
-//         const allPost = Object.values(snapshot.val());
-//         return NextResponse.json(allPost);
-//       }
-//       throw new Error("No Facebook post");
-//     } catch (error) {
-//       return NextResponse.error("No post yet");
-//     } finally {
-//       off(facebookRef);
-//     }
-//   }
-
-  export async function PUT() {
-    const url = 'https://api.coingecko.com/api/v3/search/trending';
-  
-    try {
-      const res = await fetch(url);
-  
-      if (!res.ok) {
-        throw new Error("Failed to fetch trending coins");
-      }
-
-      const jsonData = await res.json();
-
-      // console.log(jsonData)
-      console.log(conn.query("SELECT * FROM hello_world"))
-  
-      // const coinsData = await res.json();
-
-      // const trendingCoinsCollection = db.collection('trending_coins');
-  
-      // trendingCoinsCollection.insert(coinsData);
-
-      return NextResponse.json("Successfully updated data");
-    } catch (error) {
-      return NextResponse.error("Couldn't retrieve trending coins data");
+    if (!res.ok) {
+      throw new Error("Failed to fetch trending coins");
     }
+
+    const jsonData = await res.json();
+
+    // Create table if it doesn't exist
+    await sql`CREATE TABLE IF NOT EXISTS trending_coins (
+      id SERIAL PRIMARY KEY,
+      name TEXT,
+      symbol TEXT
+    );`;
+
+    // Insert data into the table
+    for (const coin of jsonData.coins) {
+      await sql`INSERT INTO trending_coins (name, symbol) VALUES (${coin.item.name}, ${coin.item.symbol});`;
+    }
+
+    console.log(jsonData);
+
+    return NextResponse.json("Successfully updated data");
+  } catch (error) {
+    return NextResponse.error("Couldn't retrieve trending coins data");
   }
+}
+
+export async function GET() {
+  const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
+
+  try {
+    // Fetch all stored coins from the database
+    const coins = await sql`SELECT * FROM trending_coins;`;
+
+    console.log(coins);
+
+    return NextResponse.json(coins);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.error("Couldn't retrieve stored coins data");
+  }
+}
