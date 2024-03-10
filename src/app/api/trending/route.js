@@ -19,12 +19,19 @@ export async function PUT() {
     await sql`CREATE TABLE IF NOT EXISTS trending_coins (
       id SERIAL PRIMARY KEY,
       name TEXT,
-      symbol TEXT
+      symbol TEXT,
+      thumb TEXT,
+      price_change_percentage_24h NUMERIC
     );`;
 
-    // Insert data into the table
+    // Insert or update data into the table
     for (const coin of jsonData.coins) {
-      await sql`INSERT INTO trending_coins (name, symbol) VALUES (${coin.item.name}, ${coin.item.symbol});`;
+      await sql`
+        INSERT INTO trending_coins (name, symbol)
+        VALUES (${coin.item.name}, ${coin.item.symbol}, ${coin.item.thumb}, ${coin.item.data.price_change_percentage_24h.usd})
+        ON CONFLICT (name) DO UPDATE
+        SET symbol = EXCLUDED.symbol;
+      `;
     }
 
     console.log(jsonData);
@@ -48,5 +55,21 @@ export async function GET() {
   } catch (error) {
     console.error(error);
     return NextResponse.error("Couldn't retrieve stored coins data");
+  }
+}
+
+export async function DELETE() {
+  const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
+
+  try {
+    // Drop the table if it exists
+    await sql`DROP TABLE IF EXISTS trending_coins;`;
+
+    console.log("Table 'trending_coins' has been dropped");
+
+    return NextResponse.json("Table 'trending_coins' has been dropped");
+  } catch (error) {
+    console.error(error);
+    return NextResponse.error("Couldn't drop the 'trending_coins' table");
   }
 }
