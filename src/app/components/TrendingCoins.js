@@ -4,23 +4,20 @@ import React, { useState, useEffect } from "react";
 
 
 const TrendingCoins = () => {
-    const [trendingCoins, setTrendingCoins] = useState([
-        {}
-
-    ]);
+    const [trendingCoins, setTrendingCoins] = useState([]);
 
     useEffect(() => {
         fetchTrendingCoins();
     }, [])
 
     const fetchTrendingCoins = async () => {
-        const url = 'https://api.coingecko.com/api/v3/search/trending'
+        const url = 'api/trending'
 
         try {
             const response = await fetch(url);
             const data = await response.json();
-            let topThree = data.coins.slice(0, 3);
-            
+            let topThree = data.slice(0, 3);
+            console.log(topThree)
             setTrendingCoins(topThree);
         } catch (error) {
             console.log(error);
@@ -31,15 +28,15 @@ const TrendingCoins = () => {
         <ReusableInfoBlock title="Trending Coins (24h)">
             {trendingCoins.length > 0 ? (
                 trendingCoins.map((coin, idx) => {
-                    const priceChange = coin.item?.data.price_change_percentage_24h.usd.toFixed(2);
+                    const priceChange = parseInt(coin.price_change_percentage_24h).toFixed(2);
                     const isNegative = priceChange < 0;
                     return (
                         <div className="flex justify-between mb-6" key={idx}>
                             <div className="flex self-center">
-                                <img className="h-6 w-6 rounded-full" src={coin.item?.thumb} alt={`${coin.item?.name} image`} />
+                                <img className="h-6 w-6 rounded-full" src={coin.thumb} alt={`${coin.name} image`} />
                                 <div className="flex self-center ml-2 font-[400]">
-                                    <p>{coin.item?.name}</p>
-                                    <p className="ml-1">{`(${coin.item?.symbol})`}</p>
+                                    <p>{coin.name}</p>
+                                    <p className="ml-1">{`(${coin.symbol})`}</p>
                                 </div>
                             </div>
 

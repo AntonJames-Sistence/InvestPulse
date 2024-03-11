@@ -65,8 +65,6 @@ export async function GET() {
     // Fetch all stored coins from the database
     const coins = await sql`SELECT * FROM trending_coins;`;
 
-    console.log(coins);
-
     return NextResponse.json(coins);
   } catch (error) {
     console.error(error);

@@ -29,7 +29,7 @@ export default function Home() {
 
         <div className="flex flex-col lg:mt-14 lg:ml-4 w-full lg:w-1/3">
           <Banner />
-          {/* <TrendingCoins /> */}
+          <TrendingCoins />
         </div>
       </div>
 
