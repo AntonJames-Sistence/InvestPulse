@@ -21,7 +21,9 @@ export async function PUT() {
       name TEXT,
       symbol TEXT,
       thumb TEXT,
-      price_change_percentage_24h NUMERIC
+      price_change_percentage_24h NUMERIC,
+      sparkline TEXT,
+      price TEXT
     );`;
 
     // Insert or update data into the table
@@ -41,13 +43,15 @@ export async function PUT() {
             symbol = ${coin.item.symbol},
             thumb = ${coin.item.thumb},
             price_change_percentage_24h = ${coin.item.data.price_change_percentage_24h.usd}
+            sparkline = ${coin.item.data.sparkline}
+            price = ${coin.item.data.price}
           WHERE name = ${coin.item.name};
         `;
       } else {
         // Insert a new record
         await sql`
-          INSERT INTO trending_coins (name, symbol, thumb, price_change_percentage_24h)
-          VALUES (${coin.item.name}, ${coin.item.symbol}, ${coin.item.thumb}, ${coin.item.data.price_change_percentage_24h.usd});
+          INSERT INTO trending_coins (name, symbol, thumb, price_change_percentage_24h, sparkline, price)
+          VALUES (${coin.item.name}, ${coin.item.symbol}, ${coin.item.thumb}, ${coin.item.data.price_change_percentage_24h.usd}, ${coin.item.data.sparkline}, ${coin.item.data.price});
         `;
       }
     }    

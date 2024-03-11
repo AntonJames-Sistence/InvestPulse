@@ -17,7 +17,6 @@ const TrendingCoins = () => {
             const response = await fetch(url);
             const data = await response.json();
             let topThree = data.slice(0, 3);
-            console.log(topThree)
             setTrendingCoins(topThree);
         } catch (error) {
             console.log(error);
