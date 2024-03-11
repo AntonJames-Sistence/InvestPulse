@@ -1,13 +1,8 @@
-// TradingViewWidget.jsx
 'use client';
 import React, { useEffect, useState, useRef } from 'react';
-import { useRouter } from "next/navigation";
 import { HiMiniChevronDoubleRight } from "react-icons/hi2";
 
-const TradingViewWidget = () => {
-  let coinName = "bitcoin";
-  const { token } = useRouter();
-  
+const TradingViewWidget = ({ coinName }) => {
   const container = useRef();
   const [coinData, setCoinData] = useState(null);
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
