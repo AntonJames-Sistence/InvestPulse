@@ -63,7 +63,7 @@ const TrendingCoinsSlider = ({ trendingCoins }) => {
                     <div>{`${priceChange}%`}</div>
                 </div>
               </div>
-              <div className="overflow-auto">{isPepe(coin.price) ? '$0.0' : coin.price}</div>
+              <div className="overflow-auto text-lg">{isPepe(coin.price) ? '$0.0' : coin.price}</div>
               <div className="flex justify-center">
                 <img src={coin.sparkline}></img>
               </div>
