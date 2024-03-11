@@ -14,6 +14,7 @@ export async function PUT() {
     }
 
     const jsonData = await res.json();
+    // console.log(jsonData.coins[0].item.data.price_change_percentage_24h.usd)
 
     // Create table if it doesn't exist
     await sql`CREATE TABLE IF NOT EXISTS trending_coins (
@@ -24,17 +25,20 @@ export async function PUT() {
       price_change_percentage_24h NUMERIC
     );`;
 
+    console.log('inserting...')
+
     // Insert or update data into the table
     for (const coin of jsonData.coins) {
       await sql`
-        INSERT INTO trending_coins (name, symbol)
+        INSERT INTO trending_coins (name, symbol, thumb, price_change_percentage_24h)
         VALUES (${coin.item.name}, ${coin.item.symbol}, ${coin.item.thumb}, ${coin.item.data.price_change_percentage_24h.usd})
         ON CONFLICT (name) DO UPDATE
-        SET symbol = EXCLUDED.symbol;
+        SET 
+          symbol = EXCLUDED.symbol,
+          thumb = EXCLUDED.thumb,
+          price_change_percentage_24h = EXCLUDED.price_change_percentage_24h;
       `;
     }
-
-    console.log(jsonData);
 
     return NextResponse.json("Successfully updated data");
   } catch (error) {

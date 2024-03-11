@@ -6,7 +6,7 @@ const Banner = () => {
 
     const myFetch = async () => {
         const res = await fetch("/api/trending", {
-            // method: "PUT",
+            method: "PUT",
         });
     }
 
