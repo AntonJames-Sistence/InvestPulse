@@ -10,14 +10,12 @@ const Footer = () => {
     }, [])
 
     const fetchTrendingCoins = async () => {
-        const url = 'https://api.coingecko.com/api/v3/search/trending'
+        const url = 'api/trending'
 
         try {
             const response = await fetch(url);
             const data = await response.json();
-            let topThree = data.coins;
-            
-            setTrendingCoins(topThree);
+            setTrendingCoins(data);
         } catch (error) {
             console.log(error);
         }
