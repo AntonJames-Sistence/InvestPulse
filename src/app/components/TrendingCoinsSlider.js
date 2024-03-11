@@ -3,39 +3,22 @@ import React from "react";
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { CiCircleChevLeft, CiCircleChevRight } from "react-icons/ci";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
 const TrendingCoinsSlider = ({ trendingCoins }) => {
 
-  const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => (
-    <button
-      {...props}
-      className={
-        "slick-prev slick-arrow" +
-        (currentSlide === 0 ? " slick-disabled" : "")
-      }
-      aria-hidden="true"
-      aria-disabled={currentSlide === 0 ? true : false}
-      type="button"
-    >
-      <CiCircleChevLeft />
-    </button>
+  const NextArrow = ({ onClick }) => (
+    <div className="slick-arrow next-arrow bg-white flex justify-center items-center" onClick={onClick}>
+      <FaChevronRight />
+    </div>
   );
-  const SlickArrowRight = ({ currentSlide, slideCount, ...props }) => (
-    <button
-      {...props}
-      className={
-        "slick-next slick-arrow" +
-        (currentSlide === slideCount - 1 ? " slick-disabled" : "")
-      }
-      aria-hidden="true"
-      aria-disabled={currentSlide === slideCount - 1 ? true : false}
-      type="button"
-    >
-      <CiCircleChevRight />
-    </button>
+
+  const PrevArrow = ({ onClick }) => (
+    <div className="slick-arrow prev-arrow bg-white flex justify-center items-center" onClick={onClick}>
+      <FaChevronLeft />
+    </div>
   );
-  
+
   const settings = {
     dots: false,
     infinite: true,
@@ -43,10 +26,8 @@ const TrendingCoinsSlider = ({ trendingCoins }) => {
     autoplay: true,
     slidesToShow: 5,
     slidesToScroll: 3,
-    nextArrow: <SlickArrowRight />
-    ,
-    prevArrow: <SlickArrowLeft />
-    ,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
     responsive: [
       {
         breakpoint: 768,

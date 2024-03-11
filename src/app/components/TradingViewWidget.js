@@ -16,18 +16,6 @@ const TradingViewWidget = () => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-  const tryFetch = async () => {
-    const url = '/api/crypto';
-
-    try {
-      const data = await fetch(url);
-      const jsonData = await data.json();
-      console.log(jsonData);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  tryFetch();
 
   const fetchCoinInfo = async (name) => {
     const infoUrl = `https://api.coingecko.com/api/v3/search?query=${name}`;

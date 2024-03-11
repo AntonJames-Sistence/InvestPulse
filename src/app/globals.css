@@ -48,30 +48,32 @@ body {
   border-top: 10px solid rgba(235, 7, 7, 0.5);
 }
 
-.slick-prev,
-.slick-next {
-  font-size: 50px !important;
+.slick-arrow {
+	z-index: 1;
+	width: 30px !important;
+	height: 30px !important;
+  border-radius: 50%; /* Add rounded corners */
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+}
+
+.prev-arrow,
+.next-arrow {
+  font-size: 15px !important;
   color: black !important;
   border: none;
   cursor: pointer;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
   z-index: 1000;
 }
-.slick-prev:hover,
-.slick-next:hover {
+.next-arrow {
+  right: -15px;
+}
+.prev-arrow {
+  left: -15px;
+}
+.prev-arrow:hover,
+.next-arrow:hover {
   color: red !important;
-}
-
-.slick-prev {
-  left: -10px!important;
-}
-
-.slick-next {
-  right: -10px!important;
-}
-
-.slick-list {
-  margin: 0px 0px !important;
 }
