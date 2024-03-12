@@ -16,21 +16,16 @@ import React, { useEffect, useState } from "react";
 import { usePathname } from 'next/navigation';
 import { useRouter } from "next/navigation";
 
-
-
-
 export default function Home() {
   const path = usePathname();
-  console.log(path)
 
-
-  // let coinName;
-  // if(search){
-  //   coinName = search;
-  // } else {
-    let coinName = 'bitcoin';
-  // }
-  // console.log(coinName)
+  let coinName;
+  if(path){
+    coinName = path.substring(1);
+  } else {
+    coinName = 'bitcoin';
+  }
+  console.log(coinName)
 
   return (
     <main className="flex w-full flex-col justify-between bg-gray-200">
