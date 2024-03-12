@@ -18,6 +18,7 @@ const TradingViewWidget = ({ coinName }) => {
     try {
       let data = await fetch(infoUrl);
       let jsonData = await data.json();
+      
       setCoinData(jsonData.coins[0]);
     } catch (error) {
       console.log(error)
@@ -121,17 +122,17 @@ const TradingViewWidget = ({ coinName }) => {
             </div>
 
             <div className='flex flex-row'>
-              <div className='text-black text-3xl font-semibold self-center'>{coinData.prices?.usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>
+              <div className='text-black text-3xl font-semibold self-center'>{coinData.prices?.usd?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>
 
               <div className="flex flex-row bg-green-100 bg-opacity-50 rounded-md px-6 py-1 ml-6 mr-2 text-green-600 self-center">
                 <div className="triangle-green self-center border-red"></div>
-                <div>{`${coinData.prices?.usd_24h_change.toFixed(2)}%`}</div>
+                <div>{`${coinData.prices?.usd_24h_change?.toFixed(2)}%`}</div>
               </div>
 
               <div className="text-gray-500 text-sm self-center">{`(24H)`}</div>
             </div>
 
-            <div className='text-black text-lg'>{coinData.prices?.inr.toLocaleString('en-IN', { 
+            <div className='text-black text-lg'>{coinData.prices?.inr?.toLocaleString('en-IN', { 
                                                                                       style: 'currency', 
                                                                                       currency: 'INR',
                                                                                       minimumFractionDigits: 0,

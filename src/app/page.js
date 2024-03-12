@@ -10,21 +10,26 @@ import PerfomanceNav from "./components/PerfomanceNav";
 import Banner from "./components/Banner";
 import TrendingCoins from "./components/TrendingCoins";
 import Footer from "./components/Footer";
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
+
+import { useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { usePathname } from 'next/navigation';
+import { useRouter } from "next/navigation";
+
+
+
 
 export default function Home() {
-  const searchParams = useSearchParams();
-  const search = searchParams.get('slug');
-  
-  console.log(search)
+  const path = usePathname();
+  console.log(path)
 
-  let coinName;
-  if(search){
-    coinName = search;
-  } else {
-    coinName = 'bitcoin';
-  }
+
+  // let coinName;
+  // if(search){
+  //   coinName = search;
+  // } else {
+    let coinName = 'bitcoin';
+  // }
   // console.log(coinName)
 
   return (
