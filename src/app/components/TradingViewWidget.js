@@ -11,7 +11,7 @@ const TradingViewWidget = ({ coinName }) => {
   useEffect(() => {
     fetchCoinInfo(coinName);
   }, [])
-  
+
   useEffect(() => {
     if (coinData){
       generateTradingViewWidget(coinData.symbol, isMobile);
@@ -76,14 +76,10 @@ const TradingViewWidget = ({ coinName }) => {
         "hide_top_toolbar": true,
         "support_host": "https://www.tradingview.com"
       }`;
-    container.current.appendChild(script);
 
-    // Cleanup function to remove the script when the component unmounts
-    return () => {
-      if (container.current.length) {
-        container.current.removeChild(script);
-      }
-    };
+    if (!container.current.lastChild){
+      container.current.appendChild(script);
+    }
   };
   
   return (

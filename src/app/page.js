@@ -25,7 +25,6 @@ export default function Home() {
   } else {
     coinName = 'bitcoin';
   }
-  console.log(coinName)
 
   return (
     <main className="flex w-full flex-col justify-between bg-gray-200">
