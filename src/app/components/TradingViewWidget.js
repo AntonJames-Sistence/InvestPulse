@@ -1,13 +1,8 @@
-// TradingViewWidget.jsx
 'use client';
 import React, { useEffect, useState, useRef } from 'react';
-import { useRouter } from "next/navigation";
 import { HiMiniChevronDoubleRight } from "react-icons/hi2";
 
-const TradingViewWidget = () => {
-  let coinName = "bitcoin";
-  const { token } = useRouter();
-  
+const TradingViewWidget = ({ coinName }) => {
   const container = useRef();
   const [coinData, setCoinData] = useState(null);
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
@@ -16,18 +11,6 @@ const TradingViewWidget = () => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-  const tryFetch = async () => {
-    const url = '/api/crypto';
-
-    try {
-      const data = await fetch(url);
-      const jsonData = await data.json();
-      console.log(jsonData);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  tryFetch();
 
   const fetchCoinInfo = async (name) => {
     const infoUrl = `https://api.coingecko.com/api/v3/search?query=${name}`;
@@ -35,6 +18,7 @@ const TradingViewWidget = () => {
     try {
       let data = await fetch(infoUrl);
       let jsonData = await data.json();
+      
       setCoinData(jsonData.coins[0]);
     } catch (error) {
       console.log(error)
@@ -138,17 +122,17 @@ const TradingViewWidget = () => {
             </div>
 
             <div className='flex flex-row'>
-              <div className='text-black text-3xl font-semibold self-center'>{coinData.prices?.usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>
+              <div className='text-black text-3xl font-semibold self-center'>{coinData.prices?.usd?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>
 
               <div className="flex flex-row bg-green-100 bg-opacity-50 rounded-md px-6 py-1 ml-6 mr-2 text-green-600 self-center">
                 <div className="triangle-green self-center border-red"></div>
-                <div>{`${coinData.prices?.usd_24h_change.toFixed(2)}%`}</div>
+                <div>{`${coinData.prices?.usd_24h_change?.toFixed(2)}%`}</div>
               </div>
 
               <div className="text-gray-500 text-sm self-center">{`(24H)`}</div>
             </div>
 
-            <div className='text-black text-lg'>{coinData.prices?.inr.toLocaleString('en-IN', { 
+            <div className='text-black text-lg'>{coinData.prices?.inr?.toLocaleString('en-IN', { 
                                                                                       style: 'currency', 
                                                                                       currency: 'INR',
                                                                                       minimumFractionDigits: 0,
