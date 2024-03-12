@@ -42,8 +42,8 @@ export async function PUT() {
           SET 
             symbol = ${coin.item.symbol},
             thumb = ${coin.item.thumb},
-            price_change_percentage_24h = ${coin.item.data.price_change_percentage_24h.usd}
-            sparkline = ${coin.item.data.sparkline}
+            price_change_percentage_24h = ${coin.item.data.price_change_percentage_24h.usd},
+            sparkline = ${coin.item.data.sparkline},
             price = ${coin.item.data.price}
           WHERE name = ${coin.item.name};
         `;
