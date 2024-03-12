@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { HiMiniChevronDoubleRight } from "react-icons/hi2";
 
 const TradingViewWidget = ({ coinName }) => {
+  coinName = coinName || 'bitcoin';
   const container = useRef();
   const [coinData, setCoinData] = useState(null);
   const [coinPrice, setCoinPrice] = useState(null);

@@ -19,11 +19,9 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const path = usePathname();
 
-  let coinName;
+  let coinName = 'bitcoin';
   if(path){
     coinName = path.substring(1);
-  } else {
-    coinName = 'bitcoin';
   }
 
   return (
