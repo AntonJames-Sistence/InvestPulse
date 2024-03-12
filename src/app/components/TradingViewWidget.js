@@ -5,12 +5,22 @@ import { HiMiniChevronDoubleRight } from "react-icons/hi2";
 const TradingViewWidget = ({ coinName }) => {
   const container = useRef();
   const [coinData, setCoinData] = useState(null);
+  const [coinPrice, setCoinPrice] = useState(null);
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+
+  useEffect(() => {
+    fetchCoinInfo(coinName);
+  }, [])
+  
+  useEffect(() => {
+    if (coinData){
+      generateTradingViewWidget(coinData.symbol, isMobile);
+    }
+  }, [coinData])
 
   const formatCoinName = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
-
 
   const fetchCoinInfo = async (name) => {
     const infoUrl = `https://api.coingecko.com/api/v3/search?query=${name}`;
@@ -35,66 +45,46 @@ const TradingViewWidget = ({ coinName }) => {
       let jsonData = await data.json();
 
       // Add prices to coinData
-      setCoinData(prevData => {
-        if (prevData) {
-          return {
-              ...prevData,
-              ['prices']: {
-                  ...jsonData[id]
-              }
-          };
-        } else {
-            return {
-                ['prices']: {
-                    ...jsonData[id]
-                }
-            };
-        }
-      });
+      setCoinPrice(jsonData[id]);
     } catch (error) {
       console.log(error)
     }
   }
 
-  useEffect(
-    () => {
-      const script = document.createElement("script");
-      script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
-      script.type = "text/javascript";
-      script.async = true;
-      script.innerHTML = `
-        {
-          "width": "100%",
-          "height": "${isMobile ? 300 : 510}",
-          "symbol": "BITSTAMP:BTCUSD",
-          "hide_legend": true,
-          "interval": "D",
-          "timezone": "Etc/UTC",
-          "theme": "light",
-          "style": "3",
-          "locale": "en",
-          "enable_publishing": false,
-          "backgroundColor": "rgba(255, 255, 255, 1)",
-          "gridColor": "rgba(0, 0, 0, 0.06)",
-          "save_image": false,
-          "calendar": false,
-          "hide_volume": true,
-          "hide_top_toolbar": true,
-          "support_host": "https://www.tradingview.com"
-        }`;
-      container.current.appendChild(script);
-      fetchCoinInfo(coinName);
+  const generateTradingViewWidget = (coinCymbol, isMobile) => {
+    const script = document.createElement("script");
+    script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
+    script.type = "text/javascript";
+    script.async = true;
+    script.innerHTML = `
+      {
+        "width": "100%",
+        "height": "${isMobile ? 300 : 510}",
+        "symbol": "BITSTAMP:${coinCymbol.toUpperCase()}USD",
+        "hide_legend": true,
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "light",
+        "style": "3",
+        "locale": "en",
+        "enable_publishing": false,
+        "backgroundColor": "rgba(255, 255, 255, 1)",
+        "gridColor": "rgba(0, 0, 0, 0.06)",
+        "save_image": false,
+        "calendar": false,
+        "hide_volume": true,
+        "hide_top_toolbar": true,
+        "support_host": "https://www.tradingview.com"
+      }`;
+    container.current.appendChild(script);
 
-      // Cleanup function to remove the script when the component unmounts
-      return () => {
-        if (container.current && container.current.removeChild) {
-          container.current.removeChild(script);
-        }
-      };
-    },
-    []
-  );
-
+    // Cleanup function to remove the script when the component unmounts
+    return () => {
+      if (container.current.length) {
+        container.current.removeChild(script);
+      }
+    };
+  };
   
   return (
     <div className="flex flex-col">
@@ -122,17 +112,17 @@ const TradingViewWidget = ({ coinName }) => {
             </div>
 
             <div className='flex flex-row'>
-              <div className='text-black text-3xl font-semibold self-center'>{coinData.prices?.usd?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>
+              <div className='text-black text-3xl font-semibold self-center'>{coinPrice?.usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>
 
               <div className="flex flex-row bg-green-100 bg-opacity-50 rounded-md px-6 py-1 ml-6 mr-2 text-green-600 self-center">
                 <div className="triangle-green self-center border-red"></div>
-                <div>{`${coinData.prices?.usd_24h_change?.toFixed(2)}%`}</div>
+                <div>{`${coinPrice?.usd_24h_change?.toFixed(2)}%`}</div>
               </div>
 
               <div className="text-gray-500 text-sm self-center">{`(24H)`}</div>
             </div>
 
-            <div className='text-black text-lg'>{coinData.prices?.inr?.toLocaleString('en-IN', { 
+            <div className='text-black text-lg'>{coinPrice?.inr.toLocaleString('en-IN', { 
                                                                                       style: 'currency', 
                                                                                       currency: 'INR',
                                                                                       minimumFractionDigits: 0,
