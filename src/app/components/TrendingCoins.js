@@ -47,7 +47,7 @@ const TrendingCoins = () => {
                     );
                 })
             ) : (
-                <div className="self-center text-black"><div class="loader"></div></div>
+                <div className="self-center text-black"><div className="loader"></div></div>
             )}
         </ReusableInfoBlock>
     )

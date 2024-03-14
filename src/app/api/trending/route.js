@@ -14,6 +14,7 @@ export async function PUT() {
     }
 
     const jsonData = await res.json();
+    // console.log(jsonData)
 
     // Create table if it doesn't exist
     await sql`CREATE TABLE IF NOT EXISTS trending_coins (
