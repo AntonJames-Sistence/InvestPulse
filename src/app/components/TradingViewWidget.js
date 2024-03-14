@@ -93,8 +93,8 @@ const TradingViewWidget = ({ coinName }) => {
 
       <div className="h-auto flex flex-col bg-white rounded-lg">
         {!coinData ? (
-          <div className='m-10 h-[172px]'>
-            ...Loading
+          <div className='m-10 self-center flex justify-center'>
+            <div class="loader"></div>
           </div>
         ):(
           <div className='flex flex-col justify-between mx-5'>
