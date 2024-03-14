@@ -11,15 +11,11 @@ import Banner from "./components/Banner";
 import TrendingCoins from "./components/TrendingCoins";
 import Footer from "./components/Footer";
 
-import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
 import { usePathname } from 'next/navigation';
-import { useRouter } from "next/navigation";
 
 export default function Home() {
   const path = usePathname();
-
-  let coinName = 'bitcoin';
+  let coinName = "";
   if(path){
     coinName = path.substring(1);
   }
