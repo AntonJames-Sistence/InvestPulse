@@ -2,7 +2,6 @@
 import ReusableInfoBlock from "./ReusableInfoBlock";
 import React, { useState, useEffect } from "react";
 
-
 const TrendingCoins = () => {
     const [trendingCoins, setTrendingCoins] = useState([]);
 
@@ -30,20 +29,22 @@ const TrendingCoins = () => {
                     const priceChange = parseInt(coin.price_change_percentage_24h).toFixed(2);
                     const isNegative = priceChange < 0;
                     return (
-                        <div className="flex justify-between mb-6" key={idx}>
-                            <div className="flex self-center">
-                                <img className="h-6 w-6 rounded-full" src={coin.thumb} alt={`${coin.name} image`} />
-                                <div className="flex self-center ml-2 font-[400]">
-                                    <p>{coin.name}</p>
-                                    <p className="ml-1">{`(${coin.symbol})`}</p>
+                        <a className="rounded-lg hover:bg-gray-200 hover:scale-110 ease-in-out duration-300 h-[200%] mb-6" href={`/${coin.name}`}>
+                            <div className="flex justify-between p-2" key={idx}>
+                                <div className="flex self-center">
+                                    <img className="h-6 w-6 rounded-full" src={coin.thumb} alt={`${coin.name} image`} />
+                                    <div className="flex self-center ml-2 font-[400]">
+                                        <p>{coin.name}</p>
+                                        <p className="ml-1">{`(${coin.symbol})`}</p>
+                                    </div>
+                                </div>
+
+                                <div className={`flex flex-row bg-${isNegative ? 'red' : 'green'}-100 bg-opacity-50 rounded-md max-w-[100px] px-6 py-1 text-${isNegative ? 'red' : 'green'}-600 self-center text-sm`}>
+                                    <div className={`triangle-${isNegative ? 'red' : 'green'} self-center border-${isNegative ? 'red' : 'green'} mr-1`}></div>
+                                    <div>{`${priceChange}%`}</div>
                                 </div>
                             </div>
-
-                            <div className={`flex flex-row bg-${isNegative ? 'red' : 'green'}-100 bg-opacity-50 rounded-md max-w-[100px] px-6 py-1 text-${isNegative ? 'red' : 'green'}-600 self-center text-sm`}>
-                                <div className={`triangle-${isNegative ? 'red' : 'green'} self-center border-${isNegative ? 'red' : 'green'} mr-1`}></div>
-                                <div>{`${priceChange}%`}</div>
-                            </div>
-                        </div>
+                        </a>
                     );
                 })
             ) : (
