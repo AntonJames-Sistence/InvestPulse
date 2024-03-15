@@ -1,5 +1,5 @@
 'use client';
-import ReusableInfoBlock from "./ReusableInfoBlock";
+import ReusableTile from "./ReusableTile";
 import React, { useState, useEffect } from "react";
 
 const TrendingCoins = () => {
@@ -23,7 +23,7 @@ const TrendingCoins = () => {
     };
 
     return (
-        <ReusableInfoBlock title="Trending Coins (24h)">
+        <ReusableTile title="Trending Coins (24h)">
             {trendingCoins.length > 0 ? (
                 trendingCoins.map((coin, idx) => {
                     const priceChange = parseInt(coin.price_change_percentage_24h).toFixed(2);
@@ -50,7 +50,7 @@ const TrendingCoins = () => {
             ) : (
                 <div className="self-center text-black"><div className="loader"></div></div>
             )}
-        </ReusableInfoBlock>
+        </ReusableTile>
     )
 }
 

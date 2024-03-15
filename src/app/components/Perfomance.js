@@ -1,5 +1,5 @@
 'use client';
-import ReusableInfoBlock from "./ReusableInfoBlock";
+import ReusableTile from "./ReusableTile";
 import React, { useState } from "react";
 import { fundamentals } from "../data/fundamentals";
 
@@ -7,7 +7,7 @@ const Perfomance = () => {
     const [showFundamentalsTip, setShowFundamentalsTip] = useState(false);
 
     return (
-        <ReusableInfoBlock title="Perfomance">
+        <ReusableTile title="Perfomance">
             <div className="flex flex-col">
 
                 <div className="flex text-sm mb-8">
@@ -101,7 +101,7 @@ const Perfomance = () => {
                     
                 </div>
             </div>
-        </ReusableInfoBlock>
+        </ReusableTile>
     )
 }
 

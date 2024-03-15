@@ -1,4 +1,4 @@
-import ReusableInfoBlock from "./ReusableInfoBlock";
+import ReusableTile from "./ReusableTile";
 import { FaArrowRightLong } from "react-icons/fa6";
 
 
@@ -6,7 +6,7 @@ const About = () => {
     const whatIsBitcoin = `Bitcoin's price today is US$16,951.82, with a 24-hour trading volume of $19.14 B. BTC is +0.36% in the last 24 hours. It is currently -7.70% from its 7-day all-time high of $18,366.66, and 3.40% from its 7-day all-time low of $16,394.75. BTC has a circulating supply of 19.24 M BTC and a max supply of 21 M BTC.`
 
     return (
-        <ReusableInfoBlock title="About Bitcoin">
+        <ReusableTile title="About Bitcoin">
             <div className="font-semibold mb-2 -mt-2">What is Bitcoin?</div>
             <div className="text-gray-600">{whatIsBitcoin}</div>
             <hr className="border-gray-200 my-4 lg:block hidden" />
@@ -65,7 +65,7 @@ const About = () => {
             <div className="text-gray-600 hidden lg:block">
                 Start your journey into the world of Bitcoin today. Invest in the future of finance with the worlds leading cryptocurrency. Join millions of users worldwide and experience the power of decentralized currency firsthand. Get started now!
             </div>
-        </ReusableInfoBlock>
+        </ReusableTile>
     )
 }
 
