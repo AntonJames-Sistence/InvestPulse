@@ -29,8 +29,10 @@ const TrendingCoins = () => {
                     const priceChange = parseInt(coin.price_change_percentage_24h).toFixed(2);
                     const isNegative = priceChange < 0;
                     return (
-                        <a className="rounded-lg hover:bg-gray-200 hover:scale-110 ease-in-out duration-300 h-[200%] mb-6" href={`/${coin.name}`}>
-                            <div className="flex justify-between p-2" key={idx}>
+                        <a  className="rounded-lg hover:bg-gray-200 hover:scale-110 ease-in-out duration-300 h-[200%] mb-6" 
+                            href={`/${coin.name}`} 
+                            key={idx}>
+                            <div className="flex justify-between p-2">
                                 <div className="flex self-center">
                                     <img className="h-6 w-6 rounded-full" src={coin.thumb} alt={`${coin.name} image`} />
                                     <div className="flex self-center ml-2 font-[400]">
