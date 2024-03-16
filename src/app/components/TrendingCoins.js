@@ -29,7 +29,7 @@ const TrendingCoins = () => {
                     const priceChange = parseInt(coin.price_change_percentage_24h).toFixed(2);
                     const isNegative = priceChange < 0;
                     return (
-                        <a  className={`rounded-lg hover:bg-${isNegative ? 'red' : 'green'}-100 hover:scale-110 ease-in-out duration-300 h-[200%] mb-6"`}
+                        <a  className={`rounded-lg hover:bg-blue-100 hover:scale-110 ease-in-out duration-300 h-[200%] mb-6"`}
                             href={`/${coin.name}`} 
                             key={idx}>
                             <div className="flex justify-between p-2">
