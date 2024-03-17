@@ -10,7 +10,6 @@ const Banner = () => {
         })
 
         let jsonData = await data.json();
-        console.log(jsonData);
     }
 
     return (
