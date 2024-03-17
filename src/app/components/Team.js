@@ -1,10 +1,10 @@
 import React from "react";
 import { teamData } from "../data/teamData";
-import ReusableInfoBlock from "./ReusableInfoBlock";
+import ReusableTile from "./ReusableTile";
 
 const Team = () => {
     return (
-        <ReusableInfoBlock title="Team">
+        <ReusableTile title="Team">
 
             <div className="text-gray-600 mb-8">Innovative team driving impactful solutions through collaboration and diversity. Together, we thrive, exceed expectations, and make a lasting impact.</div>
 
@@ -20,7 +20,7 @@ const Team = () => {
                     </div>
                 </div>
             ))}
-        </ReusableInfoBlock>
+        </ReusableTile>
     )
 }
 

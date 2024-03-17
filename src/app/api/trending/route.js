@@ -14,6 +14,9 @@ export async function PUT() {
     }
 
     const jsonData = await res.json();
+    
+    // Drop table
+    await sql`DROP TABLE IF EXISTS trending_coins;`;
 
     // Create table if it doesn't exist
     await sql`CREATE TABLE IF NOT EXISTS trending_coins (
@@ -76,16 +79,16 @@ export async function GET() {
   }
 }
 
-export async function DELETE() {
-  const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
+// export async function DELETE() {
+//   const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
 
-  try {
-    // Drop the table if it exists
-    await sql`DROP TABLE IF EXISTS trending_coins;`;
+//   try {
+//     // Drop the table if it exists
+//     await sql`DROP TABLE IF EXISTS trending_coins;`;
 
-    return NextResponse.json("Table 'trending_coins' has been dropped");
-  } catch (error) {
-    console.error(error);
-    return NextResponse.error("Couldn't drop the 'trending_coins' table");
-  }
-}
+//     return NextResponse.json("Table 'trending_coins' has been dropped");
+//   } catch (error) {
+//     console.error(error);
+//     return NextResponse.error("Couldn't drop the 'trending_coins' table");
+//   }
+// }

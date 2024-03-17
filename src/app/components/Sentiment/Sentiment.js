@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import ReusableInfoBlock from "../ReusableInfoBlock";
+import ReusableTile from "../ReusableTile";
 import SentimentCard from './SentimentCard';
 
 import { HiOutlineNewspaper } from "react-icons/hi2";
@@ -33,7 +33,7 @@ const Sentiment = () => {
     }, [buyPercentage, holdPercentage, sellPercentage]);
 
     return (
-        <ReusableInfoBlock title="Sentiment">
+        <ReusableTile title="Sentiment">
             <div className='flex flex-col -mt-4'>
                 <div className='flex mb-3'>
                     <p className="text-gray-600 text-lg font-semibold">
@@ -120,7 +120,7 @@ const Sentiment = () => {
                 </div>
 
             </div>
-        </ReusableInfoBlock>
+        </ReusableTile>
     )
 }
 

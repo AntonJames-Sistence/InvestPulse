@@ -54,20 +54,24 @@ const TrendingCoinsSlider = ({ trendingCoins }) => {
           const isNegative = priceChange < 0;
           
           return (
-            <div key={index} className="rounded-lg bg-white border-2 p-4 flex flex-col">
-              <div className="flex">
-                <img className="h-6 w-6 rounded-full self-center mr-2 mb-2" src={coin.thumb} alt={coin.name} />
-                <p className="self-center mr-2">{coin.symbol}</p>
-                <div className={`flex flex-row bg-${isNegative ? 'red' : 'green'}-100 bg-opacity-50 rounded-md max-w-[100px] px-3 py-1 text-${isNegative ? 'red' : 'green'}-600 self-center text-sm`}>
-                    <p>{isNegative ? '' : '+'}</p>
-                    <div>{`${priceChange}%`}</div>
+            <a  className="rounded-lg ease-in-out duration-300" 
+                href={`/${coin.name}`} 
+                key={index}>
+              <div className={`rounded-lg bg-white border-2 p-4 flex flex-col ${isNegative ? 'hover-red' : 'hover-green'}`}>
+                <div className="flex">
+                  <img className="h-6 w-6 rounded-full self-center mr-2 mb-2" src={coin.thumb} alt={coin.name} />
+                  <p className="self-center mr-2">{coin.symbol}</p>
+                  <div className={`flex flex-row bg-${isNegative ? 'red' : 'green'}-100 bg-opacity-50 rounded-md max-w-[100px] px-3 py-1 text-${isNegative ? 'red' : 'green'}-600 self-center text-sm`}>
+                      <p>{isNegative ? '' : '+'}</p>
+                      <div>{`${priceChange}%`}</div>
+                  </div>
+                </div>
+                <div className="overflow-auto text-lg">{isPepe(coin.price) ? '$0.0' : coin.price}</div>
+                <div className="flex justify-center">
+                  <img src={coin.sparkline}></img>
                 </div>
               </div>
-              <div className="overflow-auto text-lg">{isPepe(coin.price) ? '$0.0' : coin.price}</div>
-              <div className="flex justify-center">
-                <img src={coin.sparkline}></img>
-              </div>
-            </div>
+            </a>
           )
         })}
       </Slider>

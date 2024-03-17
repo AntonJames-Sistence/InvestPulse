@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { VictoryPie, VictoryLabel} from 'victory';
-import ReusableInfoBlock from './ReusableInfoBlock';
+import ReusableTile from './ReusableTile';
 
 const Tokenomics = () => {
     const data = [
@@ -25,7 +25,7 @@ const Tokenomics = () => {
     
     return (
         <div className='hidden lg:block'>
-        <ReusableInfoBlock title="Tokenomics">
+        <ReusableTile title="Tokenomics">
             <div className='font-semibold text-lg'>Initial Distribution</div>
 
             <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
@@ -51,7 +51,7 @@ const Tokenomics = () => {
 
             <div className='text-gray-600 mb-6'>{description}</div>
             
-        </ReusableInfoBlock>
+        </ReusableTile>
         </div>
     );
 }
