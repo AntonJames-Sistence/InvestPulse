@@ -82,6 +82,13 @@ body {
   margin: 0 5px;
 }
 
+.hover-green:hover {
+  background-color: #c6f6d5;
+}
+.hover-red:hover {
+  background-color: #feb2b2;
+}
+
 /* Loader animation */
 /* HTML: <div class="loader"></div> */
 .loader {

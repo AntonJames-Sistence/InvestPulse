@@ -57,7 +57,7 @@ const TrendingCoinsSlider = ({ trendingCoins }) => {
             <a  className="rounded-lg ease-in-out duration-300" 
                 href={`/${coin.name}`} 
                 key={index}>
-              <div  className={`hover:bg-blue-100 rounded-lg bg-white border-2 p-4 flex flex-col`}>
+              <div className={`rounded-lg bg-white border-2 p-4 flex flex-col ${isNegative ? 'hover-red' : 'hover-green'}`}>
                 <div className="flex">
                   <img className="h-6 w-6 rounded-full self-center mr-2 mb-2" src={coin.thumb} alt={coin.name} />
                   <p className="self-center mr-2">{coin.symbol}</p>
