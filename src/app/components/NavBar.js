@@ -12,8 +12,9 @@ const NavBar = () => {
 
     return (
         <nav className="flex w-full bg-white px-4 lg:px-16 justify-between shadow-lg h-16 lg:h-20 relative">
-            <a href="/" className="flex">
-                <img className="h-[50px] self-center lg:h-full" src="https://www.koinx.com/_next/static/media/Logo.5f2ad8d5.svg" alt="Logo" />
+            <a href="/" className="flex h-3/4 self-center">
+                <img className="rounded-lg self-center lg:h-full" src="/koiny.jpeg" alt="Logo" />
+                <p className="self-center text-3xl text-amber-600 font-semibold ml-2">KoinY</p>
             </a>
 
             <div className="flex items-center">

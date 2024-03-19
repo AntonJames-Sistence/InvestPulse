@@ -6,6 +6,6 @@ export function middleware(request) {
 
 export const config = {
   matcher: [
-    '/((?!api|_next/static|placeholder*|favicon.ico).*)',
+    '/((?!api|_next/static|placeholder*|favicon*|).*)',
   ],
 };
