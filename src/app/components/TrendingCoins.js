@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 const TrendingCoins = () => {
     const [trendingCoins, setTrendingCoins] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const router = useRouter();
 
     useEffect(() => {
@@ -28,12 +28,12 @@ const TrendingCoins = () => {
         } catch (error) {
             console.log(error);
         } finally {
-            setLoading(true);
+            setLoading(false);
         }
     };
 
     const hadleUpdateDB = async () => {
-        setLoading(false);
+        setLoading(true);
 
         try {
             await fetch('api/trending', {
@@ -43,13 +43,13 @@ const TrendingCoins = () => {
         } catch (error) {
             console.log(error);
         } finally {
-            setLoading(true);
+            setLoading(false);
         }
     };
 
     return (
         <ReusableTile title="Trending Coins (24h)">
-            {loading ? (
+            {!loading ? (
                 <div className="flex flex-col -mt-4">
                     {trendingCoins.map((coin, idx) => {
                         const priceChange = parseInt(coin.price_change_percentage_24h).toFixed(2);
