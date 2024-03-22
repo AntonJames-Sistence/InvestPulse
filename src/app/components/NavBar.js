@@ -10,6 +10,14 @@ const NavBar = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
+
+    const hadleUpdateDB = async () => {
+        await fetch('api/trending',
+        {
+            method: 'PUT'
+        })
+    }
+
     return (
         <nav className="flex w-full bg-white px-4 lg:px-16 justify-between shadow-lg h-16 lg:h-20 relative">
             <a href="/" className="flex h-3/4 self-center">
@@ -54,7 +62,7 @@ const NavBar = () => {
                 </div>
 
                 <a href="https://www.coinbase.com/signup" target="_blanc">
-                    <button className="hidden lg:block bg-blue-700 hover:bg-blue-500 duration-200 easy-in-out text-white font-[500] py-2 px-6 ml-10 h-10 self-center rounded-xl">
+                    <button onClick={hadleUpdateDB} className="hidden lg:block bg-blue-700 hover:bg-blue-500 duration-200 easy-in-out text-white font-[500] py-2 px-6 ml-10 h-10 self-center rounded-xl">
                         Get Started
                     </button>
                 </a>
