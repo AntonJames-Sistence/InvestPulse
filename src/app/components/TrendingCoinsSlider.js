@@ -1,11 +1,18 @@
-'use client';
+// 'use client';
 import React from "react";
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
+import { useRouter } from 'next/navigation';
 
 const TrendingCoinsSlider = ({ trendingCoins }) => {
+  const router = useRouter();
+
+  const handleClick = (e, coinName) => {
+    e.preventDefault();
+    router.push(`/?coin=${coinName}`);
+  };
 
   const NextArrow = ({ onClick }) => (
     <div className="slick-arrow next-arrow bg-white flex justify-center items-center" onClick={onClick}>
@@ -54,8 +61,8 @@ const TrendingCoinsSlider = ({ trendingCoins }) => {
           const isNegative = priceChange < 0;
           
           return (
-            <a  className="rounded-lg ease-in-out duration-300" 
-                href={`/${coin.name}`} 
+            <a  className="rounded-lg ease-in-out duration-300 cursor-pointer" 
+                onClick={(e) => handleClick(e, coin.name)} 
                 key={index}>
               <div className={`rounded-lg bg-white border-2 p-4 flex flex-col ${isNegative ? 'hover-red' : 'hover-green'}`}>
                 <div className="flex">
