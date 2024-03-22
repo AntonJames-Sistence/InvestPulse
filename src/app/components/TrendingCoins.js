@@ -9,7 +9,7 @@ const TrendingCoins = () => {
     const router = useRouter();
 
     useEffect(() => {
-        hadleUpdateDB();
+        fetchTrendingCoins();
     }, []);
 
     const handleClick = (e, coinName) => {

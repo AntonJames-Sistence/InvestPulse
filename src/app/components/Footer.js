@@ -34,7 +34,7 @@ const Footer = () => {
                     <div className='font-semibold text-xl mb-8'>You May Also Like</div>
                     <TrendingCoinsSlider trendingCoins={trendingCoins} />
                     <div className='font-semibold text-xl my-8'>Trending Coins</div>
-                    <TrendingCoinsSlider trendingCoins={trendingCoins} />
+                    <TrendingCoinsSlider trendingCoins={[...trendingCoins].reverse()} />
                 </div>
             )}
         </div>
