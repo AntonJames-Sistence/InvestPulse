@@ -13,7 +13,7 @@ const NavBar = () => {
     return (
         <nav className="flex w-full bg-white px-4 lg:px-16 justify-between shadow-lg h-16 lg:h-20 relative">
             <a href="/" className="flex h-3/4 self-center">
-                <img className="rounded-lg self-center lg:h-full" src="/koiny.jpeg" alt="Logo" />
+                <img className="rounded-full self-center lg:h-full" src="/koiny.jpeg" alt="Logo" />
                 <p className="self-center text-3xl text-amber-600 font-semibold ml-2">KoinY</p>
             </a>
 
@@ -46,16 +46,18 @@ const NavBar = () => {
                         <a
                             key={index}
                             href={link.href}
-                            className="self-center mx-4 font-[500]"
+                            className="self-center mx-4 font-[500] hover:scale-[120%] duration-200 easy-in-out"
                         >
                             {link.title}
                         </a>
                     ))}
                 </div>
 
-                <button className="hidden lg:block bg-blue-700 hover:bg-blue-900 text-white font-[500] py-2 px-6 ml-10 h-10 self-center rounded-xl">
-                    Get Started
-                </button>
+                <a href="https://www.coinbase.com/signup" target="_blanc">
+                    <button className="hidden lg:block bg-blue-700 hover:bg-blue-500 duration-200 easy-in-out text-white font-[500] py-2 px-6 ml-10 h-10 self-center rounded-xl">
+                        Get Started
+                    </button>
+                </a>
             </div>
         </nav>
     )
