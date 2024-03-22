@@ -11,12 +11,14 @@ import Banner from "./components/Banner";
 import TrendingCoins from "./components/TrendingCoins";
 import Footer from "./components/Footer";
 import { Suspense } from 'react';
+import { Toaster } from "react-hot-toast";
 
 
 export default function Home() {
 
   return (
     <main className="flex w-full flex-col justify-between bg-gray-200">
+      <Toaster position="top-center" reverseOrder={false} />
       <NavBar/>
 
       <div className="flex flex-col lg:flex-row self-center w-full px-2 lg:px-16">
