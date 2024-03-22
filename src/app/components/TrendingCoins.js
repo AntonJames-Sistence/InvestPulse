@@ -5,10 +5,11 @@ import { useRouter } from 'next/navigation';
 
 const TrendingCoins = () => {
     const [trendingCoins, setTrendingCoins] = useState([]);
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
-        fetchTrendingCoins();
+        hadleUpdateDB();
     }, []);
 
     const handleClick = (e, coinName) => {
@@ -26,26 +27,35 @@ const TrendingCoins = () => {
             setTrendingCoins(topThree);
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoading(true);
         }
     };
 
     const hadleUpdateDB = async () => {
-        let res = await fetch('api/trending',
-        {
-            method: 'PUT'
-        })
-        console.log(res.status)
+        setLoading(false);
+
+        try {
+            await fetch('api/trending', {
+                method: 'PUT'
+            });
+            fetchTrendingCoins();
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(true);
+        }
     };
 
     return (
         <ReusableTile title="Trending Coins (24h)">
-            {trendingCoins.length > 0 ? (
-                <div>
+            {loading ? (
+                <div className="flex flex-col -mt-4">
                     {trendingCoins.map((coin, idx) => {
                         const priceChange = parseInt(coin.price_change_percentage_24h).toFixed(2);
                         const isNegative = priceChange < 0;
                         return (
-                            <a className={`rounded-lg ${isNegative ? 'hover-red' : 'hover-green'} hover:scale-110 ease-in-out duration-200 h-[200%] mb-6 cursor-pointer "`}
+                            <a className={`rounded-lg ${isNegative ? 'hover-red' : 'hover-green'} hover:scale-110 ease-in-out duration-200 h-[200%] mb-4 cursor-pointer "`}
                                 onClick={(e) => handleClick(e, coin.name)} 
                                 key={idx}>
                                 <div className="flex justify-between p-2">
@@ -65,7 +75,7 @@ const TrendingCoins = () => {
                             </a>
                         );
                     })}
-                    <button onClick={hadleUpdateDB} className="px-4 py-2 bg-blue-700 text-white font-[500] mt-8 rounded-xl self-center hover:scale-110 hover:bg-blue-900 duration-200 easy-in-out">
+                    <button onClick={hadleUpdateDB} className="px-4 py-2 bg-blue-700 text-white font-[500] mt-2 rounded-xl self-center hover:scale-110 hover:bg-blue-900 duration-200 easy-in-out">
                         Update Prices
                     </button>
                 </div>
