@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 const TrendingCoinsSlider = ({ trendingCoins }) => {
   const router = useRouter();
 
-  const handleClick = (e, coinName) => {
+  const handleNavigation = (e, coinName) => {
     e.preventDefault();
     router.push(`/?coin=${coinName}`);
   };
@@ -61,8 +61,8 @@ const TrendingCoinsSlider = ({ trendingCoins }) => {
           const isNegative = priceChange < 0;
           
           return (
-            <a  className="rounded-lg ease-in-out duration-300 cursor-pointer" 
-                onClick={(e) => handleClick(e, coin.name)} 
+            <a className="rounded-lg ease-in-out duration-300 cursor-pointer" 
+                onClick={(e) => handleNavigation(e, coin.name)} 
                 key={index}>
               <div className={`rounded-lg bg-white border-2 p-4 flex flex-col ${isNegative ? 'hover-red' : 'hover-green'}`}>
                 <div className="flex">

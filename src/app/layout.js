@@ -12,8 +12,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>{children}</body>
-      <link rel="icon" href="/favicon.ico" sizes="any" />
-      <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"></link>
+      <link rel="icon" href="/favicon.png" sizes="any" />
     </html>
   );
 }
