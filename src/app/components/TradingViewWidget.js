@@ -1,9 +1,13 @@
 'use client';
 import React, { useEffect, useState, useRef } from 'react';
 import { HiMiniChevronDoubleRight } from "react-icons/hi2";
+import { useSearchParams } from 'next/navigation'
 
-const TradingViewWidget = ({ coinName }) => {
-  coinName = coinName || 'bitcoin';
+const TradingViewWidget = () => {
+  const searchParams = useSearchParams();
+  const coin = searchParams.get('coin');
+  let coinName = coin || 'bitcoin';
+
   const container = useRef();
   const [coinData, setCoinData] = useState(null);
   const [coinPrice, setCoinPrice] = useState(null);
@@ -11,13 +15,14 @@ const TradingViewWidget = ({ coinName }) => {
 
   useEffect(() => {
     fetchCoinInfo(coinName);
-  }, [])
+  }, [coinName])
 
   useEffect(() => {
+    console.log(coinData)
     if (coinData){
       generateTradingViewWidget(coinData.symbol, isMobile);
     }
-  }, [coinData])
+  }, [coinData, coinName])
 
   const formatCoinName = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
