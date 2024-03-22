@@ -2,6 +2,7 @@
 import ReusableTile from "./ReusableTile";
 import React, { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
+import toast, { Toaster } from "react-hot-toast";
 
 const TrendingCoins = () => {
     const [trendingCoins, setTrendingCoins] = useState([]);
@@ -40,6 +41,7 @@ const TrendingCoins = () => {
                 method: 'PUT'
             });
             fetchTrendingCoins();
+            toast.success("Trending Coins are up-to-date");
         } catch (error) {
             console.log(error);
         } finally {
