@@ -28,5 +28,6 @@ const Banner = () => {
         </div>
     )
 }
+{/* <a href="https://accounts.coinbase.com/signup" target="_blanc"></a> */}
 
 export default Banner;

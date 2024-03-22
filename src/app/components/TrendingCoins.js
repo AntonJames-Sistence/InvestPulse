@@ -1,13 +1,20 @@
 'use client';
 import ReusableTile from "./ReusableTile";
 import React, { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
 
 const TrendingCoins = () => {
     const [trendingCoins, setTrendingCoins] = useState([]);
+    const router = useRouter();
 
     useEffect(() => {
         fetchTrendingCoins();
-    }, [])
+    }, []);
+
+    const handleClick = (e, coinName) => {
+        e.preventDefault();
+        router.push(`/?coin=${coinName}`);
+    };
 
     const fetchTrendingCoins = async () => {
         const url = 'api/trending'
@@ -29,8 +36,8 @@ const TrendingCoins = () => {
                     const priceChange = parseInt(coin.price_change_percentage_24h).toFixed(2);
                     const isNegative = priceChange < 0;
                     return (
-                        <a  className={`rounded-lg ${isNegative ? 'hover-red' : 'hover-green'} hover:scale-110 ease-in-out duration-300 h-[200%] mb-6"`}
-                            href={`/${coin.name}`} 
+                        <a className={`rounded-lg ${isNegative ? 'hover-red' : 'hover-green'} hover:scale-110 ease-in-out duration-200 h-[200%] mb-6"`}
+                            onClick={(e) => handleClick(e, coin.name)} 
                             key={idx}>
                             <div className="flex justify-between p-2">
                                 <div className="flex self-center">
