@@ -58,6 +58,10 @@ const TradingViewWidget = () => {
   }
 
   const generateTradingViewWidget = (coinCymbol, isMobile) => {
+    while (container.current.firstChild) {
+      container.current.removeChild(container.current.firstChild);
+    }
+
     const script = document.createElement("script");
     script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
     script.type = "text/javascript";
@@ -82,10 +86,8 @@ const TradingViewWidget = () => {
         "hide_top_toolbar": true,
         "support_host": "https://www.tradingview.com"
       }`;
-
-    if (!container.current.lastChild){
+      
       container.current.appendChild(script);
-    }
   };
   
   return (
@@ -139,7 +141,7 @@ const TradingViewWidget = () => {
           
         )}
         
-        <div className='mx-5 mb-5'>
+        <div className='mx-5 mb-5 z-10'>
           <div className="tradingview-widget-container self-center" ref={container}></div>
         </div>
 
