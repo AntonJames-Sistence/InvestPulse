@@ -1,9 +1,13 @@
 'use client';
 import React, { useEffect, useState, useRef } from 'react';
 import { HiMiniChevronDoubleRight } from "react-icons/hi2";
+import { useSearchParams } from 'next/navigation';
 
-const TradingViewWidget = ({ coinName }) => {
-  coinName = coinName || 'bitcoin';
+const TradingViewWidget = () => {
+  const searchParams = useSearchParams();
+  const coin = searchParams.get('coin');
+  let coinName = coin || 'bitcoin';
+
   const container = useRef();
   const [coinData, setCoinData] = useState(null);
   const [coinPrice, setCoinPrice] = useState(null);
@@ -11,13 +15,13 @@ const TradingViewWidget = ({ coinName }) => {
 
   useEffect(() => {
     fetchCoinInfo(coinName);
-  }, [])
+  }, [coinName])
 
   useEffect(() => {
     if (coinData){
       generateTradingViewWidget(coinData.symbol, isMobile);
     }
-  }, [coinData])
+  }, [coinData, coinName])
 
   const formatCoinName = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -31,11 +35,11 @@ const TradingViewWidget = ({ coinName }) => {
       let jsonData = await data.json();
       
       setCoinData(jsonData.coins[0]);
+
+      await fetchCoinPrice(jsonData.coins[0].id);
     } catch (error) {
       console.log(error)
     }
-
-    await fetchCoinPrice(name);
   }
 
   const fetchCoinPrice = async (id) => {
@@ -53,6 +57,10 @@ const TradingViewWidget = ({ coinName }) => {
   }
 
   const generateTradingViewWidget = (coinCymbol, isMobile) => {
+    while (container.current.firstChild) {
+      container.current.removeChild(container.current.firstChild);
+    }
+
     const script = document.createElement("script");
     script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
     script.type = "text/javascript";
@@ -78,9 +86,7 @@ const TradingViewWidget = ({ coinName }) => {
         "support_host": "https://www.tradingview.com"
       }`;
 
-    if (!container.current.lastChild){
       container.current.appendChild(script);
-    }
   };
   
   return (
@@ -119,22 +125,14 @@ const TradingViewWidget = ({ coinName }) => {
               <div className="text-gray-500 text-sm self-center">{`(24H)`}</div>
             </div>
 
-            <div className='text-black text-lg'>{coinPrice?.inr.toLocaleString('en-IN', { 
-                                                                                      style: 'currency', 
-                                                                                      currency: 'INR',
-                                                                                      minimumFractionDigits: 0,
-                                                                                      maximumFractionDigits: 0
-                                                                                    })}
-            </div>
             <hr className='my-5 border-gray-400' />
 
             <div className='mb-10 font-semibold text'>{`${coinData.name} Price Chart (USD)`}</div>
           </div>
-
           
         )}
         
-        <div className='mx-5 mb-5'>
+        <div className='mx-5 mb-5 z-10'>
           <div className="tradingview-widget-container self-center" ref={container}></div>
         </div>
 

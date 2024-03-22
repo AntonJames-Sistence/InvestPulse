@@ -10,7 +10,6 @@ const About = () => {
             <div className="font-semibold mb-2 -mt-2">What is Bitcoin?</div>
             <div className="text-gray-600">{whatIsBitcoin}</div>
             <hr className="border-gray-200 my-4 lg:block hidden" />
-            <div className="font-semibold mb-2 mt-2 lg:mt-0">Lorem ipsum dolor sit amet</div>
             <div className="text-gray-600">
                 Bitcoin is a decentralized digital currency, often referred to as cryptocurrency, that 
                 operates without the need for a central authority or intermediary. Introduced in 2009 by 

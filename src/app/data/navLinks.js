@@ -1,5 +1,6 @@
 export const navLinks = [
-    { href: "#", title: "Crypto Taxes", },
-    { href: "#", title: "Free Tools", },
-    { href: "#", title: "Resource Center", },
+    { href: "https://www.coinbase.com/cloud", title: "Explore", },
+    { href: "https://www.coinbase.com/learn", title: "Learn", },
+    { href: "https://www.coinbase.com/wallet", title: "Wallet", },
+    { href: "https://www.coinbase.com/exchange", title: "Exchange", },
   ];
