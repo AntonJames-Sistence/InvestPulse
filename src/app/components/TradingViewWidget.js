@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState, useRef } from 'react';
 import { HiMiniChevronDoubleRight } from "react-icons/hi2";
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation';
 
 const TradingViewWidget = () => {
   const searchParams = useSearchParams();
@@ -18,7 +18,6 @@ const TradingViewWidget = () => {
   }, [coinName])
 
   useEffect(() => {
-    console.log(coinData)
     if (coinData){
       generateTradingViewWidget(coinData.symbol, isMobile);
     }
@@ -36,11 +35,11 @@ const TradingViewWidget = () => {
       let jsonData = await data.json();
       
       setCoinData(jsonData.coins[0]);
+
+      await fetchCoinPrice(jsonData.coins[0].id);
     } catch (error) {
       console.log(error)
     }
-
-    await fetchCoinPrice(name);
   }
 
   const fetchCoinPrice = async (id) => {
@@ -86,7 +85,7 @@ const TradingViewWidget = () => {
         "hide_top_toolbar": true,
         "support_host": "https://www.tradingview.com"
       }`;
-      
+
       container.current.appendChild(script);
   };
   
@@ -126,18 +125,10 @@ const TradingViewWidget = () => {
               <div className="text-gray-500 text-sm self-center">{`(24H)`}</div>
             </div>
 
-            <div className='text-black text-lg'>{coinPrice?.inr.toLocaleString('en-IN', { 
-                                                                                      style: 'currency', 
-                                                                                      currency: 'INR',
-                                                                                      minimumFractionDigits: 0,
-                                                                                      maximumFractionDigits: 0
-                                                                                    })}
-            </div>
             <hr className='my-5 border-gray-400' />
 
             <div className='mb-10 font-semibold text'>{`${coinData.name} Price Chart (USD)`}</div>
           </div>
-
           
         )}
         

@@ -1,3 +1,4 @@
+'use client';
 import NavBar from "./components/NavBar";
 import TradingViewWidget from "./components/TradingViewWidget";
 import Team from "./components/Team";
@@ -9,6 +10,7 @@ import PerfomanceNav from "./components/PerfomanceNav";
 import Banner from "./components/Banner";
 import TrendingCoins from "./components/TrendingCoins";
 import Footer from "./components/Footer";
+import { Suspense } from 'react';
 
 
 export default function Home() {
@@ -19,7 +21,10 @@ export default function Home() {
 
       <div className="flex flex-col lg:flex-row self-center w-full px-2 lg:px-16">
         <div className="flex flex-col w-full lg:w-5/6">
-          <TradingViewWidget />
+          <Suspense>
+            <TradingViewWidget />
+          </Suspense>
+
           <PerfomanceNav />
           <Perfomance />
           <Sentiment />
