@@ -68,7 +68,7 @@ const TradingViewWidget = () => {
     script.innerHTML = `
       {
         "width": "100%",
-        "height": "${isMobile ? 300 : 510}",
+        "height": "${isMobile ? 300 : 410}",
         "symbol": "BITSTAMP:${coinCymbol.toUpperCase()}USD",
         "hide_legend": true,
         "interval": "D",
