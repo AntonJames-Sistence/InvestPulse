@@ -28,9 +28,15 @@ const TrendingCoinsSlider = ({ trendingCoins }) => {
 
   const settings = {
     dots: false,
+    arrows: false,
     infinite: true,
-    speed: 500,
+    speed: 6000,
     autoplay: true,
+    autoplaySpeed: 1,
+    cssEase: 'linear',
+    waitForAnimate: true,
+    pauseOnFocus: false, 
+    pauseOnHover: true,
     slidesToShow: 5,
     slidesToScroll: 3,
     nextArrow: <NextArrow />,
