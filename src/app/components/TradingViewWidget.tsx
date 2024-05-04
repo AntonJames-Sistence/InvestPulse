@@ -3,14 +3,28 @@ import React, { useEffect, useState, useRef } from 'react';
 import { HiMiniChevronDoubleRight } from "react-icons/hi2";
 import { useSearchParams } from 'next/navigation';
 
-const TradingViewWidget = () => {
+interface CoinData {
+  id: string,
+  large: string,
+  name: string,
+  symbol: string,
+  market_cap_rank: number,
+  api_symbol: string;
+}
+
+interface CoinPrice {
+  usd: number,
+  usd_24h_change: number;
+}
+
+const TradingViewWidget: React.FC = () => {
   const searchParams = useSearchParams();
   const coin = searchParams.get('coin');
   let coinName = coin || 'bitcoin';
 
-  const container = useRef();
-  const [coinData, setCoinData] = useState(null);
-  const [coinPrice, setCoinPrice] = useState(null);
+  const container = useRef<HTMLDivElement>(null);
+  const [coinData, setCoinData] = useState<CoinData | null>(null);
+  const [coinPrice, setCoinPrice] = useState<CoinPrice | null>(null);
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 
   useEffect(() => {
@@ -23,11 +37,11 @@ const TradingViewWidget = () => {
     }
   }, [coinData, coinName])
 
-  const formatCoinName = (str) => {
+  const formatCoinName = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-  const fetchCoinInfo = async (name) => {
+  const fetchCoinInfo = async (name: string) => {
     const infoUrl = `https://api.coingecko.com/api/v3/search?query=${name}`;
     
     try {
@@ -42,7 +56,7 @@ const TradingViewWidget = () => {
     }
   }
 
-  const fetchCoinPrice = async (id) => {
+  const fetchCoinPrice = async (id: string) => {
     const priceUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=inr%2Cusd&include_24hr_change=true`;
     
     try {
@@ -56,7 +70,9 @@ const TradingViewWidget = () => {
     }
   }
 
-  const generateTradingViewWidget = (coinCymbol, isMobile) => {
+  const generateTradingViewWidget = (coinCymbol: string, isMobile: boolean) => {
+    if (!container.current) return;
+
     while (container.current.firstChild) {
       container.current.removeChild(container.current.firstChild);
     }
