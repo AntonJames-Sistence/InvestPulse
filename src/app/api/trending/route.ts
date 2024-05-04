@@ -1,9 +1,23 @@
-import { NextResponse } from "next/server";
+import { type NextResponse } from 'next/server'
 import postgres from 'postgres';
 
-export async function PUT() {
-  const url = 'https://api.coingecko.com/api/v3/search/trending';
+interface CoinData {
+  name: string;
+  symbol: string;
+  thumb: string;
+  price_change_percentage_24h: number;
+  sparkline: string;
+  price: string;
+}
 
+export async function PUT(response: NextResponse) {
+  if (!process.env.DATABASE_URL) {
+    return new Response(`DATABASE_URL environment variable is not defined`, {
+      status: 400,
+    })
+  }
+
+  const url = 'https://api.coingecko.com/api/v3/search/trending';
   const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
 
   try {
@@ -59,23 +73,34 @@ export async function PUT() {
       }
     }    
 
-    return NextResponse.json("Successfully updated data");
+    return new Response(`Successfully updated data`, {
+      status: 200,
+    });
   } catch (error) {
-    return NextResponse.error("Couldn't retrieve trending coins data");
+    return new Response(`Couldn't update stored coins data`, {
+      status: 400,
+    });
   }
 }
 
 export async function GET() {
+  if (!process.env.DATABASE_URL) {
+    return new Response(`DATABASE_URL environment variable is not defined`, {
+      status: 400,
+    })
+  }
+
   const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
 
   try {
     // Fetch all stored coins from the database
-    const coins = await sql`SELECT * FROM trending_coins;`;
+    const coins: CoinData[] = await sql`SELECT * FROM trending_coins;`;
 
-    return NextResponse.json(coins);
+    return Response.json(coins);
   } catch (error) {
-    console.error(error);
-    return NextResponse.error("Couldn't retrieve stored coins data");
+    return new Response(`Couldn't retrieve stored coins data`, {
+      status: 400,
+    });
   }
 }
 
