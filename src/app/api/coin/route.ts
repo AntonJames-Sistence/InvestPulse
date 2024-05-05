@@ -1,24 +1,8 @@
 import { type NextResponse } from 'next/server';
 import postgres from 'postgres';
 
-// const infoUrl = `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=true`;
-// `https://api.coingecko.com/api/v3/simple/price?ids=${name}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&precision=full`
-//{
-    // "bitcoin": {
-    //     "usd": 63921.986266966174,
-    //     "usd_market_cap": 1258417281128.8655,
-    //     "usd_24h_vol": 21326473102.232346,
-    //     "usd_24h_change": 1.667780568893945
-    //   }
-    // }
-
-interface CoinData {
-    name: string;
-    symbol: string;
-    thumb: string;
-    price_change_percentage_24h: number;
-    sparkline: string;
-    price: string;
+const formatCoinName = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 export async function GET() {
@@ -34,8 +18,8 @@ export async function GET() {
     const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
 
     try {
-        let existingCoin = await sql`SELECT id FROM coins WHERE name = ${coinName}`;
-        console.log(existingCoin)
+        let existingCoin = await sql`SELECT * FROM coins WHERE name = ${formatCoinName(coinName)}`;
+        
         if (existingCoin.length > 0) {
             // Check if last_updated is more than 24 hours ago
             const lastUpdated = existingCoin[0].last_updated;
@@ -43,24 +27,63 @@ export async function GET() {
             if (lastUpdated > twentyFourHoursAgo) {
                 // Coin data is up to date, return it
                 return Response.json(existingCoin[0])
+            } else {
+                // Fetch data from Coingecko API
+                const res = await fetch(url);
+                if (!res.ok) {
+                    throw new Error("Failed to fetch coin data");
+                }
+                const jsonData = await res.json();
+
+                // Update data in database
+                await sql`
+                    UPDATE coins 
+                    SET symbol = ${jsonData.symbol}, 
+                        name = ${jsonData.name}, 
+                        description = ${jsonData.description.en}, 
+                        homepage = ${jsonData.links.homepage[0]}, 
+                        image = ${jsonData.image.large}, 
+                        market_cap_rank = ${jsonData.market_cap_rank}, 
+                        current_price = ${jsonData.market_data.current_price.usd}, 
+                        ath = ${jsonData.market_data.ath.usd}, 
+                        ath_change_percentage = ${jsonData.market_data.ath_change_percentage.usd}, 
+                        ath_date = ${jsonData.market_data.ath_date.usd}, 
+                        atl = ${jsonData.market_data.atl.usd}, 
+                        atl_change_percentage = ${jsonData.market_data.atl_change_percentage.usd}, 
+                        atl_date = ${jsonData.market_data.atl_date.usd}, 
+                        market_cap = ${jsonData.market_data.market_cap.usd}, 
+                        total_volume = ${jsonData.market_data.total_volume.usd}, 
+                        high_24h = ${jsonData.market_data.high_24h.usd}, 
+                        low_24h = ${jsonData.market_data.low_24h.usd}, 
+                        price_change_24h = ${jsonData.market_data.price_change_24h}, 
+                        price_change_percentage_24h = ${jsonData.market_data.price_change_percentage_24h}, 
+                        price_change_percentage_7d = ${jsonData.market_data.price_change_percentage_7d}, 
+                        price_change_percentage_1y = ${jsonData.market_data.price_change_percentage_1y}, 
+                        last_updated = ${jsonData.last_updated}
+                    WHERE name = ${formatCoinName(coinName)}
+                `;
+                
+                existingCoin = await sql`SELECT * FROM coins WHERE name = ${formatCoinName(coinName)}`;
+                return Response.json(existingCoin[0]);
             }
+        } else {
+            // Fetch data from Coingecko API
+            const res = await fetch(url);
+            if (!res.ok) {
+                throw new Error("Failed to fetch coin data");
+            }
+            const jsonData = await res.json();
+
+            // Put data into database
+            await sql`
+                INSERT INTO coins (symbol, name, description, homepage, image, market_cap_rank, current_price, ath, ath_change_percentage, ath_date, atl, atl_change_percentage, atl_date, market_cap, total_volume, high_24h, low_24h, price_change_24h, price_change_percentage_24h, price_change_percentage_7d, price_change_percentage_1y, last_updated)
+                VALUES (${jsonData.symbol}, ${jsonData.name}, ${jsonData.description.en}, ${jsonData.links.homepage[0]}, ${jsonData.image.large}, ${jsonData.market_cap_rank}, ${jsonData.market_data.current_price.usd}, ${jsonData.market_data.ath.usd}, ${jsonData.market_data.ath_change_percentage.usd}, ${jsonData.market_data.ath_date.usd}, ${jsonData.market_data.atl.usd}, ${jsonData.market_data.atl_change_percentage.usd}, ${jsonData.market_data.atl_date.usd}, ${jsonData.market_data.market_cap.usd}, ${jsonData.market_data.total_volume.usd}, ${jsonData.market_data.high_24h.usd}, ${jsonData.market_data.low_24h.usd}, ${jsonData.market_data.price_change_24h}, ${jsonData.market_data.price_change_percentage_24h}, ${jsonData.market_data.price_change_percentage_7d}, ${jsonData.market_data.price_change_percentage_1y}, ${jsonData.last_updated}
+                );`;
+
+            existingCoin = await sql`SELECT * FROM coins WHERE name = ${formatCoinName(coinName)}`;
+            // console.log(existingCoin)
+            return Response.json(existingCoin[0])
         }
-
-        // Fetch data from Coingecko API
-        const res = await fetch(url);
-        if (!res.ok) {
-            throw new Error("Failed to fetch coin data");
-        }
-        const jsonData = await res.json();
-
-        await sql`
-              INSERT INTO coins (symbol, name, description, homepage, image, market_cap_rank, current_price, ath, ath_change_percentage, ath_date, atl, atl_change_percentage, atl_date, market_cap, total_volume, high_24h, low_24h, price_change_24h, price_change_percentage_24h, price_change_percentage_7d, price_change_percentage_1y, last_updated)
-              VALUES (${jsonData.symbol}, ${jsonData.name}, ${jsonData.description.en}, ${jsonData.links.homepage[0]}, ${jsonData.image.large}, ${jsonData.market_cap_rank}, ${jsonData.market_data.current_price.usd}, ${jsonData.ath.usd}, ${jsonData.ath_change_percentage.usd}, ${jsonData.ath_date.usd}, ${jsonData.atl.usd}, ${jsonData.atl_change_percentage.usd}, ${jsonData.atl_date.usd}, ${jsonData.market_cap.usd}, ${jsonData.total_volume.usd}, ${jsonData.high_24h.usd}, ${jsonData.low_24h.usd}, ${jsonData.price_change_24h}, ${jsonData.price_change_percentage_24h}, ${jsonData.price_change_percentage_7d}, ${jsonData.price_change_percentage_1y}, ${jsonData.last_updated}
-              );`;
-
-        existingCoin = await sql`SELECT id FROM coins WHERE name = ${coinName}`;
-        console.log(existingCoin)
-        return Response.json(existingCoin[0])
     }  catch (error) {
         return new Response('', {
             status: 400,
