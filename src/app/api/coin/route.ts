@@ -25,8 +25,9 @@ export async function GET() {
     let coinName = 'bitcoin'; // change to request coinName
     const url = `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=true`;
     if (!process.env.DATABASE_URL) {
-        return new Response(`DATABASE_URL environment variable is not defined`, {
+        return new Response('', {
           status: 400,
+          statusText: 'DATABASE_URL environment variable is not defined'
         })
     }
 
@@ -51,7 +52,7 @@ export async function GET() {
             throw new Error("Failed to fetch coin data");
         }
         const jsonData = await res.json();
-        
+
         await sql`
               INSERT INTO coins (symbol, name, description, homepage, image, market_cap_rank, current_price, ath, ath_change_percentage, ath_date, atl, atl_change_percentage, atl_date, market_cap, total_volume, high_24h, low_24h, price_change_24h, price_change_percentage_24h, price_change_percentage_7d, price_change_percentage_1y, last_updated)
               VALUES (${jsonData.symbol}, ${jsonData.name}, ${jsonData.description.en}, ${jsonData.links.homepage[0]}, ${jsonData.image.large}, ${jsonData.market_cap_rank}, ${jsonData.market_data.current_price.usd}, ${jsonData.ath.usd}, ${jsonData.ath_change_percentage.usd}, ${jsonData.ath_date.usd}, ${jsonData.atl.usd}, ${jsonData.atl_change_percentage.usd}, ${jsonData.atl_date.usd}, ${jsonData.market_cap.usd}, ${jsonData.total_volume.usd}, ${jsonData.high_24h.usd}, ${jsonData.low_24h.usd}, ${jsonData.price_change_24h}, ${jsonData.price_change_percentage_24h}, ${jsonData.price_change_percentage_7d}, ${jsonData.price_change_percentage_1y}, ${jsonData.last_updated}
@@ -61,8 +62,9 @@ export async function GET() {
         console.log(existingCoin)
         return Response.json(existingCoin[0])
     }  catch (error) {
-        return new Response(`Couldn't retrieve stored coins data: ${error}`, {
+        return new Response('', {
             status: 400,
+            statusText: `Couldn't retrieve stored coins data: ${error}`
         });
     }
 }
@@ -71,32 +73,26 @@ export async function GET() {
 
 // }
 
-        // if (!res.ok) {
-        //     throw new Error("Failed to fetch coin data");
-        // } else {
-        //     const jsonData = await res.json();
-        //     let symbol = jsonData.symbol;
-        //     let name = jsonData.name;
-        //     let description = jsonData.description.en;
-        //     let homepage = jsonData.links.homepage[0];
-        //     let image = jsonData.image.large;
-        //     let marketCapRank = jsonData.market_cap_rank;
-        //     let price = jsonData.market_data.current_price.usd;
-        //     let ath = jsonData.ath.usd;
-        //     let athChangePercentage = jsonData.ath_change_percentage.usd;
-        //     let athDate = jsonData.ath_date.usd;
-        //     let atl = jsonData.atl.usd;
-        //     let atlChangePercentage = jsonData.atl_change_percentage.usd;
-        //     let atlDate = jsonData.atl_date.usd;
-        //     let marketCap = jsonData.market_cap.usd;
-        //     let totalVolume = jsonData.total_volume.usd;
-        //     let high24h = jsonData.high_24h.usd;
-        //     let low24h = jsonData.low_24h.usd;
-        //     let priceChange24h = jsonData.price_change_24h;
-        //     let priceChangePercentage24h = jsonData.price_change_percentage_24h;
-        //     let priceChangePercentage7d = jsonData.price_change_percentage_7d;
-        //     let priceChangePercentage1y = jsonData.price_change_percentage_1y;
-        //     let updated = jsonData.last_updated;
-        //     // console.log(symbol, name, description, homepage, image, marketCapRank, price, ath, athChangePercentage, athDate, atl, atlChangePercentage, atlDate, marketCap, totalVolume, high24h, low24h, priceChange24h, priceChangePercentage24h, priceChangePercentage7d, priceChangePercentage1y, updated)
-        //     // console.log(jsonData)
-        // }
+        
+// console.log("Symbol:", jsonData.symbol);
+// console.log("Name:", jsonData.name);
+// console.log("Description:", jsonData.description.en);
+// console.log("Homepage:", jsonData.links.homepage[0]);
+// console.log("Image:", jsonData.image.large);
+// console.log("Market Cap Rank:", jsonData.market_cap_rank);
+// console.log("Current Price:", jsonData.market_data.current_price.usd);
+// console.log("ATH:", jsonData.market_data.ath.usd);
+// console.log("ATH Change Percentage:", jsonData.market_data.ath_change_percentage.usd);
+// console.log("ATH Date:", jsonData.market_data.ath_date.usd);
+// console.log("ATL:", jsonData.market_data.atl.usd);
+// console.log("ATL Change Percentage:", jsonData.market_data.atl_change_percentage.usd);
+// console.log("ATL Date:", jsonData.market_data.atl_date.usd);
+// console.log("Market Cap:", jsonData.market_data.market_cap.usd);
+// console.log("Total Volume:", jsonData.market_data.total_volume.usd);
+// console.log("High 24h:", jsonData.market_data.high_24h.usd);
+// console.log("Low 24h:", jsonData.market_data.low_24h.usd);
+// console.log("Price Change 24h:", jsonData.market_data.price_change_24h);
+// console.log("Price Change Percentage 24h:", jsonData.market_data.price_change_percentage_24h);
+// console.log("Price Change Percentage 7d:", jsonData.market_data.price_change_percentage_7d);
+// console.log("Price Change Percentage 1y:", jsonData.market_data.price_change_percentage_1y);
+// console.log("Last Updated:", jsonData.last_updated);

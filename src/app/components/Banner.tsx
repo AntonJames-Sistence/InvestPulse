@@ -6,6 +6,7 @@ const Banner = () => {
         const url = 'api/coin';
         
         const response = await fetch(url);
+        console.log(response)
         
     }
 
