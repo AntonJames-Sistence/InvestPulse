@@ -33,22 +33,70 @@ export async function GET() {
     const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
 
     try {
+        let existingCoin = await sql`SELECT id FROM coins WHERE name = ${coinName}`;
+        console.log(existingCoin)
+        if (existingCoin.length > 0) {
+            // Check if last_updated is more than 24 hours ago
+            const lastUpdated = existingCoin[0].last_updated;
+            const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+            if (lastUpdated > twentyFourHoursAgo) {
+                // Coin data is up to date, return it
+                return Response.json(existingCoin[0])
+            }
+        }
+
+        // Fetch data from Coingecko API
         const res = await fetch(url);
         if (!res.ok) {
-            throw new Error("Failed to fetch trending coins");
-        } else {
-            const jsonData = await res.json();
-            console.log(jsonData)
+            throw new Error("Failed to fetch coin data");
         }
-    
-        // return Response.json(coins);
-      } catch (error) {
-        return new Response(`Couldn't retrieve stored coins data`, {
-          status: 400,
+        const jsonData = await res.json();
+        
+        await sql`
+              INSERT INTO coins (symbol, name, description, homepage, image, market_cap_rank, current_price, ath, ath_change_percentage, ath_date, atl, atl_change_percentage, atl_date, market_cap, total_volume, high_24h, low_24h, price_change_24h, price_change_percentage_24h, price_change_percentage_7d, price_change_percentage_1y, last_updated)
+              VALUES (${jsonData.symbol}, ${jsonData.name}, ${jsonData.description.en}, ${jsonData.links.homepage[0]}, ${jsonData.image.large}, ${jsonData.market_cap_rank}, ${jsonData.market_data.current_price.usd}, ${jsonData.ath.usd}, ${jsonData.ath_change_percentage.usd}, ${jsonData.ath_date.usd}, ${jsonData.atl.usd}, ${jsonData.atl_change_percentage.usd}, ${jsonData.atl_date.usd}, ${jsonData.market_cap.usd}, ${jsonData.total_volume.usd}, ${jsonData.high_24h.usd}, ${jsonData.low_24h.usd}, ${jsonData.price_change_24h}, ${jsonData.price_change_percentage_24h}, ${jsonData.price_change_percentage_7d}, ${jsonData.price_change_percentage_1y}, ${jsonData.last_updated}
+              );`;
+
+        existingCoin = await sql`SELECT id FROM coins WHERE name = ${coinName}`;
+        console.log(existingCoin)
+        return Response.json(existingCoin[0])
+    }  catch (error) {
+        return new Response(`Couldn't retrieve stored coins data: ${error}`, {
+            status: 400,
         });
     }
 }
 
-export async function PUT() {
+// export async function PUT() {
 
-}
+// }
+
+        // if (!res.ok) {
+        //     throw new Error("Failed to fetch coin data");
+        // } else {
+        //     const jsonData = await res.json();
+        //     let symbol = jsonData.symbol;
+        //     let name = jsonData.name;
+        //     let description = jsonData.description.en;
+        //     let homepage = jsonData.links.homepage[0];
+        //     let image = jsonData.image.large;
+        //     let marketCapRank = jsonData.market_cap_rank;
+        //     let price = jsonData.market_data.current_price.usd;
+        //     let ath = jsonData.ath.usd;
+        //     let athChangePercentage = jsonData.ath_change_percentage.usd;
+        //     let athDate = jsonData.ath_date.usd;
+        //     let atl = jsonData.atl.usd;
+        //     let atlChangePercentage = jsonData.atl_change_percentage.usd;
+        //     let atlDate = jsonData.atl_date.usd;
+        //     let marketCap = jsonData.market_cap.usd;
+        //     let totalVolume = jsonData.total_volume.usd;
+        //     let high24h = jsonData.high_24h.usd;
+        //     let low24h = jsonData.low_24h.usd;
+        //     let priceChange24h = jsonData.price_change_24h;
+        //     let priceChangePercentage24h = jsonData.price_change_percentage_24h;
+        //     let priceChangePercentage7d = jsonData.price_change_percentage_7d;
+        //     let priceChangePercentage1y = jsonData.price_change_percentage_1y;
+        //     let updated = jsonData.last_updated;
+        //     // console.log(symbol, name, description, homepage, image, marketCapRank, price, ath, athChangePercentage, athDate, atl, atlChangePercentage, atlDate, marketCap, totalVolume, high24h, low24h, priceChange24h, priceChangePercentage24h, priceChangePercentage7d, priceChangePercentage1y, updated)
+        //     // console.log(jsonData)
+        // }
