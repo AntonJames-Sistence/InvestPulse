@@ -1,4 +1,4 @@
-import { type NextResponse } from 'next/server'
+import { type NextResponse } from 'next/server';
 import postgres from 'postgres';
 
 interface CoinData {
@@ -10,7 +10,28 @@ interface CoinData {
   price: string;
 }
 
-export async function PUT(response: NextResponse) {
+export async function GET() {
+  if (!process.env.DATABASE_URL) {
+    return new Response(`DATABASE_URL environment variable is not defined`, {
+      status: 400,
+    })
+  }
+
+  const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
+
+  try {
+    // Fetch all stored coins from the database
+    const coins: CoinData[] = await sql`SELECT * FROM trending_coins;`;
+
+    return Response.json(coins);
+  } catch (error) {
+    return new Response(`Couldn't retrieve stored coins data`, {
+      status: 400,
+    });
+  }
+}
+
+export async function PUT() {
   if (!process.env.DATABASE_URL) {
     return new Response(`DATABASE_URL environment variable is not defined`, {
       status: 400,
@@ -78,27 +99,6 @@ export async function PUT(response: NextResponse) {
     });
   } catch (error) {
     return new Response(`Couldn't update stored coins data`, {
-      status: 400,
-    });
-  }
-}
-
-export async function GET() {
-  if (!process.env.DATABASE_URL) {
-    return new Response(`DATABASE_URL environment variable is not defined`, {
-      status: 400,
-    })
-  }
-
-  const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
-
-  try {
-    // Fetch all stored coins from the database
-    const coins: CoinData[] = await sql`SELECT * FROM trending_coins;`;
-
-    return Response.json(coins);
-  } catch (error) {
-    return new Response(`Couldn't retrieve stored coins data`, {
       status: 400,
     });
   }
