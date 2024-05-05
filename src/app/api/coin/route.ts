@@ -9,8 +9,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
     const reqUrl = new URL(req.url || '');
     const searchParam = new URLSearchParams(reqUrl.searchParams);
     const coinName = searchParam.get('coinName');
-    console.log(coinName);
-    // let coinName = 'bitcoin'; // change to request coinName
+    
     if (!coinName) {
         return new Response('', {
             status: 400,

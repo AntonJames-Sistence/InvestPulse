@@ -4,27 +4,38 @@ import { HiMiniChevronDoubleRight } from "react-icons/hi2";
 import { useSearchParams } from 'next/navigation';
 
 interface CoinData {
-  id: string,
-  large: string,
-  name: string,
   symbol: string,
+  name: string,
+  description: string,
+  homepage: string,
+  image: string,
   market_cap_rank: number,
-  api_symbol: string;
-}
-
-interface CoinPrice {
-  usd: number,
-  usd_24h_change: number;
+  current_price: number,
+  ath: number,
+  ath_change_percentage: number,
+  ath_date: Date,
+  atl: number,
+  atl_change_percentage: number,
+  atl_date: Date,
+  market_cap: number,
+  total_volume: number,
+  high_24h: number,
+  low_24h: number,
+  price_change_24h: number,
+  price_change_percentage_24h: number,
+  price_change_percentage_7d: number,
+  price_change_percentage_1y: number,
+  last_updated: Date;
 }
 
 const TradingViewWidget: React.FC = () => {
   const searchParams = useSearchParams();
   const coin = searchParams.get('coin');
-  let coinName = coin || 'bitcoin';
+  let coinName = coin?.toLowerCase() || 'bitcoin';
 
   const container = useRef<HTMLDivElement>(null);
   const [coinData, setCoinData] = useState<CoinData | null>(null);
-  const [coinPrice, setCoinPrice] = useState<CoinPrice | null>(null);
+  // const [coinPrice, setCoinPrice] = useState<CoinPrice | null>(null);
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 
   useEffect(() => {
@@ -42,13 +53,11 @@ const TradingViewWidget: React.FC = () => {
   }
 
   const fetchCoinInfo = async (name: string) => {
-    // const infoUrl = `https://api.coingecko.com/api/v3/search?query=${name}`;
     const apiUrl = `/api/coin?coinName=${name}`;
     
     try {
       let data = await fetch(apiUrl);
       let jsonData = await data.json();
-      console.log(jsonData);
       
       setCoinData(jsonData);
     } catch (error) {
@@ -56,21 +65,7 @@ const TradingViewWidget: React.FC = () => {
     }
   }
 
-  // const fetchCoinPrice = async (id: string) => {
-  //   const priceUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=inr%2Cusd&include_24hr_change=true`;
-    
-  //   try {
-  //     let data = await fetch(priceUrl);
-  //     let jsonData = await data.json();
-
-  //     // Add prices to coinData
-  //     setCoinPrice(jsonData[id]);
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
-  const generateTradingViewWidget = (coinCymbol: string, isMobile: boolean) => {
+  const generateTradingViewWidget = (coinSymbol: string, isMobile: boolean) => {
     if (!container.current) return;
 
     while (container.current.firstChild) {
@@ -85,7 +80,7 @@ const TradingViewWidget: React.FC = () => {
       {
         "width": "100%",
         "height": "${isMobile ? 300 : 410}",
-        "symbol": "BITSTAMP:${coinCymbol.toUpperCase()}USD",
+        "symbol": "BITSTAMP:${coinSymbol.toUpperCase()}USD",
         "hide_legend": true,
         "interval": "D",
         "timezone": "Etc/UTC",
@@ -121,7 +116,7 @@ const TradingViewWidget: React.FC = () => {
         ):(
           <div className='flex flex-col justify-between mx-5'>
             <div className='flex flex-row mt-7 mb-10'>
-              <img src={coinData.large} alt={`${coinData.api_symbol} logo`} className='h-10 w-10 bg-white'></img>
+              <img src={coinData.image} alt={`${coinData.name} logo`} className='h-10 w-10 bg-white'></img>
               <div className='text-black text-2xl font-semibold self-center mx-2'>{coinData.name}</div>
               <div className='text-gray-500 self-center font-semibold mr-2'>{coinData.symbol}</div>
 
@@ -131,11 +126,11 @@ const TradingViewWidget: React.FC = () => {
             </div>
 
             <div className='flex flex-row'>
-              <div className='text-black text-3xl font-semibold self-center'>{coinPrice?.usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>
+              <div className='text-black text-3xl font-semibold self-center'>{coinData.current_price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>
 
               <div className="flex flex-row bg-green-100 bg-opacity-50 rounded-md px-6 py-1 ml-6 mr-2 text-green-600 self-center">
                 <div className="triangle-green self-center border-red"></div>
-                <div>{`${coinPrice?.usd_24h_change?.toFixed(2)}%`}</div>
+                <div>{`${coinData.price_change_percentage_24h}%`}</div>
               </div>
 
               <div className="text-gray-500 text-sm self-center">{`(24H)`}</div>
