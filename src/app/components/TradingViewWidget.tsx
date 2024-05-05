@@ -105,7 +105,6 @@ const TradingViewWidget: React.FC = () => {
       container.current.appendChild(script);
   };
   
-  console.log(coinData, coinPrice)
   return (
     <div className="flex flex-col">
       <div className="py-4 flex">
