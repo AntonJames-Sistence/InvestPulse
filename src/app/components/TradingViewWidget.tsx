@@ -42,33 +42,33 @@ const TradingViewWidget: React.FC = () => {
   }
 
   const fetchCoinInfo = async (name: string) => {
-    const infoUrl = `https://api.coingecko.com/api/v3/search?query=${name}`;
+    // const infoUrl = `https://api.coingecko.com/api/v3/search?query=${name}`;
+    const apiUrl = `/api/coin?coinName=${name}`;
     
     try {
-      let data = await fetch(infoUrl);
+      let data = await fetch(apiUrl);
       let jsonData = await data.json();
+      console.log(jsonData);
       
-      setCoinData(jsonData.coins[0]);
-
-      await fetchCoinPrice(jsonData.coins[0].id);
+      setCoinData(jsonData);
     } catch (error) {
       console.log(error)
     }
   }
 
-  const fetchCoinPrice = async (id: string) => {
-    const priceUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=inr%2Cusd&include_24hr_change=true`;
+  // const fetchCoinPrice = async (id: string) => {
+  //   const priceUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=inr%2Cusd&include_24hr_change=true`;
     
-    try {
-      let data = await fetch(priceUrl);
-      let jsonData = await data.json();
+  //   try {
+  //     let data = await fetch(priceUrl);
+  //     let jsonData = await data.json();
 
-      // Add prices to coinData
-      setCoinPrice(jsonData[id]);
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  //     // Add prices to coinData
+  //     setCoinPrice(jsonData[id]);
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   const generateTradingViewWidget = (coinCymbol: string, isMobile: boolean) => {
     if (!container.current) return;

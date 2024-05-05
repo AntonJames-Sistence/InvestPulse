@@ -1,12 +1,23 @@
-import { type NextResponse } from 'next/server';
+import { NextApiRequest, NextApiResponse } from 'next';
 import postgres from 'postgres';
 
 const formatCoinName = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export async function GET() {
-    let coinName = 'bitcoin'; // change to request coinName
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
+    const reqUrl = new URL(req.url || '');
+    const searchParam = new URLSearchParams(reqUrl.searchParams);
+    const coinName = searchParam.get('coinName');
+    console.log(coinName);
+    // let coinName = 'bitcoin'; // change to request coinName
+    if (!coinName) {
+        return new Response('', {
+            status: 400,
+            statusText: 'Coin name not provided in query parameters'
+        });
+    }
+
     const url = `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=true`;
     if (!process.env.DATABASE_URL) {
         return new Response('', {
@@ -81,7 +92,6 @@ export async function GET() {
                 );`;
 
             existingCoin = await sql`SELECT * FROM coins WHERE name = ${formatCoinName(coinName)}`;
-            // console.log(existingCoin)
             return Response.json(existingCoin[0])
         }
     }  catch (error) {
