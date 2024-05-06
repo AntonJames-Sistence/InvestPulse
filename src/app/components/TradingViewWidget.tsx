@@ -3,14 +3,39 @@ import React, { useEffect, useState, useRef } from 'react';
 import { HiMiniChevronDoubleRight } from "react-icons/hi2";
 import { useSearchParams } from 'next/navigation';
 
-const TradingViewWidget = () => {
+interface CoinData {
+  symbol: string,
+  name: string,
+  description: string,
+  homepage: string,
+  image: string,
+  market_cap_rank: number,
+  current_price: string,
+  ath: number,
+  ath_change_percentage: number,
+  ath_date: Date,
+  atl: number,
+  atl_change_percentage: number,
+  atl_date: Date,
+  market_cap: number,
+  total_volume: number,
+  high_24h: number,
+  low_24h: number,
+  price_change_24h: number,
+  price_change_percentage_24h: number,
+  price_change_percentage_7d: number,
+  price_change_percentage_1y: number,
+  last_updated: Date;
+}
+
+const TradingViewWidget: React.FC = () => {
   const searchParams = useSearchParams();
   const coin = searchParams.get('coin');
-  let coinName = coin || 'bitcoin';
+  let coinName = coin?.toLowerCase() || 'bitcoin';
 
-  const container = useRef();
-  const [coinData, setCoinData] = useState(null);
-  const [coinPrice, setCoinPrice] = useState(null);
+  const container = useRef<HTMLDivElement>(null);
+  const [coinData, setCoinData] = useState<CoinData | null>(null);
+  // const [coinPrice, setCoinPrice] = useState<CoinPrice | null>(null);
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 
   useEffect(() => {
@@ -23,40 +48,26 @@ const TradingViewWidget = () => {
     }
   }, [coinData, coinName])
 
-  const formatCoinName = (str) => {
+  const formatCoinName = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-  const fetchCoinInfo = async (name) => {
-    const infoUrl = `https://api.coingecko.com/api/v3/search?query=${name}`;
+  const fetchCoinInfo = async (name: string) => {
+    const apiUrl = `/api/coin?id=${name}`;
     
     try {
-      let data = await fetch(infoUrl);
+      let data = await fetch(apiUrl);
       let jsonData = await data.json();
       
-      setCoinData(jsonData.coins[0]);
-
-      await fetchCoinPrice(jsonData.coins[0].id);
+      setCoinData(jsonData);
     } catch (error) {
       console.log(error)
     }
   }
 
-  const fetchCoinPrice = async (id) => {
-    const priceUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=inr%2Cusd&include_24hr_change=true`;
-    
-    try {
-      let data = await fetch(priceUrl);
-      let jsonData = await data.json();
+  const generateTradingViewWidget = (coinSymbol: string, isMobile: boolean) => {
+    if (!container.current) return;
 
-      // Add prices to coinData
-      setCoinPrice(jsonData[id]);
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const generateTradingViewWidget = (coinCymbol, isMobile) => {
     while (container.current.firstChild) {
       container.current.removeChild(container.current.firstChild);
     }
@@ -69,7 +80,7 @@ const TradingViewWidget = () => {
       {
         "width": "100%",
         "height": "${isMobile ? 300 : 410}",
-        "symbol": "BITSTAMP:${coinCymbol.toUpperCase()}USD",
+        "symbol": "BITSTAMP:${coinSymbol.toUpperCase()}USD",
         "hide_legend": true,
         "interval": "D",
         "timezone": "Etc/UTC",
@@ -105,7 +116,7 @@ const TradingViewWidget = () => {
         ):(
           <div className='flex flex-col justify-between mx-5'>
             <div className='flex flex-row mt-7 mb-10'>
-              <img src={coinData.large} alt={`${coinData.api_symbol} logo`} className='h-10 w-10 bg-white'></img>
+              <img src={coinData.image} alt={`${coinData.name} logo`} className='h-10 w-10 bg-white'></img>
               <div className='text-black text-2xl font-semibold self-center mx-2'>{coinData.name}</div>
               <div className='text-gray-500 self-center font-semibold mr-2'>{coinData.symbol}</div>
 
@@ -115,11 +126,11 @@ const TradingViewWidget = () => {
             </div>
 
             <div className='flex flex-row'>
-              <div className='text-black text-3xl font-semibold self-center'>{coinPrice?.usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>
+              <div className='text-black text-3xl font-semibold self-center'>{`$${parseFloat(coinData.current_price).toFixed(2)}`}</div>
 
-              <div className="flex flex-row bg-green-100 bg-opacity-50 rounded-md px-6 py-1 ml-6 mr-2 text-green-600 self-center">
-                <div className="triangle-green self-center border-red"></div>
-                <div>{`${coinPrice?.usd_24h_change?.toFixed(2)}%`}</div>
+              <div className={`flex flex-row bg-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'}-100 bg-opacity-50 rounded-md px-6 py-1 ml-6 mr-2 text-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'}-600 self-center`}>
+                <div className={`triangle-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'} self-center border-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'}`}></div>
+                <div>{`${coinData.price_change_percentage_24h}%`}</div>
               </div>
 
               <div className="text-gray-500 text-sm self-center">{`(24H)`}</div>
