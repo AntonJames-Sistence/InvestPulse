@@ -126,7 +126,7 @@ const TradingViewWidget: React.FC = () => {
             </div>
 
             <div className='flex flex-row'>
-              <div className='text-black text-3xl font-semibold self-center'>{parseFloat(coinData.current_price).toFixed(2)}</div>
+              <div className='text-black text-3xl font-semibold self-center'>{`$${parseFloat(coinData.current_price).toFixed(2)}`}</div>
 
               <div className={`flex flex-row bg-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'}-100 bg-opacity-50 rounded-md px-6 py-1 ml-6 mr-2 text-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'}-600 self-center`}>
                 <div className={`triangle-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'} self-center border-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'}`}></div>
