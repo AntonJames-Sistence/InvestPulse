@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest } from 'next/server';
 import postgres from 'postgres';
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: Request | NextRequest) {
     const reqUrl = new URL(req.url || '');
     const searchParam = new URLSearchParams(reqUrl.searchParams);
     const coinId = searchParam.get('id');

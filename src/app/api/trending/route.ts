@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import postgres from 'postgres';
 
 interface CoinData {
@@ -11,7 +11,7 @@ interface CoinData {
   price: number;
 }
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: Request | NextRequest, res: Response | NextResponse) {
   if (!process.env.DATABASE_URL) {
     return new Response(``, {
       status: 400,

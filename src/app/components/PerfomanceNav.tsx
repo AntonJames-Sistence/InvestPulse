@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 import { perfomanceNav } from '../data/perfomanceNav'; 
 
-const PerfomanceNav = () => {
-    const [activeTab, setActiveTab] = useState('Overview');
+const PerfomanceNav: React.FC = () => {
+    const [activeTab, setActiveTab] = useState<string>('Overview');
 
-    const handleTabClick = (tab) => {
+    const handleTabClick = (tab: string) => {
         setActiveTab(tab);
     };
 
@@ -23,7 +23,13 @@ const PerfomanceNav = () => {
     );
 };
 
-const NavItem = ({ tab, activeTab, onClick }) => {
+interface NavItemProps {
+    tab: string,
+    activeTab: string,
+    onClick: (tab: string) => void;
+}
+
+const NavItem: React.FC<NavItemProps> = ({ tab, activeTab, onClick }) => {
     return (
         <div onClick={() => onClick(tab)} className={`cursor-pointer ${activeTab === tab ? 'text-blue-700 font-semibold border-b-2 border-blue-500' : ''}`}>
             {tab}
