@@ -128,8 +128,8 @@ const TradingViewWidget: React.FC = () => {
             <div className='flex flex-row'>
               <div className='text-black text-3xl font-semibold self-center'>{coinData.current_price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>
 
-              <div className="flex flex-row bg-green-100 bg-opacity-50 rounded-md px-6 py-1 ml-6 mr-2 text-green-600 self-center">
-                <div className="triangle-green self-center border-red"></div>
+              <div className={`flex flex-row bg-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'}-100 bg-opacity-50 rounded-md px-6 py-1 ml-6 mr-2 text-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'}-600 self-center`}>
+                <div className={`triangle-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'} self-center border-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'}`}></div>
                 <div>{`${coinData.price_change_percentage_24h}%`}</div>
               </div>
 
