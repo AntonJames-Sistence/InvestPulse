@@ -1,19 +1,21 @@
-import { type NextResponse } from 'next/server';
+import { NextApiRequest, NextApiResponse } from 'next';
 import postgres from 'postgres';
 
 interface CoinData {
+  id: string,
   name: string;
   symbol: string;
   thumb: string;
   price_change_percentage_24h: number;
   sparkline: string;
-  price: string;
+  price: number;
 }
 
-export async function GET() {
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
   if (!process.env.DATABASE_URL) {
-    return new Response(`DATABASE_URL environment variable is not defined`, {
+    return new Response(``, {
       status: 400,
+      statusText: `Couldn't reach DB, please check your key`
     })
   }
 
@@ -25,16 +27,18 @@ export async function GET() {
 
     return Response.json(coins);
   } catch (error) {
-    return new Response(`Couldn't retrieve stored coins data`, {
+    return new Response('', {
       status: 400,
+      statusText: `Couldn't retrieve stored coins data, ${error}`
     });
   }
 }
 
 export async function PUT() {
   if (!process.env.DATABASE_URL) {
-    return new Response(`DATABASE_URL environment variable is not defined`, {
+    return new Response('', {
       status: 400,
+      statusText: `Couldn't reach DB, please check your key`
     })
   }
 
@@ -55,23 +59,19 @@ export async function PUT() {
 
     // Create table if it doesn't exist
     await sql`CREATE TABLE IF NOT EXISTS trending_coins (
-      id SERIAL PRIMARY KEY,
+      id TEXT PRIMARY KEY,
       name TEXT,
       symbol TEXT,
-      thumb TEXT,
+      image TEXT,
       price_change_percentage_24h NUMERIC,
       sparkline TEXT,
-      price TEXT
+      price NUMERIC
     );`;
 
     // Insert or update data into the table
     for (const coin of jsonData.coins) {
       // Check if the record already exists in the table
-      const existingRecord = await sql`
-        SELECT id
-        FROM trending_coins
-        WHERE name = ${coin.item.name};
-      `;
+      const existingRecord = await sql`SELECT * FROM trending_coins WHERE id = ${coin.item.id};`;
     
       if (existingRecord.length > 0) {
         // Update the existing record
@@ -79,41 +79,29 @@ export async function PUT() {
           UPDATE trending_coins
           SET 
             symbol = ${coin.item.symbol},
-            thumb = ${coin.item.thumb},
+            image = ${coin.item.thumb},
             price_change_percentage_24h = ${coin.item.data.price_change_percentage_24h.usd},
             sparkline = ${coin.item.data.sparkline},
             price = ${coin.item.data.price}
-          WHERE name = ${coin.item.name};
+          WHERE id = ${coin.item.id};
         `;
       } else {
         // Insert a new record
         await sql`
-          INSERT INTO trending_coins (name, symbol, thumb, price_change_percentage_24h, sparkline, price)
-          VALUES (${coin.item.name}, ${coin.item.symbol}, ${coin.item.thumb}, ${coin.item.data.price_change_percentage_24h.usd}, ${coin.item.data.sparkline}, ${coin.item.data.price});
+          INSERT INTO trending_coins (id, name, symbol, image, price_change_percentage_24h, sparkline, price)
+          VALUES (${coin.item.id}, ${coin.item.name}, ${coin.item.symbol}, ${coin.item.thumb}, ${coin.item.data.price_change_percentage_24h.usd}, ${coin.item.data.sparkline}, ${coin.item.data.price});
         `;
       }
     }    
 
-    return new Response(`Successfully updated data`, {
+    return new Response(``, {
       status: 200,
+      statusText: 'Successfully updated data'
     });
   } catch (error) {
-    return new Response(`Couldn't update stored coins data`, {
+    return new Response(``, {
       status: 400,
+      statusText: `Couldn't update stored coins data, ${error}`
     });
   }
 }
-
-// export async function DELETE() {
-//   const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
-
-//   try {
-//     // Drop the table if it exists
-//     await sql`DROP TABLE IF EXISTS trending_coins;`;
-
-//     return NextResponse.json("Table 'trending_coins' has been dropped");
-//   } catch (error) {
-//     console.error(error);
-//     return NextResponse.error("Couldn't drop the 'trending_coins' table");
-//   }
-// }
