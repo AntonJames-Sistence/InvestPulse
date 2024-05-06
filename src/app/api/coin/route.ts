@@ -28,7 +28,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
     const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
 
     try {
-        let existingCoin = await sql`SELECT * FROM coins WHERE name = ${formatCoinName(coinName)}`;
+        let existingCoin = await sql`SELECT * FROM coins WHERE id = ${coinName}`;
         
         if (existingCoin.length > 0) {
             // Check if last_updated is more than 24 hours ago
@@ -48,7 +48,8 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
                 // Update data in database
                 await sql`
                     UPDATE coins 
-                    SET symbol = ${jsonData.symbol}, 
+                    SET id = ${jsonData.id},
+                        symbol = ${jsonData.symbol}, 
                         name = ${jsonData.name}, 
                         description = ${jsonData.description.en}, 
                         homepage = ${jsonData.links.homepage[0]}, 
@@ -70,10 +71,10 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
                         price_change_percentage_7d = ${jsonData.market_data.price_change_percentage_7d}, 
                         price_change_percentage_1y = ${jsonData.market_data.price_change_percentage_1y}, 
                         last_updated = ${jsonData.last_updated}
-                    WHERE name = ${formatCoinName(coinName)}
+                    WHERE id = ${coinName}}
                 `;
                 
-                existingCoin = await sql`SELECT * FROM coins WHERE name = ${formatCoinName(coinName)}`;
+                existingCoin = await sql`SELECT * FROM coins WHERE id = ${coinName}`;
                 return Response.json(existingCoin[0]);
             }
         } else {
@@ -86,11 +87,11 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
 
             // Put data into database
             await sql`
-                INSERT INTO coins (symbol, name, description, homepage, image, market_cap_rank, current_price, ath, ath_change_percentage, ath_date, atl, atl_change_percentage, atl_date, market_cap, total_volume, high_24h, low_24h, price_change_24h, price_change_percentage_24h, price_change_percentage_7d, price_change_percentage_1y, last_updated)
-                VALUES (${jsonData.symbol}, ${jsonData.name}, ${jsonData.description.en}, ${jsonData.links.homepage[0]}, ${jsonData.image.large}, ${jsonData.market_cap_rank}, ${jsonData.market_data.current_price.usd}, ${jsonData.market_data.ath.usd}, ${jsonData.market_data.ath_change_percentage.usd}, ${jsonData.market_data.ath_date.usd}, ${jsonData.market_data.atl.usd}, ${jsonData.market_data.atl_change_percentage.usd}, ${jsonData.market_data.atl_date.usd}, ${jsonData.market_data.market_cap.usd}, ${jsonData.market_data.total_volume.usd}, ${jsonData.market_data.high_24h.usd}, ${jsonData.market_data.low_24h.usd}, ${jsonData.market_data.price_change_24h}, ${jsonData.market_data.price_change_percentage_24h}, ${jsonData.market_data.price_change_percentage_7d}, ${jsonData.market_data.price_change_percentage_1y}, ${jsonData.last_updated}
+                INSERT INTO coins (id, symbol, name, description, homepage, image, market_cap_rank, current_price, ath, ath_change_percentage, ath_date, atl, atl_change_percentage, atl_date, market_cap, total_volume, high_24h, low_24h, price_change_24h, price_change_percentage_24h, price_change_percentage_7d, price_change_percentage_1y, last_updated)
+                VALUES (${jsonData.id}, ${jsonData.symbol}, ${jsonData.name}, ${jsonData.description.en}, ${jsonData.links.homepage[0]}, ${jsonData.image.large}, ${jsonData.market_cap_rank}, ${jsonData.market_data.current_price.usd}, ${jsonData.market_data.ath.usd}, ${jsonData.market_data.ath_change_percentage.usd}, ${jsonData.market_data.ath_date.usd}, ${jsonData.market_data.atl.usd}, ${jsonData.market_data.atl_change_percentage.usd}, ${jsonData.market_data.atl_date.usd}, ${jsonData.market_data.market_cap.usd}, ${jsonData.market_data.total_volume.usd}, ${jsonData.market_data.high_24h.usd}, ${jsonData.market_data.low_24h.usd}, ${jsonData.market_data.price_change_24h}, ${jsonData.market_data.price_change_percentage_24h}, ${jsonData.market_data.price_change_percentage_7d}, ${jsonData.market_data.price_change_percentage_1y}, ${jsonData.last_updated}
                 );`;
 
-            existingCoin = await sql`SELECT * FROM coins WHERE name = ${formatCoinName(coinName)}`;
+            existingCoin = await sql`SELECT * FROM coins WHERE id = ${coinName}`;
             return Response.json(existingCoin[0])
         }
     }  catch (error) {
