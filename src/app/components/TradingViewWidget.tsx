@@ -53,7 +53,7 @@ const TradingViewWidget: React.FC = () => {
   }
 
   const fetchCoinInfo = async (name: string) => {
-    const apiUrl = `/api/coin?coinName=${name}`;
+    const apiUrl = `/api/coin?id=${name}`;
     
     try {
       let data = await fetch(apiUrl);

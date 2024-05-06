@@ -1,23 +1,19 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import postgres from 'postgres';
 
-const formatCoinName = (str: string) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
 export async function GET(req: NextApiRequest, res: NextApiResponse) {
     const reqUrl = new URL(req.url || '');
     const searchParam = new URLSearchParams(reqUrl.searchParams);
-    const coinName = searchParam.get('coinName');
+    const coinId = searchParam.get('id');
     
-    if (!coinName) {
+    if (!coinId) {
         return new Response('', {
             status: 400,
             statusText: 'Coin name not provided in query parameters'
         });
     }
 
-    const url = `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=true`;
+    const url = `https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=true`;
     if (!process.env.DATABASE_URL) {
         return new Response('', {
           status: 400,
@@ -28,7 +24,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
     const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
 
     try {
-        let existingCoin = await sql`SELECT * FROM coins WHERE id = ${coinName}`;
+        let existingCoin = await sql`SELECT * FROM coins WHERE id = ${coinId}`;
         
         if (existingCoin.length > 0) {
             // Check if last_updated is more than 24 hours ago
@@ -71,10 +67,10 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
                         price_change_percentage_7d = ${jsonData.market_data.price_change_percentage_7d}, 
                         price_change_percentage_1y = ${jsonData.market_data.price_change_percentage_1y}, 
                         last_updated = ${jsonData.last_updated}
-                    WHERE id = ${coinName}}
+                    WHERE id = ${coinId}}
                 `;
                 
-                existingCoin = await sql`SELECT * FROM coins WHERE id = ${coinName}`;
+                existingCoin = await sql`SELECT * FROM coins WHERE id = ${coinId}`;
                 return Response.json(existingCoin[0]);
             }
         } else {
@@ -91,7 +87,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
                 VALUES (${jsonData.id}, ${jsonData.symbol}, ${jsonData.name}, ${jsonData.description.en}, ${jsonData.links.homepage[0]}, ${jsonData.image.large}, ${jsonData.market_cap_rank}, ${jsonData.market_data.current_price.usd}, ${jsonData.market_data.ath.usd}, ${jsonData.market_data.ath_change_percentage.usd}, ${jsonData.market_data.ath_date.usd}, ${jsonData.market_data.atl.usd}, ${jsonData.market_data.atl_change_percentage.usd}, ${jsonData.market_data.atl_date.usd}, ${jsonData.market_data.market_cap.usd}, ${jsonData.market_data.total_volume.usd}, ${jsonData.market_data.high_24h.usd}, ${jsonData.market_data.low_24h.usd}, ${jsonData.market_data.price_change_24h}, ${jsonData.market_data.price_change_percentage_24h}, ${jsonData.market_data.price_change_percentage_7d}, ${jsonData.market_data.price_change_percentage_1y}, ${jsonData.last_updated}
                 );`;
 
-            existingCoin = await sql`SELECT * FROM coins WHERE id = ${coinName}`;
+            existingCoin = await sql`SELECT * FROM coins WHERE id = ${coinId}`;
             return Response.json(existingCoin[0])
         }
     }  catch (error) {
