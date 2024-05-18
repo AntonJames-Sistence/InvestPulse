@@ -23,9 +23,9 @@ interface TrendingCoinsSliderProps {
 const TrendingCoinsSlider: React.FC<TrendingCoinsSliderProps> = ({ trendingCoins }) => {
   const router = useRouter();
 
-  const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, coinName: string) => {
+  const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, coinId: string) => {
     e.preventDefault();
-    router.push(`/?coin=${coinName}`);
+    router.push(`/?coin=${coinId}`);
   };
 
   const NextArrow: React.FC<{ onClick: () => void }> = ({ onClick }) => (
