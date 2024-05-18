@@ -3,7 +3,36 @@ import ReusableTile from "./ReusableTile";
 import React, { useState } from "react";
 import { fundamentals } from "../data/fundamentals";
 
-const Perfomance: React.FC = () => {
+interface CoinData {
+    symbol: string;
+    name: string;
+    description: string;
+    homepage: string;
+    image: string;
+    market_cap_rank: number;
+    current_price: string;
+    ath: number;
+    ath_change_percentage: number;
+    ath_date: Date;
+    atl: number;
+    atl_change_percentage: number;
+    atl_date: Date;
+    market_cap: number;
+    total_volume: number;
+    high_24h: number;
+    low_24h: number;
+    price_change_24h: number;
+    price_change_percentage_24h: number;
+    price_change_percentage_7d: number;
+    price_change_percentage_1y: number;
+    last_updated: Date;
+}
+    
+interface PerfomanceProps {
+    coin: CoinData | null;
+}
+
+const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
     const [showFundamentalsTip, setShowFundamentalsTip] = useState(false);
 
     return (

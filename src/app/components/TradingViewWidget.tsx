@@ -151,7 +151,7 @@ const TradingViewWidget: React.FC = () => {
 
         </div>                                                                 
       </div>
-      <Perfomance />
+      <Perfomance coin={coinData} />
     </>
   );
 }
