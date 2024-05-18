@@ -7,6 +7,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { useRouter } from 'next/navigation';
 
 interface Coin {
+  id: string;
   name: string;
   symbol: string;
   image: string;
@@ -22,9 +23,9 @@ interface TrendingCoinsSliderProps {
 const TrendingCoinsSlider: React.FC<TrendingCoinsSliderProps> = ({ trendingCoins }) => {
   const router = useRouter();
 
-  const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, coinName: string) => {
+  const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, coinId: string) => {
     e.preventDefault();
-    router.push(`/?coin=${coinName}`);
+    router.push(`/?coin=${coinId}`);
   };
 
   const NextArrow: React.FC<{ onClick: () => void }> = ({ onClick }) => (
@@ -79,7 +80,7 @@ const TrendingCoinsSlider: React.FC<TrendingCoinsSliderProps> = ({ trendingCoins
           
           return (
             <a className="rounded-lg ease-in-out duration-300 cursor-pointer" 
-                onClick={(e) => handleNavigation(e, coin.name)} 
+                onClick={(e) => handleNavigation(e, coin.id)} 
                 key={index}>
               <div className={`rounded-lg bg-white border-2 p-4 flex flex-col ${isNegative ? 'hover-red' : 'hover-green'}`}>
                 <div className="flex">

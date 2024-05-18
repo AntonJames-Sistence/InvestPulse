@@ -13,7 +13,7 @@ interface Coin {
     price_change_percentage_24h: string;
 }
 
-const TrendingCoins = () => {
+const TrendingCoins: React.FC = () => {
     const [trendingCoins, setTrendingCoins] = useState<Coin[]>([]);;
     const [loading, setLoading] = useState(true);
     const router = useRouter();

@@ -5,6 +5,7 @@ export async function GET(req: Request | NextRequest) {
     const reqUrl = new URL(req.url || '');
     const searchParam = new URLSearchParams(reqUrl.searchParams);
     const coinId = searchParam.get('id');
+    // console.log('id:', coinId);
     
     if (!coinId) {
         return new Response('', {
@@ -25,11 +26,13 @@ export async function GET(req: Request | NextRequest) {
 
     try {
         let existingCoin = await sql`SELECT * FROM coins WHERE id = ${coinId}`;
+        // console.log('existingCoin:', existingCoin);
         
         if (existingCoin.length > 0) {
             // Check if last_updated is more than 24 hours ago
             const lastUpdated = existingCoin[0].last_updated;
             const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
             if (lastUpdated > twentyFourHoursAgo) {
                 // Coin data is up to date, return it
                 return Response.json(existingCoin[0])
@@ -67,7 +70,7 @@ export async function GET(req: Request | NextRequest) {
                         price_change_percentage_7d = ${jsonData.market_data.price_change_percentage_7d}, 
                         price_change_percentage_1y = ${jsonData.market_data.price_change_percentage_1y}, 
                         last_updated = ${jsonData.last_updated}
-                    WHERE id = ${coinId}}
+                    WHERE id = ${coinId}
                 `;
                 
                 existingCoin = await sql`SELECT * FROM coins WHERE id = ${coinId}`;
