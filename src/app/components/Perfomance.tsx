@@ -3,7 +3,7 @@ import ReusableTile from "./ReusableTile";
 import React, { useState } from "react";
 import { fundamentals } from "../data/fundamentals";
 
-const Perfomance = () => {
+const Perfomance: React.FC = () => {
     const [showFundamentalsTip, setShowFundamentalsTip] = useState(false);
 
     return (

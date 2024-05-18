@@ -27,8 +27,7 @@ export default function Home() {
             <TradingViewWidget />
           </Suspense>
 
-          <PerfomanceNav />
-          <Perfomance />
+          {/* <PerfomanceNav /> */}
           <Sentiment />
           <About />
           <Tokenomics />
