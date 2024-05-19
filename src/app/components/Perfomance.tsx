@@ -10,7 +10,7 @@ interface CoinData {
     homepage: string;
     image: string;
     market_cap_rank: number;
-    current_price: string;
+    current_price: number;
     ath: number;
     ath_change_percentage: number;
     ath_date: Date;
@@ -32,8 +32,16 @@ interface PerfomanceProps {
     coin: CoinData | null;
 }
 
+const formatAsUSD = (value: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(value);
+};
+
 const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
     const [showFundamentalsTip, setShowFundamentalsTip] = useState(false);
+    console.log(coin)
 
     return (
         <ReusableTile title="Perfomance">
@@ -42,7 +50,7 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                 <div className="flex text-sm mb-8">
                     <div>
                         <p className="mb-2 w-24 text-gray-600">Today&apos;s Low</p>
-                        <p>46,930.22</p>
+                        <p>{formatAsUSD(coin?.low_24h ?? 0)}</p>
                     </div>
                     <div className="h-1.5 w-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 rounded-lg self-center mx-2 lg:mx-14"></div>
                     <div>
