@@ -49,14 +49,13 @@ export const formatDate = (date: Date) => {
 
 export const formatPercentage = (value: number) => {
     if (typeof value !== 'number') {
-        return parseFloat(value).toFixed(3);
+        return parseFloat(value).toFixed(2);
     }
-    return value.toFixed(3);
+    return value.toFixed(2);
 };
 
 const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
     const [showFundamentalsTip, setShowFundamentalsTip] = useState(false);
-    console.log(coin)
 
     return (
         <ReusableTile title={`${coin?.name} Perfomance`}>
@@ -107,10 +106,11 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-20">
+                    
                     <div>
                         <div className="flex justify-between text-sm">
-                            <span className="text-gray-500">Current Price</span>
-                            <span>{formatAsUSD(coin?.current_price ?? 0)}</span>
+                            <span className="text-gray-500">Market Rank</span>
+                            <span>{`# ${coin?.market_cap_rank ?? 777}`}</span>
                         </div>
                         <hr className="border-gray-400 my-4" />
                     </div>
@@ -121,6 +121,7 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                         </div>
                         <hr className="border-gray-400 my-4" />
                     </div>
+
 
                     <div>
                         <div className="flex justify-between text-sm">
@@ -134,17 +135,61 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                     </div>
                     <div>
                         <div className="flex justify-between text-sm">
-                            <span className="text-gray-500">{`All Time High Change`}</span>
-                            {/* <span>{`${coin?.ath_change_percentage}%`}</span> */}
+                            <span className="text-gray-500">All Time High Change</span>
                             <span
-                            className={`${
-                                (coin?.ath_change_percentage ?? 0) >= 0
-                                    ? 'text-green-500'
-                                    : 'text-red-500'
-                            }`}
-                        >
-                            {`${formatPercentage(coin?.ath_change_percentage ?? 0)}%`}
-                        </span>
+                                className={`${
+                                    (coin?.ath_change_percentage ?? 0) >= 0
+                                        ? 'text-green-500'
+                                        : 'text-red-500'
+                                    }`}>
+                                {`${formatPercentage(coin?.ath_change_percentage ?? 0)} %`}
+                            </span>
+                        </div>
+                        <hr className="border-gray-400 my-4" />
+                    </div>
+
+                    
+                    <div>
+                        <div className="flex justify-between text-sm">
+                            <span className="text-gray-500">Current Price</span>
+                            <span>{formatAsUSD(coin?.current_price ?? 0)}</span>
+                        </div>
+                        <hr className="border-gray-400 my-4" />
+                    </div>
+                    <div>
+                        <div className="flex justify-between text-sm">
+                            <span className="text-gray-500">{`All Time Low Date`}</span>
+                            <span>{formatDate(coin?.atl_date ?? new Date())}</span>
+                        </div>
+                        <hr className="border-gray-400 my-4" />
+                    </div>
+
+                    
+                    <div>
+                        <div className="flex justify-between text-sm">
+                            <span className="text-gray-500">Price Change In 24h</span>
+                            <span
+                                className={`${
+                                    (coin?.price_change_24h ?? 0) >= 0
+                                        ? 'text-green-500'
+                                        : 'text-red-500'
+                                    }`}>
+                                    {formatAsUSD(coin?.price_change_24h ?? 0)}
+                            </span>
+                        </div>
+                        <hr className="border-gray-400 my-4" />
+                    </div>
+                    <div>
+                        <div className="flex justify-between text-sm">
+                            <span className="text-gray-500">All Time Low Change</span>
+                            <span
+                                className={`${
+                                    (coin?.atl_change_percentage ?? 0) >= 0
+                                        ? 'text-green-500'
+                                        : 'text-red-500'
+                                    }`}>
+                                {`${formatPercentage(coin?.atl_change_percentage ?? 0)} %`}
+                            </span>
                         </div>
                         <hr className="border-gray-400 my-4" />
                     </div>
@@ -158,8 +203,38 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                     </div>
                     <div>
                         <div className="flex justify-between text-sm">
-                            <span className="text-gray-500">{`All Time Low Date`}</span>
-                            <span>{formatDate(coin?.atl_date ?? new Date())}</span>
+                            <span className="text-gray-500">Price Change In 7 Days</span>
+                            <span
+                                className={`${
+                                    (coin?.price_change_percentage_7d ?? 0) >= 0
+                                        ? 'text-green-500'
+                                        : 'text-red-500'
+                                    }`}>
+                                {`${formatPercentage(coin?.price_change_percentage_7d ?? 0)} %`}
+                            </span>
+                        </div>
+                        <hr className="border-gray-400 my-4" />
+                    </div>
+
+                    
+                    <div>
+                        <div className="flex justify-between text-sm">
+                            <span className="text-gray-500">Total Volume</span>
+                            <span>{formatAsUSD(coin?.total_volume ?? 0)}</span>
+                        </div>
+                        <hr className="border-gray-400 my-4" />
+                    </div>
+                    <div>
+                        <div className="flex justify-between text-sm">
+                            <span className="text-gray-500">Price Change In 1 Year</span>
+                            <span
+                                className={`${
+                                    (coin?.price_change_percentage_1y ?? 0) >= 0
+                                        ? 'text-green-500'
+                                        : 'text-red-500'
+                                    }`}>
+                                {`${formatPercentage(coin?.price_change_percentage_1y ?? 0)} %`}
+                            </span>
                         </div>
                         <hr className="border-gray-400 my-4" />
                     </div>
