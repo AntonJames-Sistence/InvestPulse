@@ -86,7 +86,7 @@ const TrendingCoins: React.FC = () => {
                             </a>
                         );
                     })}
-                    <button onClick={hadleUpdateDB} className="px-4 py-2 bg-blue-700 text-white font-[500] mt-2 rounded-xl hover:scale-110 self-center hover:bg-blue-400 duration-200 easy-in-out">
+                    <button onClick={hadleUpdateDB} className="px-4 py-2 bg-blue-700 text-white font-[500] mt-2 rounded-xl self-center hover:bg-blue-400 duration-200 easy-in-out">
                         Update Prices
                     </button>
                 </div>

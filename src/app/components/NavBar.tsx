@@ -46,7 +46,7 @@ const NavBar = () => {
                         <a
                             key={index}
                             href={link.href}
-                            className="self-center mx-4 font-[500] hover:scale-[120%] duration-200 easy-in-out"
+                            className="self-center mx-4 font-[500] hover:text-blue-500 duration-200 easy-in-out"
                         >
                             {link.title}
                         </a>
@@ -54,7 +54,7 @@ const NavBar = () => {
                 </div>
 
                 <a href="https://www.coinbase.com/signup" target="_blanc">
-                    <button className="hidden lg:block bg-blue-700 hover:bg-blue-900 hover:scale-110 duration-200 easy-in-out text-white font-[500] py-2 px-6 ml-10 h-10 self-center rounded-xl">
+                    <button className="hidden lg:block bg-blue-700 hover:bg-blue-400 duration-200 easy-in-out text-white font-[500] py-2 px-6 ml-10 h-10 self-center rounded-xl">
                         Get Started
                     </button>
                 </a>
