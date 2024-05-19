@@ -83,6 +83,16 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
         return `${percentage}%`;
     };
 
+    if (!coin){
+        return (
+            <ReusableTile title={`Coin Perfomance`}>
+                <div className='m-10 self-center flex justify-center'>
+                    <div className="loader"></div>
+                </div>
+            </ReusableTile>
+        )
+    }
+
     return (
         <ReusableTile title={`${coin?.name} Perfomance`}>
             <div className="flex flex-col">
