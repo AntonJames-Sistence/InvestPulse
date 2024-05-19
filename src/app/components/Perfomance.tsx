@@ -102,7 +102,7 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-20">
                     <div>
                         <div className="flex justify-between text-sm">
-                            <span className="text-gray-500">{`${coin?.name} Price`}</span>
+                            <span className="text-gray-500">Current Price</span>
                             <span>{formatAsUSD(coin?.current_price ?? 0)}</span>
                         </div>
                         <hr className="border-gray-400 my-4" />
@@ -117,6 +117,24 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
 
                     <div>
                         <div className="flex justify-between text-sm">
+                            <span className="text-gray-500">Symbol</span>
+                            <div className="flex items-center">
+                                <img className="h-5 inline-block mr-2" src={coin?.image} alt={coin?.symbol}></img>
+                                <div>{coin?.symbol.toUpperCase()}</div>
+                            </div>
+                        </div>
+                        <hr className="border-gray-400 my-4" />
+                    </div>
+                    <div>
+                        <div className="flex justify-between text-sm">
+                            <span className="text-gray-500">{`All Time High Change`}</span>
+                            <span>{`${coin?.ath_change_percentage}%`}</span>
+                        </div>
+                        <hr className="border-gray-400 my-4" />
+                    </div>
+
+                    <div>
+                        <div className="flex justify-between text-sm">
                             <span className="text-gray-500">Market Cap</span>
                             <span>{formatAsUSD(coin?.market_cap ?? 0)}</span>
                         </div>
@@ -124,8 +142,8 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                     </div>
                     <div>
                         <div className="flex justify-between text-sm">
-                            <span className="text-gray-500">{`${coin?.name} Price`}</span>
-                            <span>{formatAsUSD(coin?.current_price ?? 0)}</span>
+                            <span className="text-gray-500">{`All Time Low Date`}</span>
+                            <span>{formatDate(coin?.atl_date ?? new Date())}</span>
                         </div>
                         <hr className="border-gray-400 my-4" />
                     </div>
