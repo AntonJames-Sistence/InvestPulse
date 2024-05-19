@@ -47,6 +47,13 @@ export const formatDate = (date: Date) => {
     }).format(new Date(date));
 };
 
+export const formatPercentage = (value: number) => {
+    if (typeof value !== 'number') {
+        return parseFloat(value).toFixed(3);
+    }
+    return value.toFixed(3);
+};
+
 const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
     const [showFundamentalsTip, setShowFundamentalsTip] = useState(false);
     console.log(coin)
@@ -128,7 +135,16 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                     <div>
                         <div className="flex justify-between text-sm">
                             <span className="text-gray-500">{`All Time High Change`}</span>
-                            <span>{`${coin?.ath_change_percentage}%`}</span>
+                            {/* <span>{`${coin?.ath_change_percentage}%`}</span> */}
+                            <span
+                            className={`${
+                                (coin?.ath_change_percentage ?? 0) >= 0
+                                    ? 'text-green-500'
+                                    : 'text-red-500'
+                            }`}
+                        >
+                            {`${formatPercentage(coin?.ath_change_percentage ?? 0)}%`}
+                        </span>
                         </div>
                         <hr className="border-gray-400 my-4" />
                     </div>
