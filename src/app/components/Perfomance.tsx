@@ -57,28 +57,64 @@ export const formatPercentage = (value: number) => {
 const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
     const [showFundamentalsTip, setShowFundamentalsTip] = useState(false);
 
+    const getTodayTrianglePosition = () => {
+        if (!coin) return '0%';
+
+        const low = coin.low_24h ?? 0;
+        const high = coin.high_24h ?? 0;
+        const current = coin.current_price ?? 0;
+
+        if (high === low) return '0%';
+
+        const percentage = ((current - low) / (high - low)) * 100;
+        return `${percentage}%`;
+    };
+
+    const getAllTimeTrianglePosition = () => {
+        if (!coin) return '0%';
+
+        const low = coin.atl ?? 0;
+        const high = coin.ath ?? 0;
+        const current = coin.current_price ?? 0;
+
+        if (high === low) return '0%';
+
+        const percentage = ((current - low) / (high - low)) * 100;
+        return `${percentage}%`;
+    };
+
     return (
         <ReusableTile title={`${coin?.name} Perfomance`}>
             <div className="flex flex-col">
 
-                <div className="flex text-sm mb-8">
+                <div className="flex text-sm mb-8 relative">
                     <div>
                         <p className="mb-2 w-24 text-gray-600">Today&apos;s Low</p>
                         <p>{formatAsUSD(coin?.low_24h ?? 0)}</p>
                     </div>
-                    <div className="h-1.5 w-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 rounded-lg self-center mx-2 lg:mx-14"></div>
+                    <div className="h-1.5 w-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 rounded-lg self-center mx-2 lg:mx-14 relative">
+                        <div
+                            className="absolute top-1 w-0 h-0 border-l-[8px] border-r-[8px] border-b-[16px] border-transparent border-b-sky-700"
+                            style={{ left: getTodayTrianglePosition(), transform: 'translateX(-50%)' }}
+                        />
+                    </div>
                     <div>
                         <p className="mb-2 w-24 text-end text-gray-600">Today&apos;s High</p>
                         <p className="text-end">{formatAsUSD(coin?.high_24h ?? 0)}</p>
                     </div>
                 </div>
 
-                <div className="flex text-sm mb-8">
+                <div className="flex text-sm mb-8 relative">
                     <div>
                         <p className="mb-2 w-24 text-gray-600">All Time Low</p>
                         <p>{formatAsUSD(coin?.atl ?? 0)}</p>
                     </div>
-                    <div className="h-1.5 w-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 rounded-lg self-center mx-2 lg:mx-14"></div>
+                    <div className="h-1.5 w-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 rounded-lg self-center mx-2 lg:mx-14 relative">
+                        <div
+                            className="absolute top-1 w-0 h-0 border-l-[8px] border-r-[8px] border-b-[16px] border-transparent border-b-sky-700"
+                            style={{ left: getAllTimeTrianglePosition(), transform: 'translateX(-50%)' }}
+                        />
+                    </div>
                     <div>
                         <p className="mb-2 w-24 text-end text-gray-600">All Time High</p>
                         <p className="text-end">{formatAsUSD(coin?.ath ?? 0)}</p>
@@ -106,7 +142,7 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-20">
-                    
+
                     <div>
                         <div className="flex justify-between text-sm">
                             <span className="text-gray-500">Market Rank</span>
@@ -114,15 +150,7 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                         </div>
                         <hr className="border-gray-400 my-4" />
                     </div>
-                    <div>
-                        <div className="flex justify-between text-sm">
-                            <span className="text-gray-500">{`All Time High Date`}</span>
-                            <span>{formatDate(coin?.ath_date ?? new Date())}</span>
-                        </div>
-                        <hr className="border-gray-400 my-4" />
-                    </div>
-
-
+                    
                     <div>
                         <div className="flex justify-between text-sm">
                             <span className="text-gray-500">Symbol</span>
@@ -133,21 +161,6 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                         </div>
                         <hr className="border-gray-400 my-4" />
                     </div>
-                    <div>
-                        <div className="flex justify-between text-sm">
-                            <span className="text-gray-500">All Time High Change</span>
-                            <span
-                                className={`${
-                                    (coin?.ath_change_percentage ?? 0) >= 0
-                                        ? 'text-green-500'
-                                        : 'text-red-500'
-                                    }`}>
-                                {`${formatPercentage(coin?.ath_change_percentage ?? 0)} %`}
-                            </span>
-                        </div>
-                        <hr className="border-gray-400 my-4" />
-                    </div>
-
                     
                     <div>
                         <div className="flex justify-between text-sm">
@@ -156,14 +169,6 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                         </div>
                         <hr className="border-gray-400 my-4" />
                     </div>
-                    <div>
-                        <div className="flex justify-between text-sm">
-                            <span className="text-gray-500">{`All Time Low Date`}</span>
-                            <span>{formatDate(coin?.atl_date ?? new Date())}</span>
-                        </div>
-                        <hr className="border-gray-400 my-4" />
-                    </div>
-
                     
                     <div>
                         <div className="flex justify-between text-sm">
@@ -179,6 +184,54 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                         </div>
                         <hr className="border-gray-400 my-4" />
                     </div>
+
+                    <div>
+                        <div className="flex justify-between text-sm">
+                            <span className="text-gray-500">Market Cap</span>
+                            <span>{formatAsUSD(coin?.market_cap ?? 0)}</span>
+                        </div>
+                        <hr className="border-gray-400 my-4" />
+                    </div>
+                    
+                    <div>
+                        <div className="flex justify-between text-sm">
+                            <span className="text-gray-500">Total Volume</span>
+                            <span>{formatAsUSD(coin?.total_volume ?? 0)}</span>
+                        </div>
+                        <hr className="border-gray-400 my-4" />
+                    </div>
+
+                    <div>
+                        <div className="flex justify-between text-sm">
+                            <span className="text-gray-500">{`All Time High Date`}</span>
+                            <span>{formatDate(coin?.ath_date ?? new Date())}</span>
+                        </div>
+                        <hr className="border-gray-400 my-4" />
+                    </div>
+
+                    <div>
+                        <div className="flex justify-between text-sm">
+                            <span className="text-gray-500">All Time High Change</span>
+                            <span
+                                className={`${
+                                    (coin?.ath_change_percentage ?? 0) >= 0
+                                        ? 'text-green-500'
+                                        : 'text-red-500'
+                                    }`}>
+                                {`${formatPercentage(coin?.ath_change_percentage ?? 0)} %`}
+                            </span>
+                        </div>
+                        <hr className="border-gray-400 my-4" />
+                    </div>
+
+                    <div>
+                        <div className="flex justify-between text-sm">
+                            <span className="text-gray-500">{`All Time Low Date`}</span>
+                            <span>{formatDate(coin?.atl_date ?? new Date())}</span>
+                        </div>
+                        <hr className="border-gray-400 my-4" />
+                    </div>
+
                     <div>
                         <div className="flex justify-between text-sm">
                             <span className="text-gray-500">All Time Low Change</span>
@@ -196,13 +249,6 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
 
                     <div>
                         <div className="flex justify-between text-sm">
-                            <span className="text-gray-500">Market Cap</span>
-                            <span>{formatAsUSD(coin?.market_cap ?? 0)}</span>
-                        </div>
-                        <hr className="border-gray-400 my-4" />
-                    </div>
-                    <div>
-                        <div className="flex justify-between text-sm">
                             <span className="text-gray-500">Price Change In 7 Days</span>
                             <span
                                 className={`${
@@ -216,14 +262,6 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                         <hr className="border-gray-400 my-4" />
                     </div>
 
-                    
-                    <div>
-                        <div className="flex justify-between text-sm">
-                            <span className="text-gray-500">Total Volume</span>
-                            <span>{formatAsUSD(coin?.total_volume ?? 0)}</span>
-                        </div>
-                        <hr className="border-gray-400 my-4" />
-                    </div>
                     <div>
                         <div className="flex justify-between text-sm">
                             <span className="text-gray-500">Price Change In 1 Year</span>
@@ -238,7 +276,7 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                         </div>
                         <hr className="border-gray-400 my-4" />
                     </div>
-                    
+
                 </div>
             </div>
         </ReusableTile>
