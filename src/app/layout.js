@@ -5,7 +5,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "KoinY",
-  description: "KoinY is the only tool you need for crypto trading",
+  description: "KoinY is the only tool you need for crypto tracking",
 };
 
 export default function RootLayout({ children }) {

@@ -12,7 +12,7 @@ const Banner = () => {
             <img className="w-40 h-40 mt-4" src="./placeholder3.png" />
             
             <a href="https://accounts.coinbase.com/signup" target="_blanc">
-                <button className="flex bg-white text-black rounded-xl py-3 px-4 mt-4 font-semibold text-sm hover:bg-gray-300 hover:scale-110 duration-200 easy-in-out"> 
+                <button className="flex bg-white text-black rounded-xl py-3 px-4 mt-4 font-semibold text-sm hover:bg-sky-400 duration-200 easy-in-out"> 
                     <p>Get Started for FREE</p>
                     <FaArrowRightLong className="self-center ml-2" />
                 </button>

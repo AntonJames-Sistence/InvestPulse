@@ -2,6 +2,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { HiMiniChevronDoubleRight } from "react-icons/hi2";
 import { useSearchParams } from 'next/navigation';
+import Perfomance from './Perfomance';
+import { formatAsUSD } from './Perfomance';
 
 interface CoinData {
   symbol: string,
@@ -10,7 +12,7 @@ interface CoinData {
   homepage: string,
   image: string,
   market_cap_rank: number,
-  current_price: string,
+  current_price: number,
   ath: number,
   ath_change_percentage: number,
   ath_date: Date,
@@ -101,54 +103,57 @@ const TradingViewWidget: React.FC = () => {
   };
   
   return (
-    <div className="flex flex-col">
-      <div className="py-4 flex">
-        <p className="text-gray-600">Cryptocurrencies</p>
-        <HiMiniChevronDoubleRight className="self-center ml-2 mr-1 text-gray-600" /> 
-        <p>{formatCoinName(coinName)}</p>
-      </div>
-
-      <div className="h-auto flex flex-col bg-white rounded-lg">
-        {!coinData ? (
-          <div className='m-10 self-center flex justify-center'>
-            <div className="loader"></div>
-          </div>
-        ):(
-          <div className='flex flex-col justify-between mx-5'>
-            <div className='flex flex-row mt-7 mb-10'>
-              <img src={coinData.image} alt={`${coinData.name} logo`} className='h-10 w-10 bg-white'></img>
-              <div className='text-black text-2xl font-semibold self-center mx-2'>{coinData.name}</div>
-              <div className='text-gray-500 self-center font-semibold mr-2'>{coinData.symbol}</div>
-
-              <div className='flex flex-row bg-gray-600 bg-opacity-70 rounded-lg p-2 ml-10 text-white self-center'>
-                {`Rank #${coinData.market_cap_rank}`}
-              </div>
-            </div>
-
-            <div className='flex flex-row'>
-              <div className='text-black text-3xl font-semibold self-center'>{`$${parseFloat(coinData.current_price).toFixed(2)}`}</div>
-
-              <div className={`flex flex-row bg-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'}-100 bg-opacity-50 rounded-md px-4 py-1 ml-6 mr-2 text-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'}-600 self-center`}>
-                <div className={`triangle-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'} self-center border-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'}`}></div>
-                <div>{`${Math.abs(coinData.price_change_percentage_24h)}%`}</div>
-              </div>
-
-              <div className="text-gray-500 text-sm self-center">{`(24H)`}</div>
-            </div>
-
-            <hr className='my-5 border-gray-400' />
-
-            <div className='mb-10 font-semibold text'>{`${coinData.name} Price Chart (USD)`}</div>
-          </div>
-          
-        )}
-        
-        <div className='mx-5 mb-5 z-10'>
-          <div className="tradingview-widget-container self-center" ref={container}></div>
+    <>
+      <div className="flex flex-col mb-8">
+        <div className="py-4 flex">
+          <p className="text-gray-600">Cryptocurrencies</p>
+          <HiMiniChevronDoubleRight className="self-center ml-2 mr-1 text-gray-600" /> 
+          <p>{formatCoinName(coinName)}</p>
         </div>
 
-      </div>                                                                 
-    </div>
+        <div className="h-auto flex flex-col bg-white rounded-lg">
+          {!coinData ? (
+            <div className='m-10 self-center flex justify-center'>
+              <div className="loader"></div>
+            </div>
+          ):(
+            <div className='flex flex-col justify-between mx-5'>
+              <div className='flex flex-row mt-7 mb-10'>
+                <img src={coinData.image} alt={`${coinData.name} logo`} className='h-10 w-10 bg-white'></img>
+                <div className='text-black text-2xl font-semibold self-center mx-2'>{coinData.name}</div>
+                <div className='text-gray-500 self-center font-semibold mr-2'>{coinData.symbol}</div>
+
+                <div className='flex flex-row bg-gray-600 bg-opacity-70 rounded-lg p-2 ml-10 text-white self-center'>
+                  {`Rank #${coinData.market_cap_rank}`}
+                </div>
+              </div>
+
+              <div className='flex flex-row'>
+                <div className='text-black text-3xl font-semibold self-center'>{formatAsUSD(coinData?.current_price ?? 0)}</div>
+
+                <div className={`flex flex-row bg-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'}-100 bg-opacity-50 rounded-md px-4 py-1 ml-6 mr-2 text-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'}-600 self-center`}>
+                  <div className={`triangle-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'} self-center border-${coinData.price_change_percentage_24h < 0 ? 'red' : 'green'}`}></div>
+                  <div>{`${Math.abs(coinData.price_change_percentage_24h)}%`}</div>
+                </div>
+
+                <div className="text-gray-500 text-sm self-center">{`(24H)`}</div>
+              </div>
+
+              <hr className='my-5 border-gray-400' />
+
+              <div className='mb-10 font-semibold text'>{`${coinData.name} Price Chart (USD)`}</div>
+            </div>
+            
+          )}
+          
+          <div className='mx-5 mb-5 z-10'>
+            <div className="tradingview-widget-container self-center" ref={container}></div>
+          </div>
+
+        </div>                                                                 
+      </div>
+      <Perfomance coin={coinData} />
+    </>
   );
 }
 
