@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { HiMiniChevronDoubleRight } from "react-icons/hi2";
 import { useSearchParams } from 'next/navigation';
 import Perfomance from './Perfomance';
+import { formatAsUSD } from './Perfomance';
 
 interface CoinData {
   symbol: string,
@@ -28,13 +29,6 @@ interface CoinData {
   price_change_percentage_1y: number,
   last_updated: Date;
 }
-
-const formatAsUSD = (value: number) => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }).format(value);
-};
 
 const TradingViewWidget: React.FC = () => {
   const searchParams = useSearchParams();
