@@ -117,25 +117,35 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                 <div className="flex text-sm mb-8 relative">
                     <div>
                         <p className="mb-2 w-24 text-gray-600">All Time Low</p>
-                        <p>{formatAsUSD(coin?.atl ?? 0)}</p>
+                        <p className="font-semibold">{formatAsUSD(coin?.atl ?? 0)}</p>
                     </div>
                     <div className="h-3 w-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 rounded-lg self-center mx-2 lg:mx-14 relative">
                         <div
-                            className="absolute top-1 w-0 h-0 border-l-[8px] border-r-[8px] border-b-[16px] border-transparent border-b-sky-700"
+                            className="absolute -top-4 w-0 h-0 border-l-[8px] border-r-[8px] border-t-[16px] border-transparent border-t-sky-500"
                             style={{ left: getTodaysHighTrianglePosition(), transform: 'translateX(-50%)' }}
-                        />
+                        >
+                            <div className="relative">
+                                <div className="absolute -mt-14 -left-8">
+                                    <p className="whitespace-nowrap">{`Today's High`}</p>
+                                    <p className="font-semibold">{formatAsUSD(coin?.high_24h ?? 0)}</p>
+                                </div>
+                            </div>
+                        </div>
                         <div
-                            className="absolute top-3 w-0 h-0 border-l-[8px] border-r-[8px] border-b-[16px] border-transparent border-b-sky-700"
+                            className="absolute top-3 w-0 h-0 border-l-[8px] border-r-[8px] border-b-[16px] border-transparent border-b-sky-500"
                             style={{ left: getTodaysLowTrianglePosition(), transform: 'translateX(-50%)' }}
                             >
-                            <div className="relative left-1/2 transform -translate-x-1/2">
-                                <p className="text-[10px] mt-3">Today's&nbsp;Low</p>
+                            <div className="relative">
+                                <div className="absolute mt-4 -left-8">
+                                    <p className="whitespace-nowrap">{`Today's Low`}</p>
+                                    <p className="font-semibold">{formatAsUSD(coin?.low_24h ?? 0)}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div>
                         <p className="mb-2 w-24 text-end text-gray-600">All Time High</p>
-                        <p className="text-end">{formatAsUSD(coin?.ath ?? 0)}</p>
+                        <p className="text-end font-semibold">{formatAsUSD(coin?.ath ?? 0)}</p>
                     </div>
                 </div>
 
