@@ -1,9 +1,8 @@
 import { NextRequest } from 'next/server';
-import { GET } from './route.ts'; // Path to GET endpoint
+import { GET } from './route'; // Path to coin/route.ts endpoint
 import fetchMock from 'jest-fetch-mock';
 import postgres from 'postgres';
 
-// Mock postgres module
 jest.mock('postgres');
 
 const mockPostgres = postgres as jest.MockedFunction<typeof postgres>;
@@ -11,10 +10,15 @@ const mockPostgres = postgres as jest.MockedFunction<typeof postgres>;
 describe('GET endpoint', () => {
     beforeEach(() => {
         fetchMock.resetMocks();
+        process.env.DATABASE_URL = 'postgresql://user:pass@localhost:5432/dbname'; // Ensure DATABASE_URL is defined for each test
+    });
+
+    afterEach(() => {
+        delete process.env.DATABASE_URL; // Clean up environment variable after each test
     });
 
     it('returns 400 if coinId is not provided', async () => {
-        const req = new Request('http://localhost/api?');
+        const req = new Request('http://localhost:3000/api/coin?id=');
         const res = await GET(req);
 
         expect(res.status).toBe(400);
@@ -22,8 +26,8 @@ describe('GET endpoint', () => {
     });
 
     it('returns 400 if DATABASE_URL is not defined', async () => {
-        const req = new Request('http://localhost/api?id=bitcoin');
-        delete process.env.DATABASE_URL; // Ensure DATABASE_URL is not defined
+        delete process.env.DATABASE_URL;
+        const req = new Request('http://localhost:3000/api/coin?id=bitcoin');
         const res = await GET(req);
 
         expect(res.status).toBe(400);
@@ -31,14 +35,12 @@ describe('GET endpoint', () => {
     });
 
     it('fetches coin data from Coingecko API and updates the database', async () => {
-        process.env.DATABASE_URL = 'postgresql://user:pass@localhost:5432/dbname'; // Mock database URL
-
         const mockSQL = {
             sql: jest.fn().mockResolvedValueOnce([]).mockResolvedValueOnce([{ id: 'bitcoin', last_updated: new Date() }])
         };
         mockPostgres.mockReturnValue(mockSQL as any);
 
-        const req = new Request('http://localhost/api?id=bitcoin');
+        const req = new Request('http://localhost:3000/api/coin?id=bitcoin');
 
         const mockResponseData = {
             id: 'bitcoin',
@@ -80,8 +82,6 @@ describe('GET endpoint', () => {
     });
 
     it('returns coin data from the database if it was updated within 24 hours', async () => {
-        process.env.DATABASE_URL = 'postgresql://user:pass@localhost:5432/dbname'; // Mock database URL
-
         const recentDate = new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(); // 2 hours ago
 
         const mockSQL = {
@@ -89,7 +89,7 @@ describe('GET endpoint', () => {
         };
         mockPostgres.mockReturnValue(mockSQL as any);
 
-        const req = new Request('http://localhost/api?id=bitcoin');
+        const req = new Request('http://localhost:3000/api/coin?id=bitcoin');
         const res = await GET(req);
         const jsonData = await res.json();
 
