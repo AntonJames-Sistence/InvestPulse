@@ -2,23 +2,14 @@
 import React, { useState } from "react";
 import { navLinks } from "../data/navLinks";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useAuth0 } from "@auth0/auth0-react";
+import LoginButton from "./Auth/LoginButton"
+import LogoutButton from "./Auth/LogoutButton"
 
 const NavBar: React.FC = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
-    };
-
-    const LoginButton: React.FC = () => {
-        const { loginWithRedirect } = useAuth0();
-        return <button className="hidden lg:block bg-blue-700 hover:bg-blue-400 duration-200 easy-in-out text-white font-[500] py-2 px-6 h-10 self-center rounded-xl" onClick={() => loginWithRedirect()}>Log In</button>;
-    };
-
-    const LogoutButton: React.FC = () => {
-        const { logout } = useAuth0();
-        return <button className="hidden lg:block bg-blue-700 hover:bg-blue-400 duration-200 easy-in-out text-white font-[500] py-2 px-6 h-10 self-center rounded-xl" onClick={() => logout()}>Logout</button>;
     };
 
     return (
