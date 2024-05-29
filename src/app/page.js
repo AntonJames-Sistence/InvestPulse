@@ -20,16 +20,13 @@ export default function Home() {
   const authDomain = process.env.AUTH_PROVIDER_DOMAIN;
   const authClientId = process.env.AUTH_PROVIDER_CLIENTID;
 
-  const onRedirectCallback = (appState) => {
-    router.push(appState?.returnTo || '/');
-  };
-
   return (
     <Auth0Provider
-      domain={authClientId}
-      clientId={authDomain}
-      redirectUri={typeof window !== 'undefined' ? window.location.origin : ''}
-      onRedirectCallback={onRedirectCallback}
+      domain={authDomain}
+      clientId={authClientId}
+      authorizationParams={{
+        redirect_uri: 'http://localhost:3000'
+      }}
     >
       <main className="flex w-full flex-col justify-between bg-gray-200">
         <Toaster position="top-center" reverseOrder={false} />
