@@ -61,7 +61,7 @@ const NavBar: React.FC = () => {
                 <div className="flex flex-row">
                     {isAuthenticated ? (
                         <div className="flex items-center">
-                            <Profile />
+                            {/* <Profile /> */}
                             <LogoutButton />
                         </div>
                     ) : (
