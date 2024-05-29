@@ -5,11 +5,12 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import LoginButton from "./Auth/LoginButton";
 import LogoutButton from "./Auth/LogoutButton";
 import Profile from "./Auth/Profile";
-import { useAuth0 } from '@auth0/auth0-react';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 const NavBar: React.FC = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const { isAuthenticated } = useAuth0();
+    const { user } = useUser();
+    const isAuthenticated = user !== undefined;
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -61,7 +62,7 @@ const NavBar: React.FC = () => {
                 <div className="flex flex-row">
                     {isAuthenticated ? (
                         <div className="flex items-center">
-                            {/* <Profile /> */}
+                            <Profile />
                             <LogoutButton />
                         </div>
                     ) : (
