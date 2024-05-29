@@ -27,7 +27,7 @@ export default function Home() {
     >
       <main className="flex w-full flex-col justify-between bg-gray-200">
         <Toaster position="top-center" reverseOrder={false} />
-        {/* <NavBar/> */}
+        <NavBar/>
 
         <div className="flex flex-col lg:flex-row self-center w-full px-2 lg:px-16">
           <div className="flex flex-col w-full lg:w-5/6">

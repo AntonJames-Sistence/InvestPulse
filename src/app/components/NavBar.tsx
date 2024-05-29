@@ -11,14 +11,14 @@ const NavBar: React.FC = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    const LoginButton = () => {
+    const LoginButton: React.FC = () => {
         const { loginWithRedirect } = useAuth0();
-        return <button onClick={() => loginWithRedirect()}>Log In</button>;
+        return <button className="hidden lg:block bg-blue-700 hover:bg-blue-400 duration-200 easy-in-out text-white font-[500] py-2 px-6 h-10 self-center rounded-xl" onClick={() => loginWithRedirect()}>Log In</button>;
     };
 
-    const LogoutButton = () => {
+    const LogoutButton: React.FC = () => {
         const { logout } = useAuth0();
-        return <button onClick={() => logout()}>Log In</button>;
+        return <button className="hidden lg:block bg-blue-700 hover:bg-blue-400 duration-200 easy-in-out text-white font-[500] py-2 px-6 h-10 self-center rounded-xl" onClick={() => logout()}>Logout</button>;
     };
 
     return (
@@ -64,7 +64,9 @@ const NavBar: React.FC = () => {
                     ))}
                 </div>
 
-                <div>
+                <div className="flex flex-row">
+                    <LoginButton />
+                    <LogoutButton />
                 </div>
                 {/* <a href="https://www.coinbase.com/signup" target="_blanc">
                     <button className="hidden lg:block bg-blue-700 hover:bg-blue-400 duration-200 easy-in-out text-white font-[500] py-2 px-6 ml-10 h-10 self-center rounded-xl">
