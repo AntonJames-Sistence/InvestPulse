@@ -2,12 +2,23 @@
 import React, { useState } from "react";
 import { navLinks } from "../data/navLinks";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { useAuth0 } from "@auth0/auth0-react";
 
-const NavBar = () => {
+const NavBar: React.FC = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
+    };
+
+    const LoginButton = () => {
+        const { loginWithRedirect } = useAuth0();
+        return <button onClick={() => loginWithRedirect()}>Log In</button>;
+    };
+
+    const LogoutButton = () => {
+        const { logout } = useAuth0();
+        return <button onClick={() => logout()}>Log In</button>;
     };
 
     return (
@@ -53,11 +64,13 @@ const NavBar = () => {
                     ))}
                 </div>
 
-                <a href="https://www.coinbase.com/signup" target="_blanc">
+                <div>
+                </div>
+                {/* <a href="https://www.coinbase.com/signup" target="_blanc">
                     <button className="hidden lg:block bg-blue-700 hover:bg-blue-400 duration-200 easy-in-out text-white font-[500] py-2 px-6 ml-10 h-10 self-center rounded-xl">
                         Get Started
                     </button>
-                </a>
+                </a> */}
             </div>
         </nav>
     )
