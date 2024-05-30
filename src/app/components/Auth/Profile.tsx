@@ -10,7 +10,6 @@ const Profile: React.FC = () => {
   return (
     user && (
       <div>
-        {user.picture && <img src={user.picture} alt={user.name ?? ''} />}
         <h2>{user.name}</h2>
         <p>{user.email}</p>
       </div>
