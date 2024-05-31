@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import postgres from 'postgres';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
+
+const generateSessionToken = () => crypto.randomBytes(32).toString('hex');
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== 'POST') {
@@ -25,14 +28,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Hashing password...
     const hashedPassword = await bcrypt.hash(password, 10);
+    // Generating session token...
+    const sessionToken = generateSessionToken();
     // Connecting to DB...
     const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
 
     // Creating user...
     try {
         await sql`
-            INSERT INTO users (username, email, password)
-            VALUES (${username}, ${email}, ${hashedPassword})
+            INSERT INTO users (username, email, password, session_token)
+            VALUES (${username}, ${email}, ${hashedPassword}, ${sessionToken})
         `;
         return new Response(``, {
             status: 200,
@@ -45,3 +50,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       });
     }
 }
+
+// users table schema
+// -- Drop the existing users table
+// DROP TABLE IF EXISTS users;
+
+// -- Create the new users table with an additional session_token column
+// CREATE TABLE users (
+//     id SERIAL PRIMARY KEY,
+//     username VARCHAR(50) UNIQUE NOT NULL,
+//     email VARCHAR(100) UNIQUE NOT NULL,
+//     password VARCHAR(255) NOT NULL,
+//     session_token VARCHAR(64), -- New column for session token
+//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+// );
