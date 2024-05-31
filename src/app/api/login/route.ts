@@ -8,7 +8,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
 const generateSessionToken = () => crypto.randomBytes(32).toString('hex');
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export const POST = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== 'POST'){
         return res.status(405).json({ message: 'Method Not Allowed' });
     };
