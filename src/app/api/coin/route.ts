@@ -5,7 +5,6 @@ export async function GET(req: Request | NextRequest) {
     const reqUrl = new URL(req.url || '');
     const searchParam = new URLSearchParams(reqUrl.searchParams);
     const coinId = searchParam.get('id');
-    // console.log('id:', coinId);
     
     if (!coinId) {
         return new Response('', {

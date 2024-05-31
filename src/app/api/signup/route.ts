@@ -1,53 +1,41 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import postgres from 'postgres';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
+import { parseBody } from '../../utils/parseBody';
 
 const generateSessionToken = () => crypto.randomBytes(32).toString('hex');
 
-export const POST = async (req: NextApiRequest, res: NextApiResponse) => {
-    if (req.method !== 'POST') {
-        return res.status(405).json({ message: 'Method Not Allowed' });
-    }
-    const { username, email, password } = req.body;
+export const POST = async (req: NextRequest, res: NextResponse) => {
+    const body = await parseBody(req);
+    const { username, email, password } = body;
+    console.log(req.body)
 
     // Check for credentials
     if (!username || !email || !password) {
-        return new Response('', {
-            status: 400,
-            statusText: `Did not receive all credentials`
-          });
+        return NextResponse.json({ message: 'All fields are required' }, { status: 500 });
     };
     // Check connection to Database
     if (!process.env.DATABASE_URL) {
-        return new Response(``, {
-          status: 400,
-          statusText: `Couldn't reach DB, please check your key`
-        })
+        return NextResponse.json({ message: `Couldn't reach DB, please check your key` }, { status: 500 });
     };
 
-    // Hashing password...
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-    // Generating session token...
+    // Generate session token
     const sessionToken = generateSessionToken();
-    // Connecting to DB...
+    // Connect to DB
     const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
 
-    // Creating user...
+    // Create user
     try {
         await sql`
             INSERT INTO users (username, email, password, session_token)
             VALUES (${username}, ${email}, ${hashedPassword}, ${sessionToken})
         `;
-        return new Response(``, {
-            status: 200,
-            statusText: 'Successfully created user'
-        });
+        return NextResponse.json({ message: 'User created successfully', sessionToken }, { status: 201 });
     } catch (error) {
-      return new Response(``, {
-        status: 400,
-        statusText: `Couldn't create user, ${error}`
-      });
+        return NextResponse.json({ message: `Error creating user: ${error}` }, { status: 500 });
     }
 }
 
