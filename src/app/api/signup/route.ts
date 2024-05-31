@@ -2,18 +2,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import postgres from 'postgres';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
-import { parseBody } from '../../utils/parseBody';
 
 const generateSessionToken = () => crypto.randomBytes(32).toString('hex');
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
-    const body = await parseBody(req);
+    const body = await req.json();
     const { username, email, password } = body;
     console.log(req.body)
 
     // Check for credentials
     if (!username || !email || !password) {
-        return NextResponse.json({ message: 'All fields are required' }, { status: 500 });
+        return NextResponse.json({ message: 'All fields are required' }, { status: 400 });
     };
     // Check connection to Database
     if (!process.env.DATABASE_URL) {

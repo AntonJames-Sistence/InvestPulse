@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import postgres from "postgres";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -8,20 +8,17 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
 const generateSessionToken = () => crypto.randomBytes(32).toString('hex');
 
-export const POST = async (req: NextApiRequest, res: NextApiResponse) => {
-    if (req.method !== 'POST'){
-        return res.status(405).json({ message: 'Method Not Allowed' });
-    };
-
+export const POST = async (req: NextRequest, res: NextResponse) => {
     // Checking email and password from request
-    const { email, password } = req.body;
+    const body = await req.json();
+    const { email, password } = body;
     if (!email || !password){
-        return res.status(400).json({ message: 'All fields Are required' });
+        return NextResponse.json({ message: 'All fields are required' }, { status: 400 });
     };
 
     // Connecting to DB...
     if (!process.env.DATABASE_URL){
-        return res.status(400).json({ message: `Couldn't reach DB, please check your key` });
+        return NextResponse.json({ message: `Couldn't reach DB, please check your key` }, { status: 500 });
     }
     const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
 
@@ -32,7 +29,7 @@ export const POST = async (req: NextApiRequest, res: NextApiResponse) => {
 
         // Comparing password...
         if (!user || !(await bcrypt.compare(password, user.password))){
-            return res.status(400).json({ message: 'Invalid credentials' });
+            return NextResponse.json({ message: 'Invalid credentials' }, { status: 400 });
         }
 
         // Generate and Update session token for user in DB
@@ -42,10 +39,12 @@ export const POST = async (req: NextApiRequest, res: NextApiResponse) => {
         // Set JWT token and exparation time
         const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' });
 
-        res.setHeader('Set-Cookie', `token=${token}; HttpOnly; Path=/`);
-        res.status(200).json({ message: 'Login successful', sessionToken });
+        const response = NextResponse.json({ message: 'Login successful', sessionToken });
+        response.cookies.set('token', token, { httpOnly: true, path: '/' });
+
+        return response;
     } catch (error) {
-        res.status(500).json({ message: 'Error logging in', error });
+        return NextResponse.json({ message: `Error logging in: ${error}` }, { status: 500 });
     }
 
 };
