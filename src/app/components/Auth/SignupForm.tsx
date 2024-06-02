@@ -34,8 +34,8 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Sign Up</h2>
+    <form className='flex flex-col' onSubmit={handleSubmit}>
+      <h2 className='text-2xl'>Sign Up</h2>
       <input
         type="text"
         placeholder="Username"
@@ -64,7 +64,7 @@ const Signup: React.FC = () => {
         onChange={(e) => setConfirmPassword(e.target.value)}
         required
       />
-      <button type="submit">Sign Up</button>
+      <button className="hidden my-4 lg:block bg-blue-700 hover:bg-blue-400 duration-200 easy-in-out text-white font-[500] px-6 h-8 self-center rounded-xl" type="submit">Sign Up</button>
     </form>
   );
 };

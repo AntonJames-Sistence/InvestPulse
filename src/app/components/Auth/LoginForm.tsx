@@ -25,8 +25,8 @@ const Login: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Login</h2>
+    <form onSubmit={handleSubmit} className='flex flex-col'>
+      <h2 className='text-2xl'>Login</h2>
       <input
         type="email"
         placeholder="Email"
@@ -41,7 +41,7 @@ const Login: React.FC = () => {
         onChange={(e) => setPassword(e.target.value)}
         required
       />
-      <button type="submit">Login</button>
+      <button className="hidden my-4 lg:block bg-blue-700 hover:bg-blue-400 duration-200 easy-in-out text-white font-[500] px-6 h-8 self-center rounded-xl" type="submit"><p>Login</p></button>
     </form>
   );
 };

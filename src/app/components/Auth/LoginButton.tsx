@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from '../Modal/Modal';
-import Login from './Login';
-import Signup from './Signup';
+import Login from './LoginForm';
+import Signup from './SignupForm';
 
 const LoginButton: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -17,22 +17,24 @@ const LoginButton: React.FC = () => {
         onClick={openModal}
         className="hidden lg:block bg-blue-700 hover:bg-blue-400 duration-200 easy-in-out text-white font-[500] py-2 px-6 h-10 self-center rounded-xl"
       >
-        Log In
+        Login
       </button>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {isLogin ? (
           <>
             <Login />
-            <p>
-              Don't have an account? <button onClick={toggleForm}>Sign Up</button>
-            </p>
+            <div>
+              <p>Don't have an account?</p>
+              <button className="hidden my-2 lg:block bg-blue-700 hover:bg-blue-400 duration-200 easy-in-out text-white font-[500] px-6 h-8 self-center rounded-xl" onClick={toggleForm}>Sign Up</button>
+            </div>
           </>
         ) : (
           <>
             <Signup />
-            <p>
-              Already have an account? <button onClick={toggleForm}>Log In</button>
-            </p>
+            <div>
+              <p>Already have an account?</p>
+              <button className="hidden my-2 lg:block bg-blue-700 hover:bg-blue-400 duration-200 easy-in-out text-white font-[500] px-6 h-8 self-center rounded-xl" onClick={toggleForm}>Login</button>
+            </div>
           </>
         )}
       </Modal>
