@@ -30,10 +30,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   return (
     <div
       id="modalOverlay"
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+      className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50"
       onClick={handleOverlayClick}
     >
-      <div className="bg-white p-5 rounded-lg w-full max-w-md relative">
+      <div className="bg-white w-full max-w-md relative rounded-xl">
         <button
           className="absolute top-2 right-2 bg-transparent border-none text-xl cursor-pointer"
           onClick={onClose}
