@@ -25,14 +25,15 @@ const Login: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className='flex flex-col'>
-      <h2 className='text-2xl'>Login</h2>
+    <form onSubmit={handleSubmit} className="flex flex-col p-6 max-w-sm mx-auto bg-white rounded-lg shadow-md space-y-4">
+      <h2 className="text-2xl font-semibold text-gray-700">Login</h2>
       <input
         type="email"
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
+        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
       <input
         type="password"
@@ -40,8 +41,14 @@ const Login: React.FC = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
+        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
-      <button className="hidden my-4 lg:block bg-blue-700 hover:bg-blue-400 duration-200 easy-in-out text-white font-[500] px-6 h-8 self-center rounded-xl" type="submit"><p>Login</p></button>
+      <button
+        type="submit"
+        className="mt-4 bg-blue-700 hover:bg-blue-400 text-white font-medium py-2 px-4 rounded-xl transition duration-200 ease-in-out"
+      >
+        Login
+      </button>
     </form>
   );
 };

@@ -15,7 +15,7 @@ const LoginButton: React.FC = () => {
     <>
       <button
         onClick={openModal}
-        className="hidden lg:block bg-blue-700 hover:bg-blue-400 duration-200 easy-in-out text-white font-[500] py-2 px-6 h-10 self-center rounded-xl"
+        className="bg-blue-700 hover:bg-blue-400 transition duration-200 ease-in-out text-white font-medium py-2 px-6 h-10 rounded-xl"
       >
         Login
       </button>
@@ -23,17 +23,27 @@ const LoginButton: React.FC = () => {
         {isLogin ? (
           <>
             <Login />
-            <div>
-              <p>Don't have an account?</p>
-              <button className="hidden my-2 lg:block bg-blue-700 hover:bg-blue-400 duration-200 easy-in-out text-white font-[500] px-6 h-8 self-center rounded-xl" onClick={toggleForm}>Sign Up</button>
+            <div className="mt-4 text-center">
+              <p className="text-gray-600 text-lg">Don't have an account?</p>
+              <button
+                className="mt-2 bg-blue-700 hover:bg-blue-400 transition duration-200 ease-in-out text-white font-medium py-2 px-6 h-10 rounded-xl"
+                onClick={toggleForm}
+              >
+                Sign Up
+              </button>
             </div>
           </>
         ) : (
           <>
             <Signup />
-            <div>
-              <p>Already have an account?</p>
-              <button className="hidden my-2 lg:block bg-blue-700 hover:bg-blue-400 duration-200 easy-in-out text-white font-[500] px-6 h-8 self-center rounded-xl" onClick={toggleForm}>Login</button>
+            <div className="mt-4 text-center">
+              <p className="text-gray-600 text-lg">Already have an account?</p>
+              <button
+                className="mt-2 bg-blue-700 hover:bg-blue-400 transition duration-200 ease-in-out text-white font-medium py-2 px-6 h-10 rounded-xl"
+                onClick={toggleForm}
+              >
+                Login
+              </button>
             </div>
           </>
         )}
