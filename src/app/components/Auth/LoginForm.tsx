@@ -30,7 +30,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm }) => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box component="form" onSubmit={handleSubmit} sx={{ borderRadius: 3, p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
       <Typography variant="h5">Login</Typography>
       <TextField
         label="Email"
@@ -46,7 +46,17 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm }) => {
         onChange={(e) => setPassword(e.target.value)}
         required
       />
-      <Button variant="contained" color="primary" type="submit">
+      <Button
+        variant="contained"
+        color="primary"
+        type="submit"
+        sx={{
+          ':hover': {
+            color: '#ffffff', // White text on hover
+          },
+          backgroundColor: '#1976d2'
+        }}
+      >
         Login
       </Button>
       <Typography variant="body2" align="center">

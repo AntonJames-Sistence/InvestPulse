@@ -17,7 +17,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
         color="inherit"
         onClick={onClose}
         aria-label="close"
-        style={{ position: 'absolute', right: 8, top: 8 }}
+        style={{ position: 'absolute', right: 14, top: 8 }}
       >
         <CloseIcon />
       </IconButton>

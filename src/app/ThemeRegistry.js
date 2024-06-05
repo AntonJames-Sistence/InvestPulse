@@ -5,18 +5,16 @@ import CssBaseline from '@mui/material/CssBaseline';
 import React from 'react';
 
 const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#00796b',  // Updated to a different shade of blue-green
-      },
-      secondary: {
-        main: '#ff5722',  // Updated to a different shade of orange
-      },
-      text: {
-        primary: '#000000',  // Ensure text is white on primary background
-        secondary: '#000000',  // Ensure text is black on secondary background
-      }
+  palette: {
+    primary: {
+        main: '#1976d2',
+        contrastText: '#ffffff',
     },
+    secondary: {
+        main: '#1976d2',
+        contrastText: '#000000',
+    },
+  },
 });
 
 export default function ThemeRegistry({ children }) {

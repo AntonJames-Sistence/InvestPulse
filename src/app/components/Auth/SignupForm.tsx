@@ -69,7 +69,17 @@ const SignupForm: React.FC<SignupFormProps> = ({ toggleForm }) => {
         onChange={(e) => setConfirmPassword(e.target.value)}
         required
       />
-      <Button variant="contained" color="primary" type="submit">
+      <Button
+        variant="contained"
+        color="primary"
+        type="submit"
+        sx={{
+          ':hover': {
+            color: '#ffffff', // White text on hover
+          },
+          backgroundColor: '#1976d2'
+        }}
+      >
         Sign Up
       </Button>
       <Typography variant="body2" align="center">
