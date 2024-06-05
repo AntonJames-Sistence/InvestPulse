@@ -1,8 +1,20 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { UserProvider } from '@auth0/nextjs-auth0/client';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 const inter = Inter({ subsets: ["latin"] });
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#dc004e',
+    },
+  },
+});
 
 export const metadata = {
   title: "KoinY",
@@ -15,9 +27,10 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
-      <UserProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
         <body className={inter.className}>{children}</body>
-      </UserProvider>
+      </ThemeProvider>
     </html>
   );
 }
