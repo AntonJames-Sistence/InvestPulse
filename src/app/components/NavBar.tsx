@@ -5,12 +5,9 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import LoginButton from "./Auth/LoginButton";
 import LogoutButton from "./Auth/LogoutButton";
 import Profile from "./Auth/Profile";
-import { useUser } from '@auth0/nextjs-auth0/client';
 
 const NavBar: React.FC = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const { user } = useUser();
-    const isAuthenticated = user !== undefined;
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -60,14 +57,7 @@ const NavBar: React.FC = () => {
                 </div>
 
                 <div className="flex flex-row">
-                    {isAuthenticated ? (
-                        <div className="flex items-center">
-                            <Profile />
-                            <LogoutButton />
-                        </div>
-                    ) : (
-                        <LoginButton />
-                    )}
+                    <LoginButton />
                 </div>
                 {/* <a href="https://www.coinbase.com/signup" target="_blanc">
                     <button className="hidden lg:block bg-blue-700 hover:bg-blue-400 duration-200 easy-in-out text-white font-[500] py-2 px-6 ml-10 h-10 self-center rounded-xl">

@@ -1,4 +1,7 @@
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode } from 'react';
+import Dialog from '@mui/material/Dialog';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface ModalProps {
   isOpen: boolean;
@@ -7,42 +10,19 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
-  useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose();
-      }
-    };
-    document.addEventListener('keydown', handleEscape);
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-    };
-  }, [onClose]);
-
-  if (!isOpen) return null;
-
-  const handleOverlayClick = (event: React.MouseEvent) => {
-    if ((event.target as HTMLElement).id === 'modalOverlay') {
-      onClose();
-    }
-  };
-
   return (
-    <div
-      id="modalOverlay"
-      className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50"
-      onClick={handleOverlayClick}
-    >
-      <div className="bg-white w-full max-w-md relative rounded-xl">
-        <button
-          className="absolute top-2 right-2 bg-transparent border-none text-xl cursor-pointer"
-          onClick={onClose}
-        >
-          &times;
-        </button>
-        {children}
-      </div>
-    </div>
+    <Dialog open={isOpen} onClose={onClose} maxWidth="xs" fullWidth>
+      <IconButton
+        edge="end"
+        color="inherit"
+        onClick={onClose}
+        aria-label="close"
+        style={{ position: 'absolute', right: 8, top: 8 }}
+      >
+        <CloseIcon />
+      </IconButton>
+      {children}
+    </Dialog>
   );
 };
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { TextField, Button, Typography, Box } from '@mui/material';
 import csrfFetch from '../../utils/csrfFetch';
 
 interface SignupFormProps {
@@ -17,8 +18,8 @@ const SignupForm: React.FC<SignupFormProps> = ({ toggleForm }) => {
       alert('Passwords do not match');
       return;
     }
-    if (password.length < 6 || !/[^A-Za-z0-9]/.test(password)) {
-      alert('Password must be at least 6 characters long and contain at least one symbol');
+    if (password.length < 10 || !/[^A-Za-z0-9]/.test(password)) {
+      alert('Password must be at least 10 characters long and contain at least one symbol');
       return;
     }
 
@@ -38,57 +39,46 @@ const SignupForm: React.FC<SignupFormProps> = ({ toggleForm }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col p-6 space-y-4">
-      <h2 className="text-2xl font-semibold text-gray-700">Sign Up</h2>
-      <input
+    <Box component="form" onSubmit={handleSubmit} sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <Typography variant="h5">Sign Up</Typography>
+      <TextField
+        label="Username"
         type="text"
-        placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         required
-        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
-      <input
+      <TextField
+        label="Email"
         type="email"
-        placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
-        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
-      <input
+      <TextField
+        label="Password"
         type="password"
-        placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
-        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
-      <input
+      <TextField
+        label="Confirm Password"
         type="password"
-        placeholder="Confirm Password"
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
         required
-        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
-      <button
-        type="submit"
-        className="mt-4 bg-blue-700 hover:bg-blue-400 text-white font-medium py-2 px-4 rounded-xl transition duration-200 ease-in-out"
-      >
+      <Button variant="contained" color="primary" type="submit">
         Sign Up
-      </button>
-      <div className="mt-4 text-center">
-        <p className="text-gray-600">Already have an account?</p>
-        <button
-          type="button"
-          className="mt-2 bg-blue-700 hover:bg-blue-400 transition duration-200 ease-in-out text-white font-medium py-2 px-6 h-10 rounded-xl"
-          onClick={toggleForm}
-        >
-          Login
-        </button>
-      </div>
-    </form>
+      </Button>
+      <Typography variant="body2" align="center">
+        Already have an account?
+      </Typography>
+      <Button onClick={toggleForm} variant="outlined" color="primary">
+        Login
+      </Button>
+    </Box>
   );
 };
 

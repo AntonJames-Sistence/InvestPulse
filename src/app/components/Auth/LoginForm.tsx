@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { TextField, Button, Typography, Box } from '@mui/material';
 import csrfFetch from '../../utils/csrfFetch';
 
 interface LoginFormProps {
@@ -29,41 +30,32 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col p-6 space-y-4">
-      <h2 className="text-2xl font-semibold text-gray-700">Login</h2>
-      <input
+    <Box component="form" onSubmit={handleSubmit} sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <Typography variant="h5">Login</Typography>
+      <TextField
+        label="Email"
         type="email"
-        placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
-        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
-      <input
+      <TextField
+        label="Password"
         type="password"
-        placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
-        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
-      <button
-        type="submit"
-        className="mt-4 bg-blue-700 hover:bg-blue-400 text-white font-medium py-2 px-4 rounded-xl transition duration-200 ease-in-out"
-      >
+      <Button variant="contained" color="primary" type="submit">
         Login
-      </button>
-      <div className="mt-4 text-center">
-        <p className="text-gray-600">Don't have an account?</p>
-        <button
-          type="button"
-          className="mt-2 bg-blue-700 hover:bg-blue-400 transition duration-200 ease-in-out text-white font-medium py-2 px-6 h-10 rounded-xl"
-          onClick={toggleForm}
-        >
-          Sign Up
-        </button>
-      </div>
-    </form>
+      </Button>
+      <Typography variant="body2" align="center">
+        Don't have an account?
+      </Typography>
+      <Button onClick={toggleForm} variant="outlined" color="primary">
+        Sign Up
+      </Button>
+    </Box>
   );
 };
 
