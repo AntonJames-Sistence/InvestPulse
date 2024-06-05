@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import TrendingCoinsSlider from './TrendingCoinsSlider';
+import { CircularProgress } from '@mui/material';
 
 const Footer = () => {
     const [trendingCoins, setTrendingCoins] = useState([]);
@@ -26,9 +27,7 @@ const Footer = () => {
     return (
         <div className='flex flex-col min-h-[400px] bg-white lg:p-10 p-2 py-4 lg:py-16'>
             {loading ? (
-                <div className="self-center lg:mt-20 text-black">
-                    <div className="loader"></div>
-                </div>
+                <CircularProgress />
             ) : (
                 <div>
                     <div className='font-semibold text-xl mb-8'>You May Also Like</div>

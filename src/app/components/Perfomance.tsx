@@ -2,6 +2,7 @@
 import ReusableTile from "./ReusableTile";
 import React, { useState } from "react";
 import { fundamentals } from "../data/fundamentals";
+import { CircularProgress } from "@mui/material";
 
 interface CoinData {
     symbol: string;
@@ -87,7 +88,7 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
         return (
             <ReusableTile title={`Coin Perfomance`}>
                 <div className='m-10 self-center flex justify-center'>
-                    <div className="loader"></div>
+                    <CircularProgress />
                 </div>
             </ReusableTile>
         )

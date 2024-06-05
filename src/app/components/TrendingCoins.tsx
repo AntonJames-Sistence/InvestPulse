@@ -3,6 +3,7 @@ import ReusableTile from "./ReusableTile";
 import React, { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import toast, { Toaster } from "react-hot-toast";
+import { CircularProgress } from "@mui/material";
 
 interface Coin {
     id: string,
@@ -91,7 +92,7 @@ const TrendingCoins: React.FC = () => {
                     </button>
                 </div>
             ) : (
-                <div className="self-center text-black"><div className="loader"></div></div>
+                <div className="self-center text-black"><CircularProgress /></div>
             )}
         </ReusableTile>
     )
