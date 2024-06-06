@@ -5,9 +5,8 @@ import bcrypt from 'bcryptjs';
 export const POST = async (req: NextRequest, res: NextResponse) => {
     const body = await req.json();
     const { username, email, password } = body;
-    console.log(req.body)
 
-    // Check for credentials
+    // Make sure credentials are received
     if (!username || !email || !password) {
         return NextResponse.json({ message: 'All fields are required' }, { status: 400 });
     };
@@ -21,7 +20,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
     // Connect to DB
     const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
 
-    // Create user
+    // Add user to DB
     try {
         await sql`
             INSERT INTO users (username, email, password, session_token)
