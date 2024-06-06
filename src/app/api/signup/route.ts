@@ -23,7 +23,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
     // Add user to DB
     try {
         await sql`
-            INSERT INTO users (username, email, password, session_token)
+            INSERT INTO users (username, email, password)
             VALUES (${username}, ${email}, ${hashedPassword})
         `;
         return NextResponse.json({ message: 'User created successfully'}, { status: 201 });

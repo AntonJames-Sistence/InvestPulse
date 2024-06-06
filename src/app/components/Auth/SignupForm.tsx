@@ -4,9 +4,10 @@ import csrfFetch from '../../utils/csrfFetch';
 
 interface SignupFormProps {
   toggleForm: () => void;
+  onClose: () => void;
 }
 
-const SignupForm: React.FC<SignupFormProps> = ({ toggleForm }) => {
+const SignupForm: React.FC<SignupFormProps> = ({ toggleForm, onClose }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -26,12 +27,13 @@ const SignupForm: React.FC<SignupFormProps> = ({ toggleForm }) => {
     try {
       const response = await csrfFetch('/api/signup', {
         method: 'POST',
-        body: JSON.stringify({ username, email, password, confirmPassword }),
+        body: JSON.stringify({ username, email, password }),
       });
       const data = await response.json();
       alert(data.message);
       if (data.sessionToken) {
         sessionStorage.setItem('sessionToken', data.sessionToken);
+        onClose();
       }
     } catch (error) {
       alert('Error signing up');

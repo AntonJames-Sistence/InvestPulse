@@ -5,7 +5,8 @@ import SignupForm from './SignupForm';
 
 const LoginButton: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(true); // Toggle between login and signup
+  // Toggle between login and signup
+  const [isLogin, setIsLogin] = useState(true); 
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
@@ -21,9 +22,9 @@ const LoginButton: React.FC = () => {
       </button>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {isLogin ? (
-          <LoginForm toggleForm={toggleForm} />
+          <LoginForm toggleForm={toggleForm} onClose={closeModal} />
         ) : (
-          <SignupForm toggleForm={toggleForm} />
+          <SignupForm toggleForm={toggleForm} onClose={closeModal} />
         )}
       </Modal>
     </>

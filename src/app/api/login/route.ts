@@ -34,6 +34,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
         // Set JWT token and exparation time
         const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' });
 
+        // Generate response and set cookies
         const response = NextResponse.json({ message: 'Login successful' });
         response.cookies.set('token', token, { httpOnly: true, path: '/' });
 

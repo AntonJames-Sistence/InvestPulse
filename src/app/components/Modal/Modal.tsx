@@ -21,7 +21,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
       >
         <CloseIcon />
       </IconButton>
-      {children}
+      {React.cloneElement(children as React.ReactElement<any>, { onClose })}
     </Dialog>
   );
 };
