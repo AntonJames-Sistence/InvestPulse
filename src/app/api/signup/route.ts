@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import postgres from 'postgres';
 import bcrypt from 'bcryptjs';
-import crypto from 'crypto';
-
-const generateSessionToken = () => crypto.randomBytes(32).toString('hex');
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
     const body = await req.json();
@@ -21,8 +18,6 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-    // Generate session token
-    const sessionToken = generateSessionToken();
     // Connect to DB
     const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
 
@@ -30,9 +25,9 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
     try {
         await sql`
             INSERT INTO users (username, email, password, session_token)
-            VALUES (${username}, ${email}, ${hashedPassword}, ${sessionToken})
+            VALUES (${username}, ${email}, ${hashedPassword})
         `;
-        return NextResponse.json({ message: 'User created successfully', sessionToken }, { status: 201 });
+        return NextResponse.json({ message: 'User created successfully'}, { status: 201 });
     } catch (error) {
         return NextResponse.json({ message: `Error creating user: ${error}` }, { status: 500 });
     }
