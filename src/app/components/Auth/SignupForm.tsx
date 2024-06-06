@@ -75,12 +75,6 @@ const SignupForm: React.FC<SignupFormProps> = ({ toggleForm, onClose }) => {
         variant="contained"
         color="primary"
         type="submit"
-        sx={{
-          ':hover': {
-            color: '#ffffff', // White text on hover
-          },
-          backgroundColor: '#1976d2'
-        }}
       >
         Sign Up
       </Button>

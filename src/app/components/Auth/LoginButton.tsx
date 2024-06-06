@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Modal from '../Modal/Modal';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
+import { Button } from '@mui/material';
 
 const LoginButton: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -14,12 +15,13 @@ const LoginButton: React.FC = () => {
 
   return (
     <>
-      <button
+      <Button
+        variant="contained"
+        color="primary"
         onClick={openModal}
-        className="bg-blue-700 hover:bg-blue-400 transition duration-200 ease-in-out text-white font-medium py-2 px-6 h-10 rounded-xl"
       >
         Login
-      </button>
+      </Button>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {isLogin ? (
           <LoginForm toggleForm={toggleForm} onClose={closeModal} />

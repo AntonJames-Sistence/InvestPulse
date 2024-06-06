@@ -56,12 +56,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
         variant="contained"
         color="primary"
         type="submit"
-        sx={{
-          ':hover': {
-            color: '#ffffff', // White text on hover
-          },
-          backgroundColor: '#1976d2'
-        }}
       >
         Login
       </Button>
