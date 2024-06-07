@@ -4,6 +4,7 @@ import { HiMiniChevronDoubleRight } from "react-icons/hi2";
 import { useSearchParams } from 'next/navigation';
 import Perfomance from './Perfomance';
 import { formatAsUSD } from './Perfomance';
+import { CircularProgress } from '@mui/material';
 
 interface CoinData {
   symbol: string,
@@ -114,7 +115,7 @@ const TradingViewWidget: React.FC = () => {
         <div className="h-auto flex flex-col bg-white rounded-lg">
           {!coinData ? (
             <div className='m-10 self-center flex justify-center'>
-              <div className="loader"></div>
+              <CircularProgress />
             </div>
           ):(
             <div className='flex flex-col justify-between mx-5'>

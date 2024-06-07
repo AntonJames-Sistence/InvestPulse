@@ -2,6 +2,7 @@
 import ReusableTile from "./ReusableTile";
 import React, { useState } from "react";
 import { fundamentals } from "../data/fundamentals";
+import { CircularProgress } from "@mui/material";
 
 interface CoinData {
     symbol: string;
@@ -87,7 +88,7 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
         return (
             <ReusableTile title={`Coin Perfomance`}>
                 <div className='m-10 self-center flex justify-center'>
-                    <div className="loader"></div>
+                    <CircularProgress />
                 </div>
             </ReusableTile>
         )
@@ -114,19 +115,19 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                     </div>
                 </div> */}
 
-                <div className="flex text-sm mb-8 relative">
+                <div className="flex flex-row text-xs md:text-sm my-10 md:mt-2 md:mb-10 relative">
                     <div>
-                        <p className="mb-2 w-24 text-gray-600">All Time Low</p>
+                        <p className="mb-2 text-gray-600">All&nbsp;Time Low</p>
                         <p className="font-semibold">{formatAsUSD(coin?.atl ?? 0)}</p>
                     </div>
-                    <div className="h-3 w-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 rounded-lg self-center mx-2 lg:mx-14 relative">
+                    <div className="h-3 mx-4 w-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 rounded-lg self-center mx-2 lg:mx-14 relative">
                         <div
                             className="absolute -top-4 w-0 h-0 border-l-[8px] border-r-[8px] border-t-[16px] border-transparent border-t-sky-500"
                             style={{ left: getTodaysHighTrianglePosition(), transform: 'translateX(-50%)' }}
                         >
-                            <div className="relative">
-                                <div className="absolute -mt-14 -left-8">
-                                    <p className="whitespace-nowrap">{`Today's High`}</p>
+                            <div className="relative text-[10px] md:text-sm">
+                                <div className="absolute -mt-12 md:-mt-14 -left-8">
+                                    <p className="whitespace-nowrap">Today&apos;s High</p>
                                     <p className="font-semibold">{formatAsUSD(coin?.high_24h ?? 0)}</p>
                                 </div>
                             </div>
@@ -135,16 +136,16 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                             className="absolute top-3 w-0 h-0 border-l-[8px] border-r-[8px] border-b-[16px] border-transparent border-b-sky-500"
                             style={{ left: getTodaysLowTrianglePosition(), transform: 'translateX(-50%)' }}
                             >
-                            <div className="relative">
+                            <div className="relative text-[10px] md:text-sm">
                                 <div className="absolute mt-4 -left-8">
-                                    <p className="whitespace-nowrap">{`Today's Low`}</p>
+                                    <p className="whitespace-nowrap">Today&apos;s Low</p>
                                     <p className="font-semibold">{formatAsUSD(coin?.low_24h ?? 0)}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div>
-                        <p className="mb-2 w-24 text-end text-gray-600">All Time High</p>
+                        <p className="mb-2 text-end text-gray-600">All&nbsp;Time High</p>
                         <p className="text-end font-semibold">{formatAsUSD(coin?.ath ?? 0)}</p>
                     </div>
                 </div>
