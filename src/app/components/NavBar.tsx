@@ -3,69 +3,68 @@ import React, { useState } from "react";
 import { navLinks } from "../data/navLinks";
 import { GiHamburgerMenu } from "react-icons/gi";
 import LoginButton from "./Auth/LoginButton";
-import LogoutButton from "./Auth/LogoutButton";
-import Profile from "./Auth/Profile";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { AppBar, Toolbar, IconButton, Menu, MenuItem, Button, Typography, Box } from "@mui/material";
+import Link from "next/link";
 
 const NavBar: React.FC = () => {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
+    const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
     };
 
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+    const renderNavLinks = () => 
+        navLinks.map((link, index) => (
+            <MenuItem key={index} onClick={handleMenuClose} component="a" href={link.href}>
+                {link.title}
+            </MenuItem>
+        ));
+    
+
     return (
-        <nav className="flex w-full bg-white px-4 lg:px-16 justify-between shadow-lg h-16 lg:h-20 relative">
-            <a href="/" className="flex h-3/4 self-center">
-                <img className="rounded-xl self-center h-[50px] lg:h-full" src="/koiny.jpeg" alt="Logo" />
-                <p className="self-center text-xl text-blue-700 uppercase font-bold ml-2">KoinY</p>
-            </a>
+        <AppBar position="static" color="default">
+            <Toolbar>
+                <Box display="flex" alignItems="center">
+                    <Link href="/" className="flex flex-center">
+                        <img className="rounded-xl self-center h-[50px]" src="/koiny.jpeg" alt="Koiny logo" />
+                        <Typography className="self-center" variant="h5" color="primary" component="p" sx={{ ml: 2, fontWeight: 'bold' }}>
+                            KoinY
+                        </Typography>
+                    </Link>
+                </Box>
 
-            <div className="flex items-center">
-                <div className="lg:hidden">
-                    <button 
-                        className="block self-center ml-4 focus:outline-none"
-                        onClick={toggleDropdown}
-                    >
-                        <GiHamburgerMenu className="text-xl" />
-                    </button>
-                    {isDropdownOpen && (
-                        <div className="absolute top-full left-0 bg-white w-full border shadow-lg">
-                            {navLinks.map((link, index) => (
-                                <a
-                                    key={index}
-                                    href={link.href}
-                                    className="block px-4 py-2 font-[500] text-center border-b last:border-0"
-                                    onClick={() => setIsDropdownOpen(false)}
-                                >
-                                    {link.title}
-                                </a>
-                            ))}
-                        </div>
-                    )}
-                </div>
+                <Box flexGrow={1} />
 
-                <div className="hidden lg:flex justify-between flex-grow">
-                    {navLinks.map((link, index) => (
-                        <a
-                            key={index}
-                            href={link.href}
-                            className="self-center mx-4 font-[500] hover:text-blue-500 duration-200 easy-in-out"
-                        >
-                            {link.title}
-                        </a>
-                    ))}
-                </div>
+                {isMobile ? (
+                    <Box display="flex" alignItems="center">
+                        <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleMenuOpen}>
+                            <GiHamburgerMenu />
+                        </IconButton>
+                        <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+                            {renderNavLinks()}
+                        </Menu>
+                    </Box>
+                ) : (
+                    <Box display="flex" alignItems="center">
+                        {navLinks.map((link, index) => (
+                            <Button key={index} href={link.href} sx={{ mx: 2 }} color="primary">
+                                {link.title}
+                            </Button>
+                        ))}
+                    </Box>
+                )}
 
-                <div className="flex flex-row">
-                    <LoginButton />
-                </div>
-                {/* <a href="https://www.coinbase.com/signup" target="_blanc">
-                    <button className="hidden lg:block bg-blue-700 hover:bg-blue-400 duration-200 easy-in-out text-white font-[500] py-2 px-6 ml-10 h-10 self-center rounded-xl">
-                        Get Started
-                    </button>
-                </a> */}
-            </div>
-        </nav>
+                <LoginButton />
+            </Toolbar>
+        </AppBar>
     )
 }
 
