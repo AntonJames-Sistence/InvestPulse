@@ -19,6 +19,14 @@ const LoginButton: React.FC = () => {
         variant="contained"
         color="primary"
         onClick={openModal}
+        sx={{
+          mx: 2,
+          // Ensure this style has higher specificity
+          '&.MuiButton-root': {
+            backgroundColor: '#1976d2',
+            color: '#ffffff',
+          },
+        }}
       >
         Login
       </Button>

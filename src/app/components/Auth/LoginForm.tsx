@@ -36,7 +36,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ borderRadius: 3, p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box mx={3} component="form" onSubmit={handleSubmit} sx={{ borderRadius: 3, p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
       <Typography variant="h5">Login</Typography>
       <TextField
         label="Email"
@@ -56,11 +56,18 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
         variant="contained"
         color="primary"
         type="submit"
+        sx={{
+          // Ensure this style has higher specificity
+          '&.MuiButton-root': {
+            backgroundColor: '#1976d2',
+            color: '#ffffff',
+          },
+        }}
       >
         Login
       </Button>
       <Typography variant="body2" align="center">
-        Don't have an account?
+        Don&apos;t have an account?
       </Typography>
       <Button onClick={toggleForm} variant="outlined" color="primary">
         Sign Up

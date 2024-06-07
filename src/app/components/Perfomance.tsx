@@ -127,7 +127,7 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                         >
                             <div className="relative text-[10px] md:text-sm">
                                 <div className="absolute -mt-12 md:-mt-14 -left-8">
-                                    <p className="whitespace-nowrap">Today's High</p>
+                                    <p className="whitespace-nowrap">Today&apos;s High</p>
                                     <p className="font-semibold">{formatAsUSD(coin?.high_24h ?? 0)}</p>
                                 </div>
                             </div>
@@ -138,7 +138,7 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                             >
                             <div className="relative text-[10px] md:text-sm">
                                 <div className="absolute mt-4 -left-8">
-                                    <p className="whitespace-nowrap">Today's Low</p>
+                                    <p className="whitespace-nowrap">Today&apos;s Low</p>
                                     <p className="font-semibold">{formatAsUSD(coin?.low_24h ?? 0)}</p>
                                 </div>
                             </div>

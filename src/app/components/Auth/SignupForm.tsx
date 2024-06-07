@@ -41,7 +41,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ toggleForm, onClose }) => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box mx={3} component="form" onSubmit={handleSubmit} sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
       <Typography variant="h5">Sign Up</Typography>
       <TextField
         label="Username"
@@ -75,6 +75,13 @@ const SignupForm: React.FC<SignupFormProps> = ({ toggleForm, onClose }) => {
         variant="contained"
         color="primary"
         type="submit"
+        sx={{
+          // Ensure this style has higher specificity
+          '&.MuiButton-root': {
+            backgroundColor: '#1976d2',
+            color: '#ffffff',
+          },
+        }}
       >
         Sign Up
       </Button>
