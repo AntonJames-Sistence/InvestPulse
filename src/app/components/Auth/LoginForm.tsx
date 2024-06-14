@@ -28,7 +28,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
         localStorage.setItem('token', data.token);
         sessionStorage.setItem('sessionToken', data.sessionToken);
         // Set authenticated state
-        login({ email });
+        login({ username: data.username });
         onClose();
       }
     } catch (error) {
@@ -58,7 +58,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
         color="primary"
         type="submit"
         sx={{
-          // Ensure this style has higher specificity
           '&.MuiButton-root': {
             backgroundColor: '#1976d2',
             color: '#ffffff',

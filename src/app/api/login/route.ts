@@ -31,11 +31,11 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
             return NextResponse.json({ message: 'Invalid credentials' }, { status: 400 });
         }
 
-        // Set JWT token and exparation time
-        const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' });
+        // Set JWT token, username and exparation time
+        const token = jwt.sign({ userId: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
 
         // Generate response and set cookies
-        const response = NextResponse.json({ message: 'Login successful' });
+        const response = NextResponse.json({ message: 'Login successful', token, username: user.username });
         response.cookies.set('token', token, { httpOnly: true, path: '/' });
 
         return response;

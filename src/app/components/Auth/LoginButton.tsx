@@ -19,7 +19,7 @@ const LoginButton: React.FC = () => {
     return (
       <>
         <Typography variant="body1" sx={{ mx: 2 }}>
-          {authState.user?.email}
+          {authState.user?.username}
         </Typography>
         <Button
           variant="contained"

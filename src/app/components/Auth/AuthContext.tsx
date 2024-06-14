@@ -1,14 +1,15 @@
 'use client';
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
 interface AuthState {
     isAuthenticated: boolean;
-    user: { email: string } | null;
+    user: { username: string } | null;
 }
 
 interface AuthContextType {
     authState: AuthState;
-    login: (user: { email: string }) => void;
+    login: (user: { username: string }) => void;
     logout: () => void;
 }
 
@@ -20,7 +21,25 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         user: null,
     });
 
-    const login = (user: { email: string }) => {
+    // Get token from local storage and set auth to current user
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            const decodedToken: any = jwtDecode(token);
+
+            if (decodedToken.exp * 1000 > Date.now()) {
+                
+                const username = decodedToken.username;
+                setAuthState({ isAuthenticated: true, user: { username } });
+            } else {
+                localStorage.removeItem('token');
+            }
+
+        }
+
+    }, []);
+
+    const login = (user: { username: string }) => {
         setAuthState({ isAuthenticated: true, user });
     }
 
