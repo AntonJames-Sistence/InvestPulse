@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Box } from '@mui/material';
 import csrfFetch from '../../utils/csrfFetch';
-import { useRouter } from 'next/router';
+import { useAuth } from './AuthContext';
 
 interface LoginFormProps {
   toggleForm: () => void;
@@ -11,7 +11,7 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const router = useRouter();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +27,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
       if (response.ok) {
         localStorage.setItem('token', data.token);
         sessionStorage.setItem('sessionToken', data.sessionToken);
-        alert(`You're logged in`);
+        // Set authenticated state
+        login({ email });
         onClose();
       }
     } catch (error) {
