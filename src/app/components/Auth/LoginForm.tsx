@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Typography, Box, IconButton, InputAdornment } from '@mui/material';
+import { TextField, Button, Typography, Box, IconButton, InputAdornment, Alert } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import csrfFetch from '../../utils/csrfFetch';
 import { useAuth } from './AuthContext';
@@ -13,6 +13,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,9 +32,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
         sessionStorage.setItem('sessionToken', data.sessionToken);
         login({ username: data.username });
         onClose();
+      } else {
+        setErrorMessage(data.message || 'Error logging in');
       }
     } catch (error) {
-      alert('Error logging in');
+      setErrorMessage('No such user, please check login and password and try again.')
     }
   };
 
@@ -41,9 +44,17 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
     setShowPassword((prev) => !prev);
   };
 
+  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    setter(event.target.value);
+    if (errorMessage) {
+      setErrorMessage(null);
+    }
+  };
+
   return (
     <Box mx={3} component="form" onSubmit={handleSubmit} sx={{ borderRadius: 3, p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
       <Typography variant="h5">Login</Typography>
+      {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
       <TextField
         label="Email"
         type="email"
