@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import postgres from 'postgres';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'jwt_secret_key';
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
     const body = await req.json();
@@ -15,18 +18,34 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
         return NextResponse.json({ message: `Couldn't reach DB, please check your key` }, { status: 500 });
     };
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
     // Connect to DB
     const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
 
-    // Add user to DB
     try {
-        await sql`
-            INSERT INTO users (username, email, password)
+        // Check if user already exists
+        const existingUser = await sql`SELECT * FROM USERS WHERE EMAIL = ${email}`;
+        if (existingUser.length > 0) {
+            return NextResponse.json({ message: 'User already exists' }, { status: 400 });
+        }
+
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create new user
+        const newUser = await sql`
+            INSERT INTO USERS (username, email, password)
             VALUES (${username}, ${email}, ${hashedPassword})
+            RETURNING id, username;
         `;
-        return NextResponse.json({ message: 'User created successfully'}, { status: 201 });
+        
+        const user = newUser[0];
+        // Generate JWT token
+        const token = jwt.sign({ userId: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
+        
+        // Generate session token (this could be any unique value, using JWT for simplicity)
+        const sessionToken = jwt.sign({ userId: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
+
+        return NextResponse.json({ message: 'Signup successful', token, sessionToken });
     } catch (error) {
         return NextResponse.json({ message: `Error creating user: ${error}` }, { status: 500 });
     }

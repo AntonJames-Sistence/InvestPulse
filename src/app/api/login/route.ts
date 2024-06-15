@@ -8,10 +8,11 @@ const JWT_SECRET = process.env.JWT_SECRET || 'jwt_secret_key';
 export const POST = async (req: NextRequest, res: NextResponse) => {
     // Deconstruct props from request
     const body = await req.json();
-    const { email, password } = body;
+    // Taking email or username
+    const { identifier, password } = body;
 
     // Check email and password
-    if (!email || !password){
+    if (!identifier || !password){
         return NextResponse.json({ message: 'All fields are required' }, { status: 400 });
     };
 
@@ -23,24 +24,30 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 
     try {
         // Fetch user from DB
-        const result = await sql`SELECT * FROM USERS WHERE EMAIL = ${email}`;
+        const result = await sql`SELECT * FROM USERS WHERE EMAIL = ${identifier} OR USERNAME = ${identifier}`;
         const user = result[0];
 
-        // Compare password
-        if (!user || !(await bcrypt.compare(password, user.password))){
-            return NextResponse.json({ message: 'Invalid credentials' }, { status: 400 });
+        // If user does not exist
+        if (!user) {
+            return NextResponse.json({ message: 'Invalid username or email' }, { status: 400 });
         }
 
-        // Set JWT token and exparation time
-        const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' });
+        // Compare password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return NextResponse.json({ message: 'Invalid password' }, { status: 400 });
+        }
+
+        // Set JWT token, username and exparation time
+        const token = jwt.sign({ userId: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
 
         // Generate response and set cookies
-        const response = NextResponse.json({ message: 'Login successful' });
+        const response = NextResponse.json({ message: 'Login successful', token, username: user.username });
         response.cookies.set('token', token, { httpOnly: true, path: '/' });
 
         return response;
     } catch (error) {
-        return NextResponse.json({ message: `Error logging in: ${error}` }, { status: 500 });
+        console.error('Error logging in:', error);
+        return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
     }
-
 };

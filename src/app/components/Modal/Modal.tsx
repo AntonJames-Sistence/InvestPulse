@@ -11,7 +11,17 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   return (
-    <Dialog open={isOpen} onClose={onClose} maxWidth="xs" fullWidth>
+    <Dialog
+      open={isOpen}
+      onClose={onClose}
+      maxWidth="xs"
+      fullWidth
+      PaperProps={{
+        style: {
+          borderRadius: '10px', // You can set your desired border radius here
+        },
+      }}
+    >
       <IconButton
         edge="end"
         color="inherit"
