@@ -29,13 +29,13 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 
         // If user does not exist
         if (!user) {
-            return NextResponse.json({ message: 'Invalid credentials' }, { status: 400 });
+            return NextResponse.json({ message: 'Invalid username or email' }, { status: 400 });
         }
 
         // Compare password
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            return NextResponse.json({ message: 'Invalid credentials' }, { status: 400 });
+            return NextResponse.json({ message: 'Invalid password' }, { status: 400 });
         }
 
         // Set JWT token, username and exparation time

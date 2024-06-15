@@ -10,7 +10,7 @@ interface LoginFormProps {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
-  const [email, setEmail] = useState('');
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -22,7 +22,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
     try {
       const response = await csrfFetch('/api/login', {
         method: 'POST',
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ identifier, password }),
       });
 
       const data = await response.json();
@@ -36,7 +36,18 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
         setErrorMessage(data.message || 'Error logging in');
       }
     } catch (error) {
-      setErrorMessage('No such user, please check login and password and try again.')
+      // Catch error from backend, and process it.
+      let message = 'Internal server error';
+      if (error instanceof Response) {
+        try {
+          const errorData = await error.json();
+          message = errorData.message || message;
+        } catch (parseError) {
+          console.error('Error parsing JSON:', parseError);
+        }
+      }
+
+      setErrorMessage(message);
     }
   };
 
@@ -56,17 +67,17 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
       <Typography variant="h5">Login</Typography>
       {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
       <TextField
-        label="Email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        label="Email or Username"
+        type="text"
+        value={identifier}
+        onChange={handleInputChange(setIdentifier)}
         required
       />
       <TextField
         label="Password"
         type={showPassword ? 'text' : 'password'}
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={handleInputChange(setPassword)}
         required
         InputProps={{
           endAdornment: (

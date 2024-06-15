@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Modal from '../Modal/Modal';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
+import LogoutButton from './LogoutButton';
 import { Button, Typography } from '@mui/material';
 import { useAuth } from './AuthContext';
 
@@ -21,21 +22,7 @@ const LoginButton: React.FC = () => {
         <Typography variant="body1" sx={{ mx: 2 }}>
           {authState.user?.username}
         </Typography>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={logout}
-          sx={{
-            mx: 2,
-            // Ensure this style has higher specificity
-            '&.MuiButton-root': {
-              backgroundColor: '#d32f2f',
-              color: '#ffffff',
-            },
-          }}
-        >
-          Logout
-        </Button>
+        <LogoutButton />
       </>
     );
   }
@@ -48,7 +35,6 @@ const LoginButton: React.FC = () => {
         onClick={openModal}
         sx={{
           mx: 2,
-          // Ensure this style has higher specificity
           '&.MuiButton-root': {
             backgroundColor: '#1976d2',
             color: '#ffffff',
