@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Box } from '@mui/material';
 import csrfFetch from '../../utils/csrfFetch';
+import { useAuth } from './AuthContext';
 
 interface SignupFormProps {
   toggleForm: () => void;
@@ -12,6 +13,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ toggleForm, onClose }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,10 +31,14 @@ const SignupForm: React.FC<SignupFormProps> = ({ toggleForm, onClose }) => {
         method: 'POST',
         body: JSON.stringify({ username, email, password }),
       });
+
       const data = await response.json();
-      alert(data.message);
+      
       if (data.sessionToken) {
+        localStorage.setItem('token', data.token);
         sessionStorage.setItem('sessionToken', data.sessionToken);
+        // Log in the user
+        login({ username: data.username });
         onClose();
       }
     } catch (error) {

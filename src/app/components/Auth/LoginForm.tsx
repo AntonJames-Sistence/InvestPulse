@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { TextField, Button, Typography, Box } from '@mui/material';
+import { TextField, Button, Typography, Box, IconButton, InputAdornment } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import csrfFetch from '../../utils/csrfFetch';
 import { useAuth } from './AuthContext';
 
@@ -11,6 +12,7 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -27,13 +29,16 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
       if (response.ok) {
         localStorage.setItem('token', data.token);
         sessionStorage.setItem('sessionToken', data.sessionToken);
-        // Set authenticated state
         login({ username: data.username });
         onClose();
       }
     } catch (error) {
       alert('Error logging in');
     }
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPassword((prev) => !prev);
   };
 
   return (
@@ -48,10 +53,19 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
       />
       <TextField
         label="Password"
-        type="password"
+        type={showPassword ? 'text' : 'password'}
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={handleClickShowPassword} edge="end">
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
       />
       <Button
         variant="contained"
