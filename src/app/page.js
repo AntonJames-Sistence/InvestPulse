@@ -12,6 +12,7 @@ import TrendingCoins from "./components/TrendingCoins";
 import Footer from "./components/Footer";
 import { Suspense } from 'react';
 import { Toaster } from "react-hot-toast";
+import News from "./components/News";
 
 
 export default function Home() {
@@ -28,6 +29,7 @@ export default function Home() {
           </Suspense>
 
           {/* <PerfomanceNav /> */}
+          <News />
           <Sentiment />
           <About />
           <Tokenomics />

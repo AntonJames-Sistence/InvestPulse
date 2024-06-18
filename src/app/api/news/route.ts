@@ -59,7 +59,6 @@ export const PUT = async (req: NextRequest, res: NextResponse) => {
         }
 
         const data = await response.json();
-        console.log(data)
 
         for (const article of data.results){
             const existingRecord = await sql`SELECT * FROM news WHERE article_id = ${article.article_id};`;
