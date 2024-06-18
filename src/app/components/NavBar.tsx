@@ -21,6 +21,11 @@ const NavBar: React.FC = () => {
         setAnchorEl(null);
     };
 
+    const fetchTest = () => {
+        let res = fetch('api/news', {method: 'PUT'});
+        console.log(res)
+    }
+
     const renderNavLinks = () => 
         navLinks.map((link, index) => (
             <MenuItem key={index} onClick={handleMenuClose} component="a" href={link.href}>
@@ -40,6 +45,7 @@ const NavBar: React.FC = () => {
                         </Typography>
                     </Link>
                 </Box>
+                <Button color="primary" onClick={fetchTest}>Fetch</Button>
 
                 <Box flexGrow={1} />
 
