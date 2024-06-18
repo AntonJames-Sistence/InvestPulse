@@ -21,9 +21,14 @@ const NavBar: React.FC = () => {
         setAnchorEl(null);
     };
 
-    const fetchTest = () => {
-        let res = fetch('api/news', {method: 'PUT'});
-        console.log(res)
+    const fetchTest = async () => {
+        try {
+            const response = await fetch('api/news');
+            const data = await response.json();
+            console.log(data)
+        } catch (error) {
+            console.error('Error', error);
+        }
     }
 
     const renderNavLinks = () => 

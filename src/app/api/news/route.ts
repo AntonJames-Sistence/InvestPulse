@@ -3,8 +3,37 @@ import postgres from "postgres";
 
 const newsKey = process.env.NEWSDATA_KEY;
 
-export const GET = async (req: NextRequest, res: NextResponse) => {
+interface NewsData {
+    article_id: string;
+    title: string;
+    link: string;
+    description: string | null;
+    pub_date: string | null;
+    image_url: string | null;
+    source_url: string | null;
+}
 
+export const GET = async (req: NextRequest, res: NextResponse) => {
+    if (!process.env.DATABASE_URL) {
+        return new Response(``, {
+          status: 400,
+          statusText: `Couldn't reach DB, please check your key`
+        })
+    }
+    
+    const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
+    
+    try {
+        // Fetch all stored news articles from the database
+        const news: NewsData[] = await sql<NewsData[]>`SELECT * FROM news;`;
+    
+        return Response.json(news);
+    } catch (error) {
+        return new Response('', {
+          status: 400,
+          statusText: `Couldn't retrieve stored coins data, ${error}`
+        });
+    }
 }
 
 export const PUT = async (req: NextRequest, res: NextResponse) => {
