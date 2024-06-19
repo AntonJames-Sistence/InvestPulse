@@ -14,16 +14,40 @@ interface NewsData {
 }
 
 const NewsCard = styled(Card)(({ theme }) => ({
-  margin: theme.spacing(2),
-  backgroundColor: `rgba(156, 39, 176, 0.1)`,
+//   backgroundColor: `rgba(224, 242, 254, 0.6)`, // Light blue with 50% transparency
+  width: '100%',
+  height: '400px',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
 }));
 
 const CardContentStyled = styled(CardContent)({
-  display: '-webkit-box',
-  WebkitLineClamp: 4,
-  WebkitBoxOrient: 'vertical',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: '100%', 
+});
+
+const DateStyled = styled(Typography)(({ theme }) => ({
+    color: theme.palette.text.secondary,
+    marginBottom: theme.spacing(1),
+}));
+
+const ReadMoreStyled = styled('a')(({ theme }) => ({
+    color: theme.palette.primary.main,
+    textDecoration: 'none',
+    fontWeight: 'bold',
+    marginTop: 'auto',
+    '&:hover': {
+        textDecoration: 'underline',
+    },
+}));
+
+const FooterStyled = styled('div')({
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: 'auto',
 });
 
 const News: React.FC = () => {
@@ -51,6 +75,11 @@ const News: React.FC = () => {
     setVisibleNewsCount((prevCount) => prevCount + 3);
   };
 
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    // Set your placeholder image path here
+    e.currentTarget.src = 'https://mpost.io/wp-content/uploads/UXUY-1024x608.jpg';
+  };
+
   if (loading) {
     return (
       <Container className="flex justify-center items-center h-screen">
@@ -60,29 +89,32 @@ const News: React.FC = () => {
   }
 
   return (
-      <ReusableTile title="Latest News">
+    <ReusableTile title="Latest News">
         <Grid container spacing={4}>
           {news.slice(0, visibleNewsCount).map((article) => (
             <Grid item key={article.article_id} xs={12} sm={6} md={4}>
-              <NewsCard>
+              <NewsCard className='shadow-xl rounded-lg'>
                 {article.image_url && (
                   <CardMedia
                     component="img"
                     alt={article.title}
                     height="140"
                     image={article.image_url}
+                    onError={handleImageError} // Handle image loading errors
                   />
                 )}
                 <CardContentStyled>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom variant="body1" component="div">
                     {article.title}
                   </Typography>
-                  <Typography variant="caption" display="block" gutterBottom>
-                    {new Date(article.pub_date ?? '').toLocaleDateString()}
-                  </Typography>
-                  <a href={article.link} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                    Read more
-                  </a>
+                  <FooterStyled>
+                    <DateStyled variant="caption">
+                      {new Date(article.pub_date ?? '').toLocaleDateString()}
+                    </DateStyled>
+                    <ReadMoreStyled href={article.link} target="_blank" rel="noopener noreferrer">
+                      Read more
+                    </ReadMoreStyled>
+                  </FooterStyled>
                 </CardContentStyled>
               </NewsCard>
             </Grid>
@@ -90,12 +122,21 @@ const News: React.FC = () => {
         </Grid>
         {visibleNewsCount < news.length && (
           <div className="flex justify-center mt-4">
-            <Button variant="contained" color="primary" onClick={handleLoadMore}>
+            <Button 
+                variant="contained" 
+                sx={{
+                    mx: 2,
+                    '&.MuiButton-root': {
+                        backgroundColor: '#1976d2',
+                        color: '#ffffff',
+                    },}} 
+                onClick={handleLoadMore}
+            >
               Load More
             </Button>
           </div>
         )}
-      </ReusableTile>
+    </ReusableTile>
   );
 };
 

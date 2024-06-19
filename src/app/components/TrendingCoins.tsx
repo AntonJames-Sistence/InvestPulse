@@ -47,9 +47,15 @@ const TrendingCoins: React.FC = () => {
         setLoading(true);
 
         try {
+            // Update trending coins
             await fetch('api/trending', {
                 method: 'PUT'
             });
+            // Udate news
+            await fetch('api/news', {
+                method: 'PUT'
+            });
+
             fetchTrendingCoins();
             toast.success("Trending Coins are up-to-date");
         } catch (error) {

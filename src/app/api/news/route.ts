@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import postgres from "postgres";
 
 const newsKey = process.env.NEWSDATA_KEY;
+const placeholderImage = 'https://i.ibb.co/0rgx9gB/Cryptocurrency-Photo-by-stockphoto-graf.webp';
 
 interface NewsData {
     article_id: string;
@@ -25,7 +26,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     
     try {
         // Fetch all stored news articles from the database
-        const news: NewsData[] = await sql<NewsData[]>`SELECT * FROM news;`;
+        const news: NewsData[] = await sql<NewsData[]>`SELECT * FROM news ORDER BY pub_date DESC;`;
     
         return Response.json(news);
     } catch (error) {
@@ -61,12 +62,19 @@ export const PUT = async (req: NextRequest, res: NextResponse) => {
         const data = await response.json();
 
         for (const article of data.results){
+            // Make sure we have title, description and link to the article
+            if (!article.title || !article.description || !article.link) continue;
+
+            // Make sure uniqueness of the article
             const existingRecord = await sql`SELECT * FROM news WHERE article_id = ${article.article_id};`;
             if (existingRecord.length > 0) continue;
 
+            // Check if image is available, if not, use the placeholder image
+            const imageUrl = article.image_url ? article.image_url : placeholderImage;
+
             await sql`
                 INSERT INTO news (article_id, title, link, description, pub_date, image_url, source_url)
-                VALUES (${article.article_id}, ${article.title}, ${article.link}, ${article.description}, ${article.pubDate}, ${article.image_url}, ${article.source_url});
+                VALUES (${article.article_id}, ${article.title}, ${article.link}, ${article.description}, ${article.pubDate}, ${imageUrl}, ${article.source_url});
             `;
         }
 
