@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import postgres from "postgres";
+import { isRelevantArticle } from "../../utils/newsFilter";
 
 const newsKey = process.env.NEWSDATA_KEY;
 const placeholderImage = 'https://i.ibb.co/0rgx9gB/Cryptocurrency-Photo-by-stockphoto-graf.webp';
@@ -65,20 +66,24 @@ export const PUT = async (req: NextRequest, res: NextResponse) => {
             // Make sure we have title, description and link to the article
             if (!article.title || !article.description || !article.link) continue;
 
-            // Make sure uniqueness of the article
-            const existingRecord = await sql`SELECT * FROM news WHERE article_id = ${article.article_id};`;
+            // Check if the article is relevant based on the keywords
+            if (!isRelevantArticle(article.title, article.description)) continue;
+
+            // Make sure uniqueness of the article, by title, because id doesn't guarantee it
+            const existingRecord = await sql`SELECT * FROM news WHERE title = ${article.title};`;
             if (existingRecord.length > 0) continue;
 
             // Check if image is available, if not, use the placeholder image
             const imageUrl = article.image_url ? article.image_url : placeholderImage;
 
+            // Insert only when all requirements are fulfilled
             await sql`
                 INSERT INTO news (article_id, title, link, description, pub_date, image_url, source_url)
                 VALUES (${article.article_id}, ${article.title}, ${article.link}, ${article.description}, ${article.pubDate}, ${imageUrl}, ${article.source_url});
             `;
         }
 
-        return NextResponse.json(data);
+        return NextResponse.json({ message: 'News are up to date'}, {status: 200});
     } catch (error) {
         console.log("Error fetching data", error);
         return NextResponse.json({ message: 'Error while fetching data'}, {status: 500});
