@@ -116,7 +116,7 @@ const TradingViewWidget: React.FC = () => {
   
   return (
     <>
-      <div className="flex flex-col mb-8">
+      <div className="flex flex-col mb-4 lg:mb-8">
 
         <div className="h-auto flex flex-col bg-white rounded-lg">
           

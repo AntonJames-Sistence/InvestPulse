@@ -34,7 +34,7 @@ const TrendingCoins: React.FC = () => {
         try {
             const response = await fetch(url);
             const data = await response.json();
-            let topThree = data.slice(0, 3);
+            let topThree = data.slice(0, 10);
             setTrendingCoins(topThree);
         } catch (error) {
             console.log(error);

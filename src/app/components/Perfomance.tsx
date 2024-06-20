@@ -98,23 +98,6 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
         <ReusableTile title={`${coin?.name} Perfomance`}>
             <div className="flex flex-col">
 
-                {/* <div className="flex text-sm mb-8 relative">
-                    <div>
-                        <p className="mb-2 w-24 text-gray-600">Today&apos;s Low</p>
-                        <p>{formatAsUSD(coin?.low_24h ?? 0)}</p>
-                    </div>
-                    <div className="h-1.5 w-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 rounded-lg self-center mx-2 lg:mx-14 relative">
-                        <div
-                            className="absolute top-1 w-0 h-0 border-l-[8px] border-r-[8px] border-b-[16px] border-transparent border-b-sky-700"
-                            style={{ left: getTodayTrianglePosition(), transform: 'translateX(-50%)' }}
-                        />
-                    </div>
-                    <div>
-                        <p className="mb-2 w-24 text-end text-gray-600">Today&apos;s High</p>
-                        <p className="text-end">{formatAsUSD(coin?.high_24h ?? 0)}</p>
-                    </div>
-                </div> */}
-
                 <div className="flex flex-row text-xs md:text-sm my-10 md:mt-2 md:mb-10 relative">
                     <div>
                         <p className="mb-2 text-gray-600">All&nbsp;Time Low</p>

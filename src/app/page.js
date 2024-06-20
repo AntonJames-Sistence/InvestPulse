@@ -22,7 +22,7 @@ export default function Home() {
       <Toaster position="top-center" reverseOrder={false} />
       <NavBar/>
 
-      <div className="flex flex-col lg:flex-row self-center w-full mt-14 px-2 lg:px-16">
+      <div className="flex flex-col lg:flex-row self-center w-full mt-28 px-2 lg:px-16">
         <div className="flex flex-col w-full lg:w-5/6">
           <Suspense>
             <TradingViewWidget />
@@ -37,7 +37,7 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col lg:ml-4 w-full lg:w-1/3">
-          <Banner />
+          {/* <Banner /> */}
           <TrendingCoins />
         </div>
       </div>
