@@ -3,7 +3,7 @@ import ReusableTile from "./ReusableTile";
 import React, { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import toast, { Toaster } from "react-hot-toast";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Button } from "@mui/material";
 
 interface Coin {
     id: string,
@@ -93,9 +93,19 @@ const TrendingCoins: React.FC = () => {
                             </a>
                         );
                     })}
-                    <button onClick={hadleUpdateDB} className="px-4 py-2 bg-blue-700 text-white font-[500] mt-2 rounded-xl self-center hover:bg-blue-400 duration-200 easy-in-out">
-                        Update Prices
-                    </button>
+                    <Button 
+                        variant="contained" 
+                        sx={{
+                            mx: 'auto',
+                            '&.MuiButton-root': {
+                                backgroundColor: '#1976d2',
+                                color: '#ffffff',
+                                borderRadius: '10px'
+                            },}} 
+                        onClick={hadleUpdateDB}
+                    >
+                    Update Prices
+                    </Button>
                 </div>
             ) : (
                 <div className="self-center text-black"><CircularProgress /></div>

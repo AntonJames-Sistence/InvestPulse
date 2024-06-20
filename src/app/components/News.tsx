@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Card, CardContent, CardMedia, Typography, CircularProgress, Grid, Button } from '@mui/material';
 import { styled } from '@mui/system';
 import ReusableTile from './ReusableTile';
+import Link from 'next/link';
 
 interface NewsData {
   article_id: string;
@@ -53,14 +54,13 @@ const FooterStyled = styled('div')({
 
 const News: React.FC = () => {
   const [news, setNews] = useState<NewsData[]>([]);
-  const [visibleNewsCount, setVisibleNewsCount] = useState(1);
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
         const response = await fetch('/api/news');
         const data = await response.json();
-        setNews(data);
+        setNews(data.slice(0, 3));
       } catch (error) {
         console.error('Error fetching news:', error);
       }
@@ -68,10 +68,6 @@ const News: React.FC = () => {
 
     fetchNews();
   }, []);
-
-  const handleLoadMore = () => {
-    setVisibleNewsCount((prevCount) => prevCount + 3);
-  };
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     // Set your placeholder image path here
@@ -91,7 +87,7 @@ const News: React.FC = () => {
   return (
     <ReusableTile title="Latest News">
         <Grid container spacing={4}>
-          {news.slice(0, visibleNewsCount).map((article) => (
+          {news.map((article) => (
             <Grid item key={article.article_id} xs={12}>
               <NewsCard>
                 {article.image_url && (
@@ -120,23 +116,20 @@ const News: React.FC = () => {
             </Grid>
           ))}
         </Grid>
-        {visibleNewsCount < news.length && (
-          <div className="flex justify-center mt-4">
-            <Button 
-                variant="contained" 
-                sx={{
-                    mx: 2,
-                    '&.MuiButton-root': {
-                        backgroundColor: '#1976d2',
-                        color: '#ffffff',
-                        borderRadius: '10px'
-                    },}} 
-                onClick={handleLoadMore}
-            >
-              Read More
-            </Button>
-          </div>
-        )}
+        <Link href="/news" passHref className="flex justify-center mt-4">
+          <Button 
+              variant="contained" 
+              sx={{
+                  mx: 'auto',
+                  '&.MuiButton-root': {
+                      backgroundColor: '#1976d2',
+                      color: '#ffffff',
+                      borderRadius: '10px'
+                  },}}
+          >
+            Read More
+          </Button>
+        </Link>
     </ReusableTile>
   );
 };
