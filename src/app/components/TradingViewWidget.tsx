@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import Perfomance from './Perfomance';
 import { formatAsUSD } from './Perfomance';
 import { CircularProgress } from '@mui/material';
+import ReusableTile from './ReusableTile';
 
 interface CoinData {
   symbol: string,
@@ -102,22 +103,23 @@ const TradingViewWidget: React.FC = () => {
 
       container.current.appendChild(script);
   };
+
+  if (!coinData){
+    return (
+      <ReusableTile title={`${coinName[0].toUpperCase() + coinName.slice(1)} Perfomance`}>
+        <div className='m-10 self-center flex justify-center'>
+            <CircularProgress />
+        </div>
+      </ReusableTile>
+    )
+  }
   
   return (
     <>
       <div className="flex flex-col mb-8">
-        <div className="py-4 flex">
-          <p className="text-gray-600">Cryptocurrencies</p>
-          <HiMiniChevronDoubleRight className="self-center ml-2 mr-1 text-gray-600" /> 
-          <p>{formatCoinName(coinName)}</p>
-        </div>
 
         <div className="h-auto flex flex-col bg-white rounded-lg">
-          {!coinData ? (
-            <div className='m-10 self-center flex justify-center'>
-              <CircularProgress />
-            </div>
-          ):(
+          
             <div className='flex flex-col justify-between mx-5'>
               <div className='flex flex-row mt-7 mb-10'>
                 <img src={coinData.image} alt={`${coinData.name} logo`} className='h-10 w-10 bg-white'></img>
@@ -144,8 +146,6 @@ const TradingViewWidget: React.FC = () => {
 
               <div className='mb-10 font-semibold text'>{`${coinData.name} Price Chart (USD)`}</div>
             </div>
-            
-          )}
           
           <div className='mx-5 mb-5 z-10'>
             <div className="tradingview-widget-container self-center" ref={container}></div>

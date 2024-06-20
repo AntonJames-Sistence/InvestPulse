@@ -92,7 +92,7 @@ const News: React.FC = () => {
         <Grid container spacing={4}>
           {news.slice(0, visibleNewsCount).map((article) => (
             <Grid item key={article.article_id} xs={12} sm={6} md={4}>
-              <NewsCard className='shadow-xl rounded-lg'>
+              <NewsCard className='shadow-xl rounded-lg h-[400px]'>
                 {article.image_url && (
                   <CardMedia
                     component="img"
