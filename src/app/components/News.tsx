@@ -52,7 +52,6 @@ const FooterStyled = styled('div')({
 
 const News: React.FC = () => {
   const [news, setNews] = useState<NewsData[]>([]);
-  const [loading, setLoading] = useState(true);
   const [visibleNewsCount, setVisibleNewsCount] = useState(3);
 
   useEffect(() => {
@@ -61,10 +60,8 @@ const News: React.FC = () => {
         const response = await fetch('/api/news');
         const data = await response.json();
         setNews(data);
-        setLoading(false);
       } catch (error) {
         console.error('Error fetching news:', error);
-        setLoading(false);
       }
     };
 
@@ -80,11 +77,13 @@ const News: React.FC = () => {
     e.currentTarget.src = 'https://mpost.io/wp-content/uploads/UXUY-1024x608.jpg';
   };
 
-  if (loading) {
+  if (!news.length) {
     return (
-      <Container className="flex justify-center items-center h-screen">
-        <CircularProgress />
-      </Container>
+        <ReusableTile title="Latest News">
+            <div className='m-10 self-center flex justify-center'>
+                <CircularProgress />
+            </div>
+        </ReusableTile>
     );
   }
 
