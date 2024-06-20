@@ -133,14 +133,16 @@ const wrapperVariants = {
     scaleY: 1,
     transition: {
       when: "beforeChildren",
-      staggerChildren: 0.05,
+      duration: 0.1,  // Speed up the open animation
+      staggerChildren: 0.01,  // Reduce the stagger effect
     },
   },
   closed: {
     scaleY: 0,
     transition: {
       when: "afterChildren",
-      staggerChildren: 0.05,
+      duration: 0.1,  // Speed up the close animation
+      staggerChildren: 0.01,  // Reduce the stagger effect
     },
   },
 };

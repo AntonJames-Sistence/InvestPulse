@@ -38,6 +38,7 @@ const LoginButton: React.FC = () => {
           '&.MuiButton-root': {
             backgroundColor: '#1976d2',
             color: '#ffffff',
+            borderRadius: '10px'
           },
         }}
       >

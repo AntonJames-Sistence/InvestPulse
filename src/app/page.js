@@ -23,21 +23,23 @@ export default function Home() {
       <NavBar/>
 
       <div className="flex flex-col lg:flex-row self-center w-full mt-28 px-2 lg:px-16">
+        {/* Left side of the page */}
         <div className="flex flex-col w-full lg:w-5/6">
           <Suspense>
             <TradingViewWidget />
           </Suspense>
-
           {/* <PerfomanceNav /> */}
-          <News />
+          
           <Sentiment />
           <About />
           <Tokenomics />
           <Team />
         </div>
 
+        {/* Right side of the page */}
         <div className="flex flex-col lg:ml-4 w-full lg:w-1/3">
           {/* <Banner /> */}
+          <News />
           <TrendingCoins />
         </div>
       </div>

@@ -14,12 +14,13 @@ interface NewsData {
 }
 
 const NewsCard = styled(Card)(({ theme }) => ({
-//   backgroundColor: `rgba(224, 242, 254, 0.6)`, // Light blue with 50% transparency
   width: '100%',
-  height: '400px',
+  height: '360px',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
+  boxShadow: '0 12px 20px rgba(0, 0, 0, 0.3)',
+  borderRadius: '15px',
 }));
 
 const CardContentStyled = styled(CardContent)({
@@ -31,7 +32,7 @@ const CardContentStyled = styled(CardContent)({
 
 const DateStyled = styled(Typography)(({ theme }) => ({
     color: theme.palette.text.secondary,
-    marginBottom: theme.spacing(1),
+    alignSelf: 'flex-end',
 }));
 
 const ReadMoreStyled = styled('a')(({ theme }) => ({
@@ -52,7 +53,7 @@ const FooterStyled = styled('div')({
 
 const News: React.FC = () => {
   const [news, setNews] = useState<NewsData[]>([]);
-  const [visibleNewsCount, setVisibleNewsCount] = useState(3);
+  const [visibleNewsCount, setVisibleNewsCount] = useState(1);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -91,8 +92,8 @@ const News: React.FC = () => {
     <ReusableTile title="Latest News">
         <Grid container spacing={4}>
           {news.slice(0, visibleNewsCount).map((article) => (
-            <Grid item key={article.article_id} xs={12} sm={6} md={4}>
-              <NewsCard className='shadow-xl rounded-lg h-[400px]'>
+            <Grid item key={article.article_id} xs={12}>
+              <NewsCard>
                 {article.image_url && (
                   <CardMedia
                     component="img"
@@ -107,12 +108,12 @@ const News: React.FC = () => {
                     {article.title}
                   </Typography>
                   <FooterStyled>
-                    <DateStyled variant="caption">
-                      {new Date(article.pub_date ?? '').toLocaleDateString()}
-                    </DateStyled>
                     <ReadMoreStyled href={article.link} target="_blank" rel="noopener noreferrer">
                       Read more
                     </ReadMoreStyled>
+                    <DateStyled variant="caption">
+                      {new Date(article.pub_date ?? '').toLocaleDateString()}
+                    </DateStyled>
                   </FooterStyled>
                 </CardContentStyled>
               </NewsCard>
@@ -128,10 +129,11 @@ const News: React.FC = () => {
                     '&.MuiButton-root': {
                         backgroundColor: '#1976d2',
                         color: '#ffffff',
+                        borderRadius: '10px'
                     },}} 
                 onClick={handleLoadMore}
             >
-              Load More
+              Read More
             </Button>
           </div>
         )}
