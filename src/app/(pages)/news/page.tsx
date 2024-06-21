@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { Container, Card, CardContent, CardMedia, Typography, CircularProgress, Grid } from '@mui/material';
+import { Container, Card, CardContent, CardMedia, Typography, CircularProgress, Grid, Button } from '@mui/material';
 import { styled } from '@mui/system';
 
 interface NewsData {
@@ -15,7 +15,7 @@ interface NewsData {
 
 const NewsCard = styled(Card)(({ theme }) => ({
   width: '100%',
-  height: '400px',
+  height: '100%',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
@@ -57,6 +57,7 @@ const FooterStyled = styled('div')({
 
 const News: React.FC = () => {
   const [news, setNews] = useState<NewsData[]>([]);
+  const [visibleNewsCount, setVisibleNewsCount] = useState(6);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -86,11 +87,15 @@ const News: React.FC = () => {
     );
   }
 
+  const handleLoadMore = () => {
+    setVisibleNewsCount((prevCount) => prevCount + 3);
+  };
+
   return (
-    <Container>
+    <Container className='mt-24'>
       <Grid container spacing={4}>
-        {news.map((article) => (
-          <Grid item key={article.article_id} xs={12}>
+        {news.slice(0, visibleNewsCount).map((article) => (
+          <Grid item key={article.article_id} xs={12} sm={6} md={4}>
             <NewsCard className='rounded-lg'>
               {article.image_url && (
                 <CardMedia
@@ -102,8 +107,11 @@ const News: React.FC = () => {
                 />
               )}
               <CardContentStyled>
-                <Typography gutterBottom variant="body1" component="div">
+                <Typography gutterBottom variant="h6" component="div">
                   {article.title}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  {article.description}
                 </Typography>
                 <FooterStyled>
                   <ReadMoreStyled href={article.link} target="_blank" rel="noopener noreferrer">
@@ -118,6 +126,22 @@ const News: React.FC = () => {
           </Grid>
         ))}
       </Grid>
+      {visibleNewsCount < news.length && (
+        <div className="flex justify-center mt-4">
+          <Button 
+              variant="contained" 
+              sx={{
+                  mx: 2,
+                  '&.MuiButton-root': {
+                      backgroundColor: '#1976d2',
+                      color: '#ffffff',
+                  },}} 
+              onClick={handleLoadMore}
+          >
+            Load More
+          </Button>
+        </div>
+      )}
     </Container>
   );
 };
