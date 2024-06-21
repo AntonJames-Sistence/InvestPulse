@@ -32,16 +32,16 @@ const About: React.FC<AboutProps> = ({ coinData }) => {
     
     return (
         <ReusableTile title={`About ${coinData.name}`}>
-            <hr className="border-gray-200 my-4 lg:block hidden" />
+            <hr className="border-gray-200 -mt-4 mb-4 hidden lg:block" />
             <div className="text-gray-600">
                 {coinData.description}
             </div>
-            <hr className="border-gray-200 my-4 hidden lg:block" />
+            <hr className="border-gray-200 mt-4 hidden lg:block" />
 
             <div className="font-semibold text-2xl mb-4 mt-2">Already Holding Bitcoin?</div>
 
             <div className="flex flex-col lg:flex-row">
-                <div className="w-full lg:h-40 w-[47%] bg-gradient-to-br from-green-500 to-blue-500 rounded-lg flex mr-8">
+                <div className="w-full lg:h-40 w-[47%] bg-gradient-to-br from-green-500 to-blue-500 rounded-xl flex mr-8">
                     <img className="w-1/3 rounded-lg m-3" src="./placeholder1.png"></img>
 
                     <div className="self-center ml-3">
@@ -55,7 +55,7 @@ const About: React.FC<AboutProps> = ({ coinData }) => {
                     </div>
                 </div>
 
-                <div className="w-full my-4 lg:my-0 lg:h-40 w-[47%] bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex">
+                <div className="w-full my-4 lg:my-0 lg:h-40 w-[47%] bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex">
                     <img className="w-1/3 rounded-lg m-3" src="./placeholder2.png"></img>
 
                     <div className="self-center ml-3">
