@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Card, CardContent, CardMedia, Typography, CircularProgress, Grid, Button } from '@mui/material';
 import { styled } from '@mui/system';
+import { truncateText } from '../../utils/truncateText';
 
 interface NewsData {
   article_id: string;
@@ -15,7 +16,7 @@ interface NewsData {
 
 const NewsCard = styled(Card)(({ theme }) => ({
   width: '100%',
-  height: '100%',
+  height: '500px',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
@@ -92,7 +93,7 @@ const News: React.FC = () => {
   };
 
   return (
-    <Container className='mt-24'>
+    <Container className='mt-24 mb-8'>
       <Grid container spacing={4}>
         {news.slice(0, visibleNewsCount).map((article) => (
           <Grid item key={article.article_id} xs={12} sm={6} md={4}>
@@ -101,17 +102,17 @@ const News: React.FC = () => {
                 <CardMedia
                   component="img"
                   alt={article.title}
-                  height="140"
+                  style={{ height: '200px', width: '100%', objectFit: 'cover' }}
                   image={article.image_url}
                   onError={handleImageError} // Handle image loading errors
                 />
               )}
               <CardContentStyled>
                 <Typography gutterBottom variant="h6" component="div">
-                  {article.title}
+                {truncateText(article.title, 100)}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  {article.description}
+                  {truncateText(article.description, 150)}
                 </Typography>
                 <FooterStyled>
                   <ReadMoreStyled href={article.link} target="_blank" rel="noopener noreferrer">

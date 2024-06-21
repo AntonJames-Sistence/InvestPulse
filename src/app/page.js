@@ -18,7 +18,7 @@ import News from "./components/News";
 export default function Home() {
 
   return (
-    <main className="flex w-full flex-col justify-between bg-gray-200">
+    <main className="flex w-full flex-col justify-between">
       <Toaster position="top-center" reverseOrder={false} />
 
       <div className="flex flex-col lg:flex-row self-center w-full mt-28 px-2 lg:px-16">

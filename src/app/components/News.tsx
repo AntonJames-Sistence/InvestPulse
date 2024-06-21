@@ -3,6 +3,7 @@ import { Container, Card, CardContent, CardMedia, Typography, CircularProgress, 
 import { styled } from '@mui/system';
 import ReusableTile from './ReusableTile';
 import Link from 'next/link';
+import { truncateText } from '../utils/truncateText';
 
 interface NewsData {
   article_id: string;
@@ -94,14 +95,14 @@ const News: React.FC = () => {
                   <CardMedia
                     component="img"
                     alt={article.title}
-                    height="140"
+                    style={{ height: '200px', width: '100%', objectFit: 'cover' }}
                     image={article.image_url}
                     onError={handleImageError} // Handle image loading errors
                   />
                 )}
                 <CardContentStyled>
                   <Typography gutterBottom variant="body1" component="div">
-                    {article.title}
+                    {truncateText(article.title, 80)}
                   </Typography>
                   <FooterStyled>
                     <ReadMoreStyled href={article.link} target="_blank" rel="noopener noreferrer">
@@ -127,7 +128,7 @@ const News: React.FC = () => {
                       borderRadius: '10px'
                   },}}
           >
-            Read More
+            All News
           </Button>
         </Link>
     </ReusableTile>
