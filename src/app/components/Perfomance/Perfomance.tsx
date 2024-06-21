@@ -7,44 +7,42 @@ import { formatDate } from "../../utils/formatDate";
 import { formatAsUSD } from "../../utils/formatAsUsd";
 import { formatPercentage } from "../../utils/formatPercentage";
 
-interface CoinData {
-    symbol: string;
-    name: string;
-    description: string;
-    homepage: string;
-    image: string;
-    market_cap_rank: number;
-    current_price: number;
-    ath: number;
-    ath_change_percentage: number;
-    ath_date: Date;
-    atl: number;
-    atl_change_percentage: number;
-    atl_date: Date;
-    market_cap: number;
-    total_volume: number;
-    high_24h: number;
-    low_24h: number;
-    price_change_24h: number;
-    price_change_percentage_24h: number;
-    price_change_percentage_7d: number;
-    price_change_percentage_1y: number;
-    last_updated: Date;
-}
-    
-interface PerfomanceProps {
-    coin: CoinData | null;
+interface PerformanceProps {
+    coinData: {
+        symbol: string;
+        name: string;
+        description: string;
+        homepage: string;
+        image: string;
+        market_cap_rank: number;
+        current_price: number;
+        ath: number;
+        ath_change_percentage: number;
+        ath_date: Date;
+        atl: number;
+        atl_change_percentage: number;
+        atl_date: Date;
+        market_cap: number;
+        total_volume: number;
+        high_24h: number;
+        low_24h: number;
+        price_change_24h: number;
+        price_change_percentage_24h: number;
+        price_change_percentage_7d: number;
+        price_change_percentage_1y: number;
+        last_updated: Date;
+    }
 }
 
-const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
+const Performance: React.FC<PerformanceProps> = ({ coinData }) => {
     const [showFundamentalsTip, setShowFundamentalsTip] = useState(false);
 
     const getTodaysHighTrianglePosition = () => {
-        if (!coin) return '0%';
+        if (!coinData) return '0%';
 
-        const low = coin.atl ?? 0;
-        const high = coin.ath ?? 0;
-        const current = coin.high_24h ?? 0;
+        const low = coinData.atl ?? 0;
+        const high = coinData.ath ?? 0;
+        const current = coinData.high_24h ?? 0;
 
         if (high === low) return '0%';
 
@@ -53,11 +51,11 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
     };
 
     const getTodaysLowTrianglePosition = () => {
-        if (!coin) return '0%';
+        if (!coinData) return '0%';
 
-        const low = coin.atl ?? 0;
-        const high = coin.ath ?? 0;
-        const current = coin.low_24h ?? 0;
+        const low = coinData.atl ?? 0;
+        const high = coinData.ath ?? 0;
+        const current = coinData.low_24h ?? 0;
 
         if (high === low) return '0%';
 
@@ -65,9 +63,9 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
         return `${percentage}%`;
     };
 
-    if (!coin){
+    if (!coinData){
         return (
-            <ReusableTile title={`Coin Perfomance`}>
+            <ReusableTile title={`Coin Performance`}>
                 <div className='m-10 self-center flex justify-center'>
                     <CircularProgress />
                 </div>
@@ -76,13 +74,13 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
     }
 
     return (
-        <ReusableTile title={`${coin?.name} Perfomance`}>
+        <ReusableTile title={`${coinData?.name} Performance`}>
             <div className="flex flex-col">
 
                 <div className="flex flex-row text-xs md:text-sm my-10 md:mt-2 md:mb-10 relative">
                     <div>
                         <p className="mb-2 text-gray-600">All&nbsp;Time Low</p>
-                        <p className="font-semibold">{formatAsUSD(coin?.atl ?? 0)}</p>
+                        <p className="font-semibold">{formatAsUSD(coinData?.atl ?? 0)}</p>
                     </div>
                     <div className="h-3 mx-4 w-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 rounded-lg self-center mx-2 lg:mx-14 relative">
                         <div
@@ -92,7 +90,7 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                             <div className="relative text-[10px] md:text-sm">
                                 <div className="absolute -mt-12 md:-mt-14 -left-8">
                                     <p className="whitespace-nowrap">Today&apos;s High</p>
-                                    <p className="font-semibold">{formatAsUSD(coin?.high_24h ?? 0)}</p>
+                                    <p className="font-semibold">{formatAsUSD(coinData?.high_24h ?? 0)}</p>
                                 </div>
                             </div>
                         </div>
@@ -103,14 +101,14 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                             <div className="relative text-[10px] md:text-sm">
                                 <div className="absolute mt-4 -left-8">
                                     <p className="whitespace-nowrap">Today&apos;s Low</p>
-                                    <p className="font-semibold">{formatAsUSD(coin?.low_24h ?? 0)}</p>
+                                    <p className="font-semibold">{formatAsUSD(coinData?.low_24h ?? 0)}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div>
                         <p className="mb-2 text-end text-gray-600">All&nbsp;Time High</p>
-                        <p className="text-end font-semibold">{formatAsUSD(coin?.ath ?? 0)}</p>
+                        <p className="text-end font-semibold">{formatAsUSD(coinData?.ath ?? 0)}</p>
                     </div>
                 </div>
 
@@ -139,7 +137,7 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                     <div>
                         <div className="flex justify-between text-sm">
                             <span className="text-gray-500">Market Rank</span>
-                            <span>{`# ${coin?.market_cap_rank ?? 777}`}</span>
+                            <span>{`# ${coinData?.market_cap_rank ?? 777}`}</span>
                         </div>
                         <hr className="border-gray-400 my-4" />
                     </div>
@@ -148,8 +146,8 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                         <div className="flex justify-between text-sm">
                             <span className="text-gray-500">Symbol</span>
                             <div className="flex items-center">
-                                <img className="h-5 inline-block mr-2" src={coin?.image} alt={coin?.symbol}></img>
-                                <div>{coin?.symbol.toUpperCase()}</div>
+                                <img className="h-5 inline-block mr-2" src={coinData?.image} alt={coinData?.symbol}></img>
+                                <div>{coinData?.symbol.toUpperCase()}</div>
                             </div>
                         </div>
                         <hr className="border-gray-400 my-4" />
@@ -158,7 +156,7 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                     <div>
                         <div className="flex justify-between text-sm">
                             <span className="text-gray-500">Current Price</span>
-                            <span>{formatAsUSD(coin?.current_price ?? 0)}</span>
+                            <span>{formatAsUSD(coinData?.current_price ?? 0)}</span>
                         </div>
                         <hr className="border-gray-400 my-4" />
                     </div>
@@ -168,11 +166,11 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                             <span className="text-gray-500">Price Change In 24h</span>
                             <span
                                 className={`${
-                                    (coin?.price_change_24h ?? 0) >= 0
+                                    (coinData?.price_change_24h ?? 0) >= 0
                                         ? 'text-green-500'
                                         : 'text-red-500'
                                     }`}>
-                                    {formatAsUSD(coin?.price_change_24h ?? 0)}
+                                    {formatAsUSD(coinData?.price_change_24h ?? 0)}
                             </span>
                         </div>
                         <hr className="border-gray-400 my-4" />
@@ -181,7 +179,7 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                     <div>
                         <div className="flex justify-between text-sm">
                             <span className="text-gray-500">Market Cap</span>
-                            <span>{formatAsUSD(coin?.market_cap ?? 0)}</span>
+                            <span>{formatAsUSD(coinData?.market_cap ?? 0)}</span>
                         </div>
                         <hr className="border-gray-400 my-4" />
                     </div>
@@ -189,7 +187,7 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                     <div>
                         <div className="flex justify-between text-sm">
                             <span className="text-gray-500">Total Volume</span>
-                            <span>{formatAsUSD(coin?.total_volume ?? 0)}</span>
+                            <span>{formatAsUSD(coinData?.total_volume ?? 0)}</span>
                         </div>
                         <hr className="border-gray-400 my-4" />
                     </div>
@@ -197,7 +195,7 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                     <div>
                         <div className="flex justify-between text-sm">
                             <span className="text-gray-500">{`All Time High Date`}</span>
-                            <span>{formatDate(coin?.ath_date ?? new Date())}</span>
+                            <span>{formatDate(coinData?.ath_date ?? new Date())}</span>
                         </div>
                         <hr className="border-gray-400 my-4" />
                     </div>
@@ -207,11 +205,11 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                             <span className="text-gray-500">All Time High Change</span>
                             <span
                                 className={`${
-                                    (coin?.ath_change_percentage ?? 0) >= 0
+                                    (coinData?.ath_change_percentage ?? 0) >= 0
                                         ? 'text-green-500'
                                         : 'text-red-500'
                                     }`}>
-                                {`${formatPercentage(coin?.ath_change_percentage ?? 0)} %`}
+                                {`${formatPercentage(coinData?.ath_change_percentage ?? 0)} %`}
                             </span>
                         </div>
                         <hr className="border-gray-400 my-4" />
@@ -220,7 +218,7 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                     <div>
                         <div className="flex justify-between text-sm">
                             <span className="text-gray-500">{`All Time Low Date`}</span>
-                            <span>{formatDate(coin?.atl_date ?? new Date())}</span>
+                            <span>{formatDate(coinData?.atl_date ?? new Date())}</span>
                         </div>
                         <hr className="border-gray-400 my-4" />
                     </div>
@@ -230,11 +228,11 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                             <span className="text-gray-500">All Time Low Change</span>
                             <span
                                 className={`${
-                                    (coin?.atl_change_percentage ?? 0) >= 0
+                                    (coinData?.atl_change_percentage ?? 0) >= 0
                                         ? 'text-green-500'
                                         : 'text-red-500'
                                     }`}>
-                                {`${formatPercentage(coin?.atl_change_percentage ?? 0)} %`}
+                                {`${formatPercentage(coinData?.atl_change_percentage ?? 0)} %`}
                             </span>
                         </div>
                         <hr className="border-gray-400 my-4" />
@@ -245,11 +243,11 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                             <span className="text-gray-500">Price Change In 7 Days</span>
                             <span
                                 className={`${
-                                    (coin?.price_change_percentage_7d ?? 0) >= 0
+                                    (coinData?.price_change_percentage_7d ?? 0) >= 0
                                         ? 'text-green-500'
                                         : 'text-red-500'
                                     }`}>
-                                {`${formatPercentage(coin?.price_change_percentage_7d ?? 0)} %`}
+                                {`${formatPercentage(coinData?.price_change_percentage_7d ?? 0)} %`}
                             </span>
                         </div>
                         <hr className="border-gray-400 my-4" />
@@ -260,11 +258,11 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
                             <span className="text-gray-500">Price Change In 1 Year</span>
                             <span
                                 className={`${
-                                    (coin?.price_change_percentage_1y ?? 0) >= 0
+                                    (coinData?.price_change_percentage_1y ?? 0) >= 0
                                         ? 'text-green-500'
                                         : 'text-red-500'
                                     }`}>
-                                {`${formatPercentage(coin?.price_change_percentage_1y ?? 0)} %`}
+                                {`${formatPercentage(coinData?.price_change_percentage_1y ?? 0)} %`}
                             </span>
                         </div>
                         <hr className="border-gray-400 my-4" />
@@ -276,4 +274,4 @@ const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
     )
 }
 
-export default Perfomance;
+export default Performance;

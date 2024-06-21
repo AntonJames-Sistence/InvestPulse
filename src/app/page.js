@@ -1,18 +1,14 @@
 'use client';
-import NavBar from "./components/NavBar";
-import TradingViewWidget from "./components/Perfomance/TradingViewWidget";
+
 import Team from "./components/Team";
 import Tokenomics from "./components/Tokenomics";
-import About from "./components/Perfomance/About";
 import Sentiment from "./components/Sentiment/Sentiment";
-import Perfomance from "./components/Perfomance/Perfomance";
-import PerfomanceNav from "./components/Perfomance/PerfomanceNav";
 import Banner from "./components/Banner";
 import TrendingCoins from "./components/TrendingCoins";
-import Footer from "./components/Footer";
 import { Suspense } from 'react';
 import { Toaster } from "react-hot-toast";
 import News from "./components/News";
+import CoinDataProvider from "./components/Perfomance/CoinDataProvider";
 
 
 export default function Home() {
@@ -25,11 +21,9 @@ export default function Home() {
         {/* Left side of the page */}
         <div className="flex flex-col w-full lg:w-5/6">
           <Suspense>
-            <TradingViewWidget />
+            <CoinDataProvider />
           </Suspense>
-          {/* <PerfomanceNav /> */}
           
-          <About />
           <Sentiment />
           <Tokenomics />
           <Team />

@@ -7,44 +7,46 @@ import { CircularProgress } from '@mui/material';
 import ReusableTile from '../ReusableTile';
 import { formatAsUSD } from '../../utils/formatAsUsd';
 
-interface CoinData {
-  symbol: string,
-  name: string,
-  description: string,
-  homepage: string,
-  image: string,
-  market_cap_rank: number,
-  current_price: number,
-  ath: number,
-  ath_change_percentage: number,
-  ath_date: Date,
-  atl: number,
-  atl_change_percentage: number,
-  atl_date: Date,
-  market_cap: number,
-  total_volume: number,
-  high_24h: number,
-  low_24h: number,
-  price_change_24h: number,
-  price_change_percentage_24h: number,
-  price_change_percentage_7d: number,
-  price_change_percentage_1y: number,
-  last_updated: Date;
+interface TradingViewWidgetProps {
+  coinData : {
+    symbol: string,
+    name: string,
+    description: string,
+    homepage: string,
+    image: string,
+    market_cap_rank: number,
+    current_price: number,
+    ath: number,
+    ath_change_percentage: number,
+    ath_date: Date,
+    atl: number,
+    atl_change_percentage: number,
+    atl_date: Date,
+    market_cap: number,
+    total_volume: number,
+    high_24h: number,
+    low_24h: number,
+    price_change_24h: number,
+    price_change_percentage_24h: number,
+    price_change_percentage_7d: number,
+    price_change_percentage_1y: number,
+    last_updated: Date;
+  }
 }
 
-const TradingViewWidget: React.FC = () => {
+const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ coinData }) => {
   const searchParams = useSearchParams();
   const coin = searchParams.get('coin');
   let coinName = coin?.toLowerCase() || 'bitcoin';
 
   const container = useRef<HTMLDivElement>(null);
-  const [coinData, setCoinData] = useState<CoinData | null>(null);
+  // const [coinData, setCoinData] = useState<CoinData | null>(null);
   // const [coinPrice, setCoinPrice] = useState<CoinPrice | null>(null);
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 
-  useEffect(() => {
-    fetchCoinInfo(coinName);
-  }, [coinName])
+  // useEffect(() => {
+  //   fetchCoinInfo(coinName);
+  // }, [coinName])
 
   useEffect(() => {
     if (coinData){
@@ -56,18 +58,18 @@ const TradingViewWidget: React.FC = () => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-  const fetchCoinInfo = async (name: string) => {
-    const apiUrl = `/api/coin?id=${name}`;
+  // const fetchCoinInfo = async (name: string) => {
+  //   const apiUrl = `/api/coin?id=${name}`;
     
-    try {
-      let data = await fetch(apiUrl);
-      let jsonData = await data.json();
+  //   try {
+  //     let data = await fetch(apiUrl);
+  //     let jsonData = await data.json();
       
-      setCoinData(jsonData);
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  //     setCoinData(jsonData);
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   const generateTradingViewWidget = (coinSymbol: string, isMobile: boolean) => {
     if (!container.current) return;
@@ -153,7 +155,6 @@ const TradingViewWidget: React.FC = () => {
 
         </div>                                                                 
       </div>
-      <Perfomance coin={coinData} />
     </>
   );
 }

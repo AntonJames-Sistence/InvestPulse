@@ -1,8 +1,34 @@
 import ReusableTile from "../ReusableTile";
 import { FaArrowRightLong } from "react-icons/fa6";
 
+interface AboutProps {
+    coinData: {
+        symbol: string,
+        name: string,
+        description: string,
+        homepage: string,
+        image: string,
+        market_cap_rank: number,
+        current_price: number,
+        ath: number,
+        ath_change_percentage: number,
+        ath_date: Date,
+        atl: number,
+        atl_change_percentage: number,
+        atl_date: Date,
+        market_cap: number,
+        total_volume: number,
+        high_24h: number,
+        low_24h: number,
+        price_change_24h: number,
+        price_change_percentage_24h: number,
+        price_change_percentage_7d: number,
+        price_change_percentage_1y: number,
+        last_updated: Date;
+    };
+}
 
-const About = () => {
+const About: React.FC<AboutProps> = ({ coinData }) => {
     const whatIsBitcoin = `Bitcoin's price today is US$16,951.82, with a 24-hour trading volume of $19.14 B. BTC is +0.36% in the last 24 hours. It is currently -7.70% from its 7-day all-time high of $18,366.66, and 3.40% from its 7-day all-time low of $16,394.75. BTC has a circulating supply of 19.24 M BTC and a max supply of 21 M BTC.`
 
     return (
