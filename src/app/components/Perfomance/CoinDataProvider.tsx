@@ -5,6 +5,8 @@ import About from './About';
 import TradingViewWidget from './TradingViewWidget';
 import Performance from './Perfomance';
 import { useSearchParams } from 'next/navigation';
+import ReusableTile from '../ReusableTile';
+import { CircularProgress } from '@mui/material';
 
 interface CoinData {
     symbol: string,
@@ -35,6 +37,7 @@ const CoinDataProvider: React.FC = () => {
   const [coinData, setCoinData] = useState<CoinData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
   const searchParams = useSearchParams();
   const coin = searchParams.get('coin');
   let coinName = coin?.toLowerCase() || 'bitcoin';
@@ -44,7 +47,7 @@ const CoinDataProvider: React.FC = () => {
         const apiUrl = `/api/coin?id=${coinName}`;
 
         try {
-            const response = await fetch(apiUrl); // Update with the actual API endpoint
+            const response = await fetch(apiUrl);
             const data = await response.json();
             setCoinData(data);
         } catch (err) {
@@ -55,18 +58,20 @@ const CoinDataProvider: React.FC = () => {
     };
 
     fetchCoinData();
-  }, []);
+  }, [coinName]);
 
-  if (loading) {
-    return <div>Loading...</div>;
+  if (loading || !coinData) {
+    return (
+        <ReusableTile title="Loading Perfomance">
+            <div className='m-10 self-center flex justify-center'>
+                <CircularProgress />
+            </div>
+        </ReusableTile>
+    )
   }
 
   if (error) {
     return <div>{error}</div>;
-  }
-
-  if (!coinData) {
-    return <div>No data available</div>;
   }
 
   return (

@@ -1,10 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
-import { useSearchParams } from 'next/navigation';
-import Perfomance from './Perfomance';
-import { CircularProgress } from '@mui/material';
-import ReusableTile from '../ReusableTile';
+import React, { useEffect, useRef } from 'react';
 import { formatAsUSD } from '../../utils/formatAsUsd';
 
 interface TradingViewWidgetProps {
@@ -35,41 +31,14 @@ interface TradingViewWidgetProps {
 }
 
 const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ coinData }) => {
-  const searchParams = useSearchParams();
-  const coin = searchParams.get('coin');
-  let coinName = coin?.toLowerCase() || 'bitcoin';
-
   const container = useRef<HTMLDivElement>(null);
-  // const [coinData, setCoinData] = useState<CoinData | null>(null);
-  // const [coinPrice, setCoinPrice] = useState<CoinPrice | null>(null);
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
-
-  // useEffect(() => {
-  //   fetchCoinInfo(coinName);
-  // }, [coinName])
 
   useEffect(() => {
     if (coinData){
       generateTradingViewWidget(coinData.symbol, isMobile);
     }
-  }, [coinData, coinName])
-
-  const formatCoinName = (str: string) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
-
-  // const fetchCoinInfo = async (name: string) => {
-  //   const apiUrl = `/api/coin?id=${name}`;
-    
-  //   try {
-  //     let data = await fetch(apiUrl);
-  //     let jsonData = await data.json();
-      
-  //     setCoinData(jsonData);
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+  }, [coinData])
 
   const generateTradingViewWidget = (coinSymbol: string, isMobile: boolean) => {
     if (!container.current) return;
@@ -105,21 +74,9 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ coinData }) => {
 
       container.current.appendChild(script);
   };
-
-  if (!coinData){
-    return (
-      <ReusableTile title={`${coinName[0].toUpperCase() + coinName.slice(1)} Perfomance`}>
-        <div className='m-10 self-center flex justify-center'>
-            <CircularProgress />
-        </div>
-      </ReusableTile>
-    )
-  }
   
   return (
-    <>
       <div className="flex flex-col mb-4 lg:mb-8">
-
         <div className="h-auto flex flex-col bg-white rounded-lg">
           
             <div className='flex flex-col justify-between mx-5'>
@@ -155,7 +112,6 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ coinData }) => {
 
         </div>                                                                 
       </div>
-    </>
   );
 }
 

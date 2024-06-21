@@ -29,31 +29,12 @@ interface AboutProps {
 }
 
 const About: React.FC<AboutProps> = ({ coinData }) => {
-    const whatIsBitcoin = `Bitcoin's price today is US$16,951.82, with a 24-hour trading volume of $19.14 B. BTC is +0.36% in the last 24 hours. It is currently -7.70% from its 7-day all-time high of $18,366.66, and 3.40% from its 7-day all-time low of $16,394.75. BTC has a circulating supply of 19.24 M BTC and a max supply of 21 M BTC.`
-
+    
     return (
-        <ReusableTile title="About Bitcoin">
-            <div className="font-semibold mb-2 -mt-2">What is Bitcoin?</div>
-            <div className="text-gray-600">{whatIsBitcoin}</div>
+        <ReusableTile title={`About ${coinData.name}`}>
             <hr className="border-gray-200 my-4 lg:block hidden" />
             <div className="text-gray-600">
-                Bitcoin is a decentralized digital currency, often referred to as cryptocurrency, that 
-                operates without the need for a central authority or intermediary. Introduced in 2009 by 
-                an anonymous person or group using the pseudonym Satoshi Nakamoto, Bitcoin revolutionized 
-                the concept of money by enabling peer-to-peer transactions on a global scale. Built on 
-                blockchain technology, Bitcoin transactions are recorded on a public ledger maintained 
-                by a network of computers called nodes, ensuring transparency and security.
-                <br></br><br></br>
-                At its core, 
-                Bitcoin represents a shift towards a trustless financial system, where transactions are 
-                verified by network participants through a process called mining. The limited supply of 
-                21 million bitcoins and the decentralized nature of its network contribute to Bitcoins 
-                value proposition as a store of value and a hedge against traditional financial systems.
-                <br></br><br></br>
-                Despite its volatile price history and regulatory challenges, Bitcoin has gained 
-                widespread adoption as a viable alternative to fiat currencies, sparking interest 
-                from investors, institutions, and technologists alike in its potential to reshape the 
-                future of finance.
+                {coinData.description}
             </div>
             <hr className="border-gray-200 my-4 hidden lg:block" />
 
@@ -87,12 +68,6 @@ const About: React.FC<AboutProps> = ({ coinData }) => {
                         </a>
                     </div>
                 </div>
-            </div>
-
-            <hr className="border-gray-200 my-4 hidden lg:block" />
-            
-            <div className="text-gray-600 hidden lg:block">
-                Start your journey into the world of Bitcoin today. Invest in the future of finance with the worlds leading cryptocurrency. Join millions of users worldwide and experience the power of decentralized currency firsthand. Get started now!
             </div>
         </ReusableTile>
     )

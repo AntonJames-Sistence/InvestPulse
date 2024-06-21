@@ -1,8 +1,7 @@
 'use client';
+
 import ReusableTile from "../ReusableTile";
 import React, { useState } from "react";
-import { fundamentals } from "../../data/fundamentals";
-import { CircularProgress } from "@mui/material";
 import { formatDate } from "../../utils/formatDate";
 import { formatAsUSD } from "../../utils/formatAsUsd";
 import { formatPercentage } from "../../utils/formatPercentage";
@@ -62,16 +61,6 @@ const Performance: React.FC<PerformanceProps> = ({ coinData }) => {
         const percentage = ((current - low) / (high - low)) * 100;
         return `${percentage}%`;
     };
-
-    if (!coinData){
-        return (
-            <ReusableTile title={`Coin Performance`}>
-                <div className='m-10 self-center flex justify-center'>
-                    <CircularProgress />
-                </div>
-            </ReusableTile>
-        )
-    }
 
     return (
         <ReusableTile title={`${coinData?.name} Performance`}>
