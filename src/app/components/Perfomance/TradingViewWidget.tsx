@@ -1,72 +1,44 @@
 'use client';
-import React, { useEffect, useState, useRef } from 'react';
-import { HiMiniChevronDoubleRight } from "react-icons/hi2";
-import { useSearchParams } from 'next/navigation';
-import Perfomance from './Perfomance';
-import { formatAsUSD } from './Perfomance';
-import { CircularProgress } from '@mui/material';
 
-interface CoinData {
-  symbol: string,
-  name: string,
-  description: string,
-  homepage: string,
-  image: string,
-  market_cap_rank: number,
-  current_price: number,
-  ath: number,
-  ath_change_percentage: number,
-  ath_date: Date,
-  atl: number,
-  atl_change_percentage: number,
-  atl_date: Date,
-  market_cap: number,
-  total_volume: number,
-  high_24h: number,
-  low_24h: number,
-  price_change_24h: number,
-  price_change_percentage_24h: number,
-  price_change_percentage_7d: number,
-  price_change_percentage_1y: number,
-  last_updated: Date;
+import React, { useEffect, useRef } from 'react';
+import { formatAsUSD } from '../../utils/formatAsUsd';
+
+interface TradingViewWidgetProps {
+  coinData : {
+    symbol: string,
+    name: string,
+    description: string,
+    homepage: string,
+    image: string,
+    market_cap_rank: number,
+    current_price: number,
+    ath: number,
+    ath_change_percentage: number,
+    ath_date: Date,
+    atl: number,
+    atl_change_percentage: number,
+    atl_date: Date,
+    market_cap: number,
+    total_volume: number,
+    high_24h: number,
+    low_24h: number,
+    price_change_24h: number,
+    price_change_percentage_24h: number,
+    price_change_percentage_7d: number,
+    price_change_percentage_1y: number,
+    last_updated: Date;
+  }
 }
 
-const TradingViewWidget: React.FC = () => {
-  const searchParams = useSearchParams();
-  const coin = searchParams.get('coin');
-  let coinName = coin?.toLowerCase() || 'bitcoin';
-
+const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ coinData }) => {
   const container = useRef<HTMLDivElement>(null);
-  const [coinData, setCoinData] = useState<CoinData | null>(null);
-  // const [coinPrice, setCoinPrice] = useState<CoinPrice | null>(null);
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
-
-  useEffect(() => {
-    fetchCoinInfo(coinName);
-  }, [coinName])
 
   useEffect(() => {
     if (coinData){
       generateTradingViewWidget(coinData.symbol, isMobile);
     }
-  }, [coinData, coinName])
-
-  const formatCoinName = (str: string) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
-
-  const fetchCoinInfo = async (name: string) => {
-    const apiUrl = `/api/coin?id=${name}`;
-    
-    try {
-      let data = await fetch(apiUrl);
-      let jsonData = await data.json();
-      
-      setCoinData(jsonData);
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  }, [coinData])
 
   const generateTradingViewWidget = (coinSymbol: string, isMobile: boolean) => {
     if (!container.current) return;
@@ -104,20 +76,9 @@ const TradingViewWidget: React.FC = () => {
   };
   
   return (
-    <>
-      <div className="flex flex-col mb-8">
-        <div className="py-4 flex">
-          <p className="text-gray-600">Cryptocurrencies</p>
-          <HiMiniChevronDoubleRight className="self-center ml-2 mr-1 text-gray-600" /> 
-          <p>{formatCoinName(coinName)}</p>
-        </div>
-
+      <div className="flex flex-col mb-4 lg:mb-8">
         <div className="h-auto flex flex-col bg-white rounded-lg">
-          {!coinData ? (
-            <div className='m-10 self-center flex justify-center'>
-              <CircularProgress />
-            </div>
-          ):(
+          
             <div className='flex flex-col justify-between mx-5'>
               <div className='flex flex-row mt-7 mb-10'>
                 <img src={coinData.image} alt={`${coinData.name} logo`} className='h-10 w-10 bg-white'></img>
@@ -144,8 +105,6 @@ const TradingViewWidget: React.FC = () => {
 
               <div className='mb-10 font-semibold text'>{`${coinData.name} Price Chart (USD)`}</div>
             </div>
-            
-          )}
           
           <div className='mx-5 mb-5 z-10'>
             <div className="tradingview-widget-container self-center" ref={container}></div>
@@ -153,8 +112,6 @@ const TradingViewWidget: React.FC = () => {
 
         </div>                                                                 
       </div>
-      <Perfomance coin={coinData} />
-    </>
   );
 }
 

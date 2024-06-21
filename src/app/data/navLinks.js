@@ -1,6 +1,12 @@
+import { FaChartLine } from "react-icons/fa";
+import { MdOutlineCurrencyExchange } from "react-icons/md";
+import { GiWallet } from "react-icons/gi";
+import { FaBook, FaNewspaper } from "react-icons/fa6";
+
 export const navLinks = [
-    { href: "https://www.coinbase.com/cloud", title: "Explore", },
-    { href: "https://www.coinbase.com/learn", title: "Learn", },
-    { href: "https://www.coinbase.com/wallet", title: "Wallet", },
-    { href: "https://www.coinbase.com/exchange", title: "Exchange", },
-  ];
+    { href: "/news", title: "News", icon: <FaNewspaper />, },
+    { href: "https://www.coinbase.com/cloud", title: "Explore", icon: <FaChartLine />, },
+    { href: "https://www.coinbase.com/learn", title: "Learn", icon: <FaBook />, },
+    { href: "https://www.coinbase.com/wallet", title: "Wallet", icon: <GiWallet />, },
+    { href: "https://www.coinbase.com/exchange", title: "Exchange", icon: <MdOutlineCurrencyExchange />, },
+];

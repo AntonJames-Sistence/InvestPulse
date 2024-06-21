@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { perfomanceNav } from '../data/perfomanceNav'; 
+import { perfomanceNav } from '../../data/perfomanceNav'; 
 
 const PerfomanceNav: React.FC = () => {
     const [activeTab, setActiveTab] = useState<string>('Overview');

@@ -3,7 +3,7 @@ import ReusableTile from "./ReusableTile";
 import React, { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import toast, { Toaster } from "react-hot-toast";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Button } from "@mui/material";
 
 interface Coin {
     id: string,
@@ -34,7 +34,7 @@ const TrendingCoins: React.FC = () => {
         try {
             const response = await fetch(url);
             const data = await response.json();
-            let topThree = data.slice(0, 3);
+            let topThree = data.slice(0, 5);
             setTrendingCoins(topThree);
         } catch (error) {
             console.log(error);
@@ -47,9 +47,15 @@ const TrendingCoins: React.FC = () => {
         setLoading(true);
 
         try {
+            // Update trending coins
             await fetch('api/trending', {
                 method: 'PUT'
             });
+            // Udate news
+            await fetch('api/news', {
+                method: 'PUT'
+            });
+
             fetchTrendingCoins();
             toast.success("Trending Coins are up-to-date");
         } catch (error) {
@@ -87,9 +93,19 @@ const TrendingCoins: React.FC = () => {
                             </a>
                         );
                     })}
-                    <button onClick={hadleUpdateDB} className="px-4 py-2 bg-blue-700 text-white font-[500] mt-2 rounded-xl self-center hover:bg-blue-400 duration-200 easy-in-out">
-                        Update Prices
-                    </button>
+                    <Button 
+                        variant="contained" 
+                        sx={{
+                            mx: 'auto',
+                            '&.MuiButton-root': {
+                                backgroundColor: '#1976d2',
+                                color: '#ffffff',
+                                borderRadius: '10px'
+                            },}} 
+                        onClick={hadleUpdateDB}
+                    >
+                    Update Prices
+                    </Button>
                 </div>
             ) : (
                 <div className="self-center text-black"><CircularProgress /></div>

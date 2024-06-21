@@ -19,7 +19,7 @@ const LoginButton: React.FC = () => {
   if (authState.isAuthenticated) {
     return (
       <>
-        <Typography variant="body1" sx={{ mx: 2 }}>
+        <Typography variant="body1" sx={{ ml: 8 }}>
           {authState.user?.username}
         </Typography>
         <LogoutButton />
@@ -34,10 +34,11 @@ const LoginButton: React.FC = () => {
         color="primary"
         onClick={openModal}
         sx={{
-          mx: 2,
+          ml: 8,
           '&.MuiButton-root': {
             backgroundColor: '#1976d2',
             color: '#ffffff',
+            borderRadius: '10px'
           },
         }}
       >
