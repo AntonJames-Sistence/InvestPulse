@@ -1,11 +1,11 @@
 'use client';
+
 import React, { useEffect, useState, useRef } from 'react';
-import { HiMiniChevronDoubleRight } from "react-icons/hi2";
 import { useSearchParams } from 'next/navigation';
 import Perfomance from './Perfomance';
-import { formatAsUSD } from './Perfomance';
 import { CircularProgress } from '@mui/material';
-import ReusableTile from './ReusableTile';
+import ReusableTile from '../ReusableTile';
+import { formatAsUSD } from '../../utils/formatAsUsd';
 
 interface CoinData {
   symbol: string,

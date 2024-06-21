@@ -1,4 +1,4 @@
-import ReusableTile from "./ReusableTile";
+import ReusableTile from "../ReusableTile";
 import { FaArrowRightLong } from "react-icons/fa6";
 
 

@@ -1,8 +1,11 @@
 'use client';
-import ReusableTile from "./ReusableTile";
+import ReusableTile from "../ReusableTile";
 import React, { useState } from "react";
-import { fundamentals } from "../data/fundamentals";
+import { fundamentals } from "../../data/fundamentals";
 import { CircularProgress } from "@mui/material";
+import { formatDate } from "../../utils/formatDate";
+import { formatAsUSD } from "../../utils/formatAsUsd";
+import { formatPercentage } from "../../utils/formatPercentage";
 
 interface CoinData {
     symbol: string;
@@ -32,28 +35,6 @@ interface CoinData {
 interface PerfomanceProps {
     coin: CoinData | null;
 }
-
-export const formatAsUSD = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(value);
-};
-
-export const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: '2-digit',
-    }).format(new Date(date));
-};
-
-export const formatPercentage = (value: number) => {
-    if (typeof value !== 'number') {
-        return parseFloat(value).toFixed(2);
-    }
-    return value.toFixed(2);
-};
 
 const Perfomance: React.FC<PerfomanceProps> = ({ coin }) => {
     const [showFundamentalsTip, setShowFundamentalsTip] = useState(false);

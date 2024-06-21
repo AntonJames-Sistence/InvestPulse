@@ -1,12 +1,12 @@
 'use client';
 import NavBar from "./components/NavBar";
-import TradingViewWidget from "./components/TradingViewWidget";
+import TradingViewWidget from "./components/Perfomance/TradingViewWidget";
 import Team from "./components/Team";
 import Tokenomics from "./components/Tokenomics";
-import About from "./components/About";
+import About from "./components/Perfomance/About";
 import Sentiment from "./components/Sentiment/Sentiment";
-import Perfomance from "./components/Perfomance";
-import PerfomanceNav from "./components/PerfomanceNav";
+import Perfomance from "./components/Perfomance/Perfomance";
+import PerfomanceNav from "./components/Perfomance/PerfomanceNav";
 import Banner from "./components/Banner";
 import TrendingCoins from "./components/TrendingCoins";
 import Footer from "./components/Footer";
@@ -29,8 +29,8 @@ export default function Home() {
           </Suspense>
           {/* <PerfomanceNav /> */}
           
-          <Sentiment />
           <About />
+          <Sentiment />
           <Tokenomics />
           <Team />
         </div>

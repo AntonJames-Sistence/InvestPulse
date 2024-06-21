@@ -81,7 +81,7 @@ const News: React.FC = () => {
   if (!news.length) {
     return (
       <Container>
-        <div className='m-10 self-center flex justify-center'>
+        <div className='mt-24 mb-8 self-center flex justify-center'>
             <CircularProgress />
         </div>
       </Container>
