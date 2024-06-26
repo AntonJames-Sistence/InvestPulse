@@ -1,5 +1,6 @@
 import ReusableTile from "../ReusableTile";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { styled } from '@mui/system';
 
 interface AboutProps {
     coinData: {
@@ -28,6 +29,18 @@ interface AboutProps {
     };
 }
 
+const ReadMoreStyled = styled('a')(({ theme }) => ({
+    color: theme.palette.primary.main,
+    textDecoration: 'none',
+    fontWeight: 'bold',
+    alignSelf: 'self-end',
+    marginTop: '20px',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+}));
+
+
 const About: React.FC<AboutProps> = ({ coinData }) => {
     
     return (
@@ -36,9 +49,12 @@ const About: React.FC<AboutProps> = ({ coinData }) => {
             <div className="text-gray-600">
                 {coinData.description}
             </div>
+            <ReadMoreStyled href={coinData.homepage} target="_blank" rel="noopener noreferrer">
+                {`Learn more about ${coinData.name}`}
+            </ReadMoreStyled>
             <hr className="border-gray-200 mt-4 hidden lg:block" />
 
-            <div className="font-semibold text-2xl mb-4 mt-2">Already Holding Bitcoin?</div>
+            <div className="font-semibold text-2xl mb-4 mt-2">{`Already Holding ${coinData.name}`}</div>
 
             <div className="flex flex-col lg:flex-row">
                 <div className="w-full lg:h-40 w-[47%] bg-gradient-to-br from-green-500 to-blue-500 rounded-xl flex mr-8">
