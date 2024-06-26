@@ -7,6 +7,7 @@ import { CircularProgress, Button } from "@mui/material";
 import { useAuth } from "./Auth/AuthContext";
 import Modal from "./Modal/Modal";
 import LoginForm from "./Auth/LoginForm";
+import SignupForm from "./Auth/SignupForm";
 
 interface Coin {
     id: string,
@@ -18,12 +19,16 @@ interface Coin {
 }
 
 const TrendingCoins: React.FC = () => {
-    const [trendingCoins, setTrendingCoins] = useState<Coin[]>([]);;
-    const [loading, setLoading] = useState(true);
-    const [openLoginModal, setOpenLoginModal] = useState(false);
-    const router = useRouter();
     // State of the user
     const { authState } = useAuth();
+
+    const [trendingCoins, setTrendingCoins] = useState<Coin[]>([]);;
+    const [loading, setLoading] = useState(true);
+    // Modal manipulation states
+    const [openModal, setOpenModal] = useState(false);
+    const [isLogin, setIsLogin] = useState(!authState.isAuthenticated);
+    
+    const router = useRouter();
 
     useEffect(() => {
         fetchTrendingCoins();
@@ -40,8 +45,8 @@ const TrendingCoins: React.FC = () => {
         try {
             const response = await fetch(url);
             const data = await response.json();
-            let topThree = data.slice(0, 5);
-            setTrendingCoins(topThree);
+            let topTrending = data.slice(0, 4);
+            setTrendingCoins(topTrending);
         } catch (error) {
             console.log(error);
         } finally {
@@ -72,17 +77,25 @@ const TrendingCoins: React.FC = () => {
     };
 
     const handleLoginClick = () => {
-        setOpenLoginModal(true);
+        setOpenModal(true);
     };
 
-    const handleCloseLoginModal = () => {
-        setOpenLoginModal(false);
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
+
+    const toggleForm = () => {
+        setIsLogin(!isLogin);
     };
 
     return (
         <ReusableTile title="Trending Coins (24h)">
-            <Modal isOpen={openLoginModal} onClose={handleCloseLoginModal}>
-                <LoginForm onClose={handleCloseLoginModal} toggleForm={() => {}} />
+            <Modal isOpen={openModal} onClose={handleCloseModal}>
+            {isLogin ? (
+                <LoginForm toggleForm={toggleForm} onClose={handleCloseModal} />
+                ) : (
+                <SignupForm toggleForm={toggleForm} onClose={handleCloseModal} />
+                )}
             </Modal>
             {!loading ? (
                 <div className="flex flex-col -mt-4">

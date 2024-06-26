@@ -25,10 +25,7 @@ const LogoutButton: React.FC = () => {
       color="secondary"
       onClick={handleLogout}
       sx={{
-        '&.MuiButton-root': {
-          backgroundColor: '#d32f2f',
-          color: '#ffffff',
-        },
+        borderRadius: '10px'
       }}
     >
       Logout

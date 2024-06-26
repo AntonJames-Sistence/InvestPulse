@@ -35,11 +35,7 @@ const LoginButton: React.FC = () => {
         onClick={openModal}
         sx={{
           ml: 8,
-          '&.MuiButton-root': {
-            backgroundColor: '#1976d2',
-            color: '#ffffff',
-            borderRadius: '10px'
-          },
+          borderRadius: '10px'
         }}
       >
         Login

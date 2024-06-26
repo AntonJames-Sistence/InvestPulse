@@ -82,12 +82,6 @@ const SignupForm: React.FC<SignupFormProps> = ({ toggleForm, onClose }) => {
         color="primary"
         type="submit"
         sx={{
-          // Ensure this style has higher specificity
-          '&.MuiButton-root': {
-            backgroundColor: '#1976d2',
-            color: '#ffffff',
-            borderRadius: '10px'
-          },
         }}
       >
         Sign Up

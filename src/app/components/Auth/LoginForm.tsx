@@ -94,11 +94,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
         color="primary"
         type="submit"
         sx={{
-          '&.MuiButton-root': {
-            backgroundColor: '#1976d2',
-            color: '#ffffff',
-            borderRadius: '10px'
-          },
         }}
       >
         Login
