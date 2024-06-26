@@ -19,8 +19,8 @@ const LoginButton: React.FC = () => {
   if (authState.isAuthenticated) {
     return (
       <>
-        <Typography variant="body1" sx={{ ml: 8 }}>
-          {authState.user?.username}
+        <Typography variant="body1" sx={{ ml: 6, mr: 4 }}>
+          {`Welcome back ${authState.user?.username}`}
         </Typography>
         <LogoutButton />
       </>

@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import toast, { Toaster } from "react-hot-toast";
 import { CircularProgress, Button } from "@mui/material";
 import { useAuth } from "./Auth/AuthContext";
+import Modal from "./Modal/Modal";
+import LoginForm from "./Auth/LoginForm";
 
 interface Coin {
     id: string,
@@ -18,6 +20,7 @@ interface Coin {
 const TrendingCoins: React.FC = () => {
     const [trendingCoins, setTrendingCoins] = useState<Coin[]>([]);;
     const [loading, setLoading] = useState(true);
+    const [openLoginModal, setOpenLoginModal] = useState(false);
     const router = useRouter();
     // State of the user
     const { authState } = useAuth();
@@ -54,7 +57,7 @@ const TrendingCoins: React.FC = () => {
             await fetch('api/trending', {
                 method: 'PUT'
             });
-            // Udate news
+            // Update news
             await fetch('api/news', {
                 method: 'PUT'
             });
@@ -68,8 +71,19 @@ const TrendingCoins: React.FC = () => {
         }
     };
 
+    const handleLoginClick = () => {
+        setOpenLoginModal(true);
+    };
+
+    const handleCloseLoginModal = () => {
+        setOpenLoginModal(false);
+    };
+
     return (
         <ReusableTile title="Trending Coins (24h)">
+            <Modal isOpen={openLoginModal} onClose={handleCloseLoginModal}>
+                <LoginForm onClose={handleCloseLoginModal} toggleForm={() => {}} />
+            </Modal>
             {!loading ? (
                 <div className="flex flex-col -mt-4">
                     {trendingCoins.map((coin, idx) => {
@@ -103,10 +117,9 @@ const TrendingCoins: React.FC = () => {
                             '&.MuiButton-root': {
                                 borderRadius: '10px'
                             },}} 
-                        onClick={hadleUpdateDB}
-                        disabled={!authState.isAuthenticated} // Disable button if user is logged out
-                    >
-                    Update Prices
+                        onClick={authState.isAuthenticated ? hadleUpdateDB : handleLoginClick}
+                        >
+                    {authState.isAuthenticated ? 'Update Prices' : 'Login to Update Prices'}
                     </Button>
                 </div>
             ) : (

@@ -18,7 +18,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
       fullWidth
       PaperProps={{
         style: {
-          borderRadius: '10px', // You can set your desired border radius here
+          borderRadius: '10px',
         },
       }}
     >

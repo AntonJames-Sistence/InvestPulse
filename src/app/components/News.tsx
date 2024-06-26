@@ -21,7 +21,7 @@ const NewsCard = styled(Card)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
-  boxShadow: '0 12px 20px rgba(0, 0, 0, 0.3)',
+  boxShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
   borderRadius: '15px',
 }));
 
