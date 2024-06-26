@@ -1,9 +1,11 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import ThemeRegistry from './ThemeRegistry';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './theme'
 import { AuthProvider } from "./components/Auth/AuthContext";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 
 const inter = Inter({ subsets: ["latin"]});
 
@@ -19,13 +21,15 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body className={`bg-gray-200 ${inter.className}`}>
-        <AuthProvider>
-          <ThemeRegistry>
-            <NavBar />
-            {children}
-            <Footer />
-          </ThemeRegistry>
-        </AuthProvider>
+        <AppRouterCacheProvider>
+          <AuthProvider>
+            <ThemeProvider theme={theme}>
+              <NavBar />
+              {children}
+              <Footer />
+            </ThemeProvider>
+          </AuthProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

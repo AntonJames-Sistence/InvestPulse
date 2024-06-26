@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import toast, { Toaster } from "react-hot-toast";
 import { CircularProgress, Button } from "@mui/material";
+import { useAuth } from "./Auth/AuthContext";
 
 interface Coin {
     id: string,
@@ -18,6 +19,8 @@ const TrendingCoins: React.FC = () => {
     const [trendingCoins, setTrendingCoins] = useState<Coin[]>([]);;
     const [loading, setLoading] = useState(true);
     const router = useRouter();
+    // State of the user
+    const { authState } = useAuth();
 
     useEffect(() => {
         fetchTrendingCoins();
@@ -98,11 +101,10 @@ const TrendingCoins: React.FC = () => {
                         sx={{
                             mx: 'auto',
                             '&.MuiButton-root': {
-                                backgroundColor: '#1976d2',
-                                color: '#ffffff',
                                 borderRadius: '10px'
                             },}} 
                         onClick={hadleUpdateDB}
+                        disabled={!authState.isAuthenticated} // Disable button if user is logged out
                     >
                     Update Prices
                     </Button>
