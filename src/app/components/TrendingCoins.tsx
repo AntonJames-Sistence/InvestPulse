@@ -9,6 +9,7 @@ import Modal from "./Modal/Modal";
 import LoginForm from "./Auth/LoginForm";
 import SignupForm from "./Auth/SignupForm";
 import { RxUpdate } from "react-icons/rx";
+import LoadingButton from '@mui/lab/LoadingButton';
 
 interface Coin {
     id: string,
@@ -89,6 +90,14 @@ const TrendingCoins: React.FC = () => {
         setIsLogin(!isLogin);
     };
 
+    if (!trendingCoins.length) {
+        return (
+            <ReusableTile title="Trending Coins (24h)">
+                <div className="self-center text-black"><CircularProgress /></div>
+            </ReusableTile>
+        )
+    }
+
     return (
         <ReusableTile title="Trending Coins (24h)">
             <Modal isOpen={openModal} onClose={handleCloseModal}>
@@ -98,45 +107,42 @@ const TrendingCoins: React.FC = () => {
                 <SignupForm toggleForm={toggleForm} onClose={handleCloseModal} />
                 )}
             </Modal>
-            {!loading ? (
-                <div className="flex flex-col -mt-4">
-                    {trendingCoins.map((coin, idx) => {
-                        const priceChange = parseFloat(coin.price_change_percentage_24h);
-                        const isNegative = priceChange < 0;
-                        return (
-                            <a className={`rounded-lg ${isNegative ? 'hover-red' : 'hover-green'} ease-in-out duration-200 h-[200%] mb-4 cursor-pointer "`}
-                                onClick={(e) => handleClick(e, coin.id)} 
-                                key={idx}>
-                                <div className="flex justify-between p-2">
-                                    <div className="flex self-center">
-                                        <img className="h-6 w-6 rounded-full" src={coin.image} alt={`${coin.name} image`} />
-                                        <div className="flex self-center ml-2 font-[400]">
-                                            <p>{coin.name}</p>
-                                            <p className="ml-1">{`(${coin.symbol})`}</p>
-                                        </div>
-                                    </div>
-
-                                    <div className={`flex flex-row bg-${isNegative ? 'red' : 'green'}-100 bg-opacity-50 rounded-md max-w-[100px] px-6 py-1 text-${isNegative ? 'red' : 'green'}-600 self-center text-sm`}>
-                                        <div className={`triangle-${isNegative ? 'red' : 'green'} self-center border-${isNegative ? 'red' : 'green'} mr-1`}></div>
-                                        <div>{`${priceChange.toFixed(2)}%`}</div>
+            <div className="flex flex-col -mt-4">
+                {trendingCoins.map((coin, idx) => {
+                    const priceChange = parseFloat(coin.price_change_percentage_24h);
+                    const isNegative = priceChange < 0;
+                    return (
+                        <a className={`rounded-lg ${isNegative ? 'hover-red' : 'hover-green'} ease-in-out duration-200 h-[200%] mb-4 cursor-pointer "`}
+                            onClick={(e) => handleClick(e, coin.id)} 
+                            key={idx}>
+                            <div className="flex justify-between p-2">
+                                <div className="flex self-center">
+                                    <img className="h-6 w-6 rounded-full" src={coin.image} alt={`${coin.name} image`} />
+                                    <div className="flex self-center ml-2 font-[400]">
+                                        <p>{coin.name}</p>
+                                        <p className="ml-1">{`(${coin.symbol})`}</p>
                                     </div>
                                 </div>
-                            </a>
-                        );
-                    })}
-                    <Button 
-                        variant="contained"
-                        size="small"
-                        sx={{ mx: 'auto', borderRadius: '10px'}} 
-                        onClick={authState.isAuthenticated ? hadleUpdateDB : handleLoginClick}
-                        startIcon={<RxUpdate />}
-                        >
-                    {authState.isAuthenticated ? 'Update Prices' : 'Login to Update Prices'}
-                    </Button>
-                </div>
-            ) : (
-                <div className="self-center text-black"><CircularProgress /></div>
-            )}
+
+                                <div className={`flex flex-row bg-${isNegative ? 'red' : 'green'}-100 bg-opacity-50 rounded-md max-w-[100px] px-6 py-1 text-${isNegative ? 'red' : 'green'}-600 self-center text-sm`}>
+                                    <div className={`triangle-${isNegative ? 'red' : 'green'} self-center border-${isNegative ? 'red' : 'green'} mr-1`}></div>
+                                    <div>{`${priceChange.toFixed(2)}%`}</div>
+                                </div>
+                            </div>
+                        </a>
+                    );
+                })}
+                <LoadingButton 
+                    variant="contained"
+                    size="small"
+                    loading={loading}
+                    sx={{ mx: 'auto', borderRadius: '10px'}} 
+                    onClick={authState.isAuthenticated ? hadleUpdateDB : handleLoginClick}
+                    startIcon={<RxUpdate />}
+                    >
+                {authState.isAuthenticated ? 'Update Prices' : 'Login to Update Prices'}
+                </LoadingButton>
+            </div>
         </ReusableTile>
     )
 }

@@ -4,7 +4,6 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import csrfFetch from '../../utils/csrfFetch';
 import { useAuth } from './AuthContext';
 import LoadingButton from '@mui/lab/LoadingButton';
-import SaveIcon from '@mui/icons-material/Save';
 
 interface LoginFormProps {
   toggleForm: () => void;
