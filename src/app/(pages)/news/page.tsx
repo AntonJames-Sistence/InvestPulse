@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { Container, Card, CardContent, CardMedia, Typography, CircularProgress, Grid, Button } from '@mui/material';
+import { Container, Card, CardContent, CardMedia, Typography, CircularProgress, Grid, Button, Link } from '@mui/material';
 import { styled } from '@mui/system';
 import { truncateText } from '../../utils/truncateText';
 
@@ -37,16 +37,6 @@ const CardContentStyled = styled(CardContent)({
 const DateStyled = styled('span')(({ theme }) => ({
   color: theme.palette.text.secondary,
   alignSelf: 'flex-end',
-}));
-
-const ReadMoreStyled = styled('a')(({ theme }) => ({
-  color: theme.palette.primary.main,
-  textDecoration: 'none',
-  fontWeight: 'bold',
-  marginTop: 'auto',
-  '&:hover': {
-    textDecoration: 'underline',
-  },
 }));
 
 const FooterStyled = styled('div')({
@@ -115,9 +105,9 @@ const News: React.FC = () => {
                   {truncateText(article.description, 150)}
                 </Typography>
                 <FooterStyled>
-                  <ReadMoreStyled href={article.link} target="_blank" rel="noopener noreferrer">
+                  <Link href={article.link} target="_blank" rel="noopener noreferrer" underline='hover'>
                     Read more
-                  </ReadMoreStyled>
+                  </Link>
                   <DateStyled>
                     {new Date(article.pub_date ?? '').toLocaleDateString()}
                   </DateStyled>

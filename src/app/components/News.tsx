@@ -123,8 +123,6 @@ const News: React.FC = () => {
               sx={{
                   mx: 'auto',
                   '&.MuiButton-root': {
-                      backgroundColor: '#1976d2',
-                      color: '#ffffff',
                       borderRadius: '10px'
                   },}}
           >

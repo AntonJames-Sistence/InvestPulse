@@ -1,6 +1,7 @@
 import ReusableTile from "../ReusableTile";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { styled } from '@mui/system';
+import { Link } from "@mui/material";
 
 interface AboutProps {
     coinData: {
@@ -29,29 +30,30 @@ interface AboutProps {
     };
 }
 
-const ReadMoreStyled = styled('a')(({ theme }) => ({
-    color: theme.palette.primary.main,
-    textDecoration: 'none',
-    fontWeight: 'bold',
-    alignSelf: 'self-end',
-    marginTop: '20px',
-    '&:hover': {
-      textDecoration: 'underline',
-    },
-}));
-
-
 const About: React.FC<AboutProps> = ({ coinData }) => {
+    const noDescriptionMessage = (
+        <>
+            {`Coin description is currently unavailable. For the latest updates and detailed information, please visit the official webpage:`}
+            <Link href={coinData.homepage} underline="hover" target="_blank" rel="noopener noreferrer">
+                {coinData.homepage}
+            </Link>
+        </>
+    )
+    const coinDescription = (
+        <>
+            <div>
+                    {coinData.description}
+            </div>
+            <Link href={coinData.homepage} underline="hover" sx={{mt: 4, alignSelf: 'self-end'}} target="_blank" rel="noopener noreferrer">
+                    {`Learn more about ${coinData.name}`}
+            </Link>
+        </>
+    )
     
     return (
         <ReusableTile title={`About ${coinData.name}`}>
             <hr className="border-gray-200 -mt-4 mb-4 hidden lg:block" />
-            <div className="text-gray-600">
-                {coinData.description}
-            </div>
-            <ReadMoreStyled href={coinData.homepage} target="_blank" rel="noopener noreferrer">
-                {`Learn more about ${coinData.name}`}
-            </ReadMoreStyled>
+            {coinData.description ? coinDescription : noDescriptionMessage}
             <hr className="border-gray-200 mt-4 hidden lg:block" />
 
             <div className="font-semibold text-2xl mb-4 mt-2">{`Already Holding ${coinData.name}`}</div>
