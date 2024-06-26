@@ -36,7 +36,7 @@ const LoginButton: React.FC = () => {
         size='small'
         onClick={openModal}
         startIcon={<CgLogIn />}
-        sx={{ ml: 8, borderRadius: '10px' }}
+        sx={{ ml: 8, borderRadius: '10px', px: 2 }}
       >
         Login
       </Button>
