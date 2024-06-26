@@ -5,6 +5,7 @@ import SignupForm from './SignupForm';
 import LogoutButton from './LogoutButton';
 import { Button, Typography } from '@mui/material';
 import { useAuth } from './AuthContext';
+import { CgLogIn } from "react-icons/cg";
 
 const LoginButton: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -32,11 +33,10 @@ const LoginButton: React.FC = () => {
       <Button
         variant="contained"
         color="primary"
+        size='small'
         onClick={openModal}
-        sx={{
-          ml: 8,
-          borderRadius: '10px'
-        }}
+        startIcon={<CgLogIn />}
+        sx={{ ml: 8, borderRadius: '10px' }}
       >
         Login
       </Button>

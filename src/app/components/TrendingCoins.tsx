@@ -8,6 +8,7 @@ import { useAuth } from "./Auth/AuthContext";
 import Modal from "./Modal/Modal";
 import LoginForm from "./Auth/LoginForm";
 import SignupForm from "./Auth/SignupForm";
+import { RxUpdate } from "react-icons/rx";
 
 interface Coin {
     id: string,
@@ -124,13 +125,11 @@ const TrendingCoins: React.FC = () => {
                         );
                     })}
                     <Button 
-                        variant="contained" 
-                        sx={{
-                            mx: 'auto',
-                            '&.MuiButton-root': {
-                                borderRadius: '10px'
-                            },}} 
+                        variant="contained"
+                        size="small"
+                        sx={{ mx: 'auto', borderRadius: '10px'}} 
                         onClick={authState.isAuthenticated ? hadleUpdateDB : handleLoginClick}
+                        startIcon={<RxUpdate />}
                         >
                     {authState.isAuthenticated ? 'Update Prices' : 'Login to Update Prices'}
                     </Button>

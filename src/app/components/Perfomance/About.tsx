@@ -1,7 +1,7 @@
 import ReusableTile from "../ReusableTile";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { styled } from '@mui/system';
-import { Link } from "@mui/material";
+import { Link, Button } from "@mui/material";
 
 interface AboutProps {
     coinData: {
@@ -42,10 +42,10 @@ const About: React.FC<AboutProps> = ({ coinData }) => {
     const coinDescription = (
         <>
             <div>
-                    {coinData.description}
+                {coinData.description}
             </div>
             <Link href={coinData.homepage} underline="hover" sx={{mt: 4, alignSelf: 'self-end'}} target="_blank" rel="noopener noreferrer">
-                    {`Learn more about ${coinData.name}`}
+                {`Learn more about ${coinData.name}`}
             </Link>
         </>
     )
@@ -59,31 +59,37 @@ const About: React.FC<AboutProps> = ({ coinData }) => {
             <div className="font-semibold text-2xl mb-4 mt-2">{`Already Holding ${coinData.name}`}</div>
 
             <div className="flex flex-col lg:flex-row">
-                <div className="w-full lg:h-40 w-[47%] bg-gradient-to-br from-green-500 to-blue-500 rounded-xl flex mr-8">
+                <div className="w-full lg:h-40 w-[47%] bg-gradient-to-br from-blue-500 to-green-500 rounded-xl flex mr-8">
                     <img className="w-1/3 rounded-lg m-3" src="./placeholder1.png"></img>
 
-                    <div className="self-center ml-3">
+                    <div className="self-center m-2 p-3 h-full flex flex-col justify-between">
                         <p className="font-semibold text-white text-xl w-3/4">Calculate your Profits</p>
-                        <a href="https://www.coinbase.com/earn" target="_blanc">
-                            <button className="flex bg-white text-black rounded-xl py-1.5 px-4 mt-4 font-semibold text-sm hover:bg-gray-200 hover:scale-110 duration-200 easy-in-out"> 
-                                <p>Check Now</p>
-                                <FaArrowRightLong className="self-center ml-2" />
-                            </button>
-                        </a>
+                        <Button 
+                            variant="contained" 
+                            size="small"
+                            href="https://www.coinbase.com/earn"
+                            target="_blanc"
+                            endIcon={<FaArrowRightLong />}
+                            sx={{ borderRadius: '10px', m: 'auto', ml: 0, mb: 0}}>
+                            Check now
+                        </ Button>
                     </div>
                 </div>
 
                 <div className="w-full my-4 lg:my-0 lg:h-40 w-[47%] bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex">
                     <img className="w-1/3 rounded-lg m-3" src="./placeholder2.png"></img>
 
-                    <div className="self-center ml-3">
+                    <div className="self-center m-2 p-3 h-full flex flex-col justify-between">
                         <p className="font-semibold text-white text-xl w-3/4">Calculate your tax liability</p>
-                        <a href="https://www.coinbase.com/earn" target="_blanc">
-                            <button className="flex bg-white text-black rounded-xl py-1.5 px-4 mt-4 font-semibold text-sm hover:bg-gray-200 hover:scale-110 duration-200 easy-in-out"> 
-                                <p>Check Now</p>
-                                <FaArrowRightLong className="self-center ml-2" />
-                            </button>
-                        </a>
+                        <Button 
+                            variant="contained" 
+                            size="small"
+                            href="https://www.coinbase.com/earn"
+                            target="_blanc"
+                            endIcon={<FaArrowRightLong />}
+                            sx={{ borderRadius: '10px', m: 'auto', ml: 0, mb: 0}}>
+                            Check now
+                        </ Button>
                     </div>
                 </div>
             </div>

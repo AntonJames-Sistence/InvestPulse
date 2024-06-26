@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/navigation'
 import { useAuth } from './AuthContext';
+import { CgLogOut } from "react-icons/cg";
 
 const LogoutButton: React.FC = () => {
   const { logout } = useAuth();
@@ -23,10 +24,10 @@ const LogoutButton: React.FC = () => {
     <Button
       variant="contained"
       color="secondary"
+      size='small'
       onClick={handleLogout}
-      sx={{
-        borderRadius: '10px'
-      }}
+      endIcon={<CgLogOut />}
+      sx={{ borderRadius: '10px' }}
     >
       Logout
     </Button>

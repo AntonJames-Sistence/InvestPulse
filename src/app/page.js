@@ -23,7 +23,7 @@ export default function Home() {
           <Suspense>
             <CoinDataProvider />
           </Suspense>
-          <Sentiment />
+          {/* <Sentiment /> */}
           <Tokenomics />
           <Team />
         </div>

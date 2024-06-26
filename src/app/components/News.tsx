@@ -4,6 +4,7 @@ import { styled } from '@mui/system';
 import ReusableTile from './ReusableTile';
 import Link from 'next/link';
 import { truncateText } from '../utils/truncateText';
+import { IoNewspaperOutline } from "react-icons/io5";
 
 interface NewsData {
   article_id: string;
@@ -119,12 +120,10 @@ const News: React.FC = () => {
         </Grid>
         <Link href="/news" passHref className="flex justify-center mt-4">
           <Button 
-              variant="contained" 
-              sx={{
-                  mx: 'auto',
-                  '&.MuiButton-root': {
-                      borderRadius: '10px'
-                  },}}
+              variant="contained"
+              size='small'
+              startIcon={<IoNewspaperOutline />}
+              sx={{ mx: 'auto', borderRadius: '10px' }}
           >
             All News
           </Button>
