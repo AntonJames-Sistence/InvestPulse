@@ -42,10 +42,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
         // Generate JWT token
         const token = jwt.sign({ userId: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
         
-        // Generate session token (this could be any unique value, using JWT for simplicity)
-        const sessionToken = jwt.sign({ userId: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
-
-        return NextResponse.json({ message: 'Signup successful', token, sessionToken });
+        return NextResponse.json({ message: 'Signup successful', token, username: user.username });
     } catch (error) {
         return NextResponse.json({ message: `Error creating user: ${error}` }, { status: 500 });
     }
