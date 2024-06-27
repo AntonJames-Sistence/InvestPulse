@@ -5,6 +5,7 @@ import SignupForm from './SignupForm';
 import LogoutButton from './LogoutButton';
 import { Button, Typography } from '@mui/material';
 import { useAuth } from './AuthContext';
+import { CgLogIn } from "react-icons/cg";
 
 const LoginButton: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -19,8 +20,8 @@ const LoginButton: React.FC = () => {
   if (authState.isAuthenticated) {
     return (
       <>
-        <Typography variant="body1" sx={{ ml: 8 }}>
-          {authState.user?.username}
+        <Typography variant="body1" sx={{ ml: 6, mr: 4 }}>
+          {`Welcome back ${authState.user?.username}`}
         </Typography>
         <LogoutButton />
       </>
@@ -32,15 +33,10 @@ const LoginButton: React.FC = () => {
       <Button
         variant="contained"
         color="primary"
+        size='small'
         onClick={openModal}
-        sx={{
-          ml: 8,
-          '&.MuiButton-root': {
-            backgroundColor: '#1976d2',
-            color: '#ffffff',
-            borderRadius: '10px'
-          },
-        }}
+        startIcon={<CgLogIn />}
+        sx={{ ml: 8, borderRadius: '5px', px: 2 }}
       >
         Login
       </Button>

@@ -3,6 +3,7 @@ import { TextField, Button, Typography, Box, IconButton, InputAdornment, Alert }
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import csrfFetch from '../../utils/csrfFetch';
 import { useAuth } from './AuthContext';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 interface LoginFormProps {
   toggleForm: () => void;
@@ -12,6 +13,7 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { login } = useAuth();
@@ -20,6 +22,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
     e.preventDefault();
 
     try {
+      setLoading(true)
+
       const response = await csrfFetch('/api/login', {
         method: 'POST',
         body: JSON.stringify({ identifier, password }),
@@ -35,6 +39,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
       } else {
         setErrorMessage(data.message || 'Error logging in');
       }
+      setLoading(false);
     } catch (error) {
       // Catch error from backend, and process it.
       let message = 'Internal server error';
@@ -48,6 +53,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
       }
 
       setErrorMessage(message);
+      setLoading(false);
     }
   };
 
@@ -89,20 +95,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
           ),
         }}
       />
-      <Button
+      <LoadingButton
         variant="contained"
         color="primary"
         type="submit"
-        sx={{
-          '&.MuiButton-root': {
-            backgroundColor: '#1976d2',
-            color: '#ffffff',
-            borderRadius: '10px'
-          },
-        }}
+        loading={loading}
       >
         Login
-      </Button>
+      </LoadingButton>
       <Typography variant="body2" align="center">
         Don&apos;t have an account?
       </Typography>
