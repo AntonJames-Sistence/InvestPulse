@@ -62,11 +62,11 @@ const TrendingCoins: React.FC = () => {
         try {
             // Update trending coins
             await fetch('api/trending', {
-                method: 'PUT'
+                method: 'POST'
             });
             // Update news
             await fetch('api/news', {
-                method: 'PUT'
+                method: 'POST'
             });
 
             fetchTrendingCoins();
