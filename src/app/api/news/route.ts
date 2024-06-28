@@ -38,7 +38,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     }
 }
 
-export const PUT = async (req: NextRequest, res: NextResponse) => {
+export async function POST (req: NextRequest, res: NextResponse) {
     if (!newsKey) {
         return NextResponse.json({ message: 'Error while getting news, please ensure key is up to date' }, { status: 400 });
     }

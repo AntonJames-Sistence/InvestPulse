@@ -34,7 +34,7 @@ export async function GET(req: Request | NextRequest, res: Response | NextRespon
   }
 }
 
-export async function PUT() {
+export async function POST() {
   if (!process.env.DATABASE_URL) {
     return new Response('', {
       status: 400,
