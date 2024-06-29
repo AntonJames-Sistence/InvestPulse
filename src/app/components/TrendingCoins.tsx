@@ -168,7 +168,7 @@ const TrendingCoins: React.FC = () => {
                     variant="contained"
                     size="small"
                     loading={loading}
-                    sx={{ mx: 'auto', borderRadius: '10px'}} 
+                    sx={{ mx: 'auto', borderRadius: '50px'}} 
                     onClick={authState.isAuthenticated ? handleUpdateDB : handleLoginClick}
                     startIcon={<RxUpdate />}
                     >
