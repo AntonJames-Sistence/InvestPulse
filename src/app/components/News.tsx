@@ -123,7 +123,7 @@ const News: React.FC = () => {
               variant="contained"
               size='small'
               startIcon={<IoNewspaperOutline />}
-              sx={{ mx: 'auto', borderRadius: '10px' }}
+              sx={{ mx: 'auto', borderRadius: '50px' }}
           >
             All News
           </Button>

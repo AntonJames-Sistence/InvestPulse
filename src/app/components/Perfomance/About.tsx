@@ -70,7 +70,7 @@ const About: React.FC<AboutProps> = ({ coinData }) => {
                             href="https://www.coinbase.com/earn"
                             target="_blanc"
                             endIcon={<FaArrowRightLong />}
-                            sx={{ borderRadius: '10px', m: 'auto', ml: 0, mb: 0}}>
+                            sx={{ borderRadius: '50px', m: 'auto', ml: 0, mb: 0}}>
                             Check now
                         </ Button>
                     </div>
@@ -87,7 +87,7 @@ const About: React.FC<AboutProps> = ({ coinData }) => {
                             href="https://www.coinbase.com/earn"
                             target="_blanc"
                             endIcon={<FaArrowRightLong />}
-                            sx={{ borderRadius: '10px', m: 'auto', ml: 0, mb: 0}}>
+                            sx={{ borderRadius: '50px', m: 'auto', ml: 0, mb: 0}}>
                             Check now
                         </ Button>
                     </div>
