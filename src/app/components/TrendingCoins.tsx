@@ -56,7 +56,7 @@ const TrendingCoins: React.FC = () => {
         }
     };
 
-    const hadleUpdateDB = async () => {
+    const handleUpdate = async () => {
         setLoading(true);
 
         try {
@@ -66,13 +66,16 @@ const TrendingCoins: React.FC = () => {
             });
             // Update news
             await fetch('api/news', {
-                method: 'POST'
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
 
-            fetchTrendingCoins();
+            await fetchTrendingCoins();
             toast.success("Trending Coins are up-to-date");
         } catch (error) {
-            console.log(error);
+            toast.error("Failed to update the database. Please try again.");
         } finally {
             setLoading(false);
         }
@@ -137,7 +140,7 @@ const TrendingCoins: React.FC = () => {
                     size="small"
                     loading={loading}
                     sx={{ mx: 'auto', borderRadius: '10px'}} 
-                    onClick={authState.isAuthenticated ? hadleUpdateDB : handleLoginClick}
+                    onClick={authState.isAuthenticated ? handleUpdate : handleLoginClick}
                     startIcon={<RxUpdate />}
                     >
                 {authState.isAuthenticated ? 'Update Prices' : 'Login to Update Prices'}
