@@ -56,26 +56,55 @@ const TrendingCoins: React.FC = () => {
         }
     };
 
-    const handleUpdate = async () => {
-        setLoading(true);
-
+    const updateTrendingCoins = async () => {
         try {
-            // Update trending coins
-            await fetch('api/trending', {
-                method: 'POST'
+            const response = await fetch('api/trending', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
-            // Update news
-            await fetch('api/news', {
+    
+            if (!response.ok) {
+                throw new Error(`Trending API error: ${response.status} - ${response.statusText}`);
+            }
+        } catch (error) {
+            console.error("Failed to update trending coins:", error);
+            throw new Error("Failed to update trending coins.");
+        }
+    };
+    
+    const updateNews = async () => {
+        try {
+            const response = await fetch('api/news', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
 
+            const data = await response.json()
+    
+            if (!response.ok) {
+                throw new Error(`News API error: ${response.status} - ${data.message}`);
+            }
+        } catch (error) {
+            throw new Error(`Failed to update news. ${error}`);
+        }
+    };
+
+    const handleUpdateDB = async () => {
+        setLoading(true);
+    
+        try {
+            await updateTrendingCoins();
+            await updateNews();
             await fetchTrendingCoins();
+
             toast.success("Trending Coins are up-to-date");
         } catch (error) {
-            toast.error("Failed to update the database. Please try again.");
+            toast.error("Failed to update the database.");
+            console.error(error);
         } finally {
             setLoading(false);
         }
@@ -140,7 +169,7 @@ const TrendingCoins: React.FC = () => {
                     size="small"
                     loading={loading}
                     sx={{ mx: 'auto', borderRadius: '10px'}} 
-                    onClick={authState.isAuthenticated ? handleUpdate : handleLoginClick}
+                    onClick={authState.isAuthenticated ? handleUpdateDB : handleLoginClick}
                     startIcon={<RxUpdate />}
                     >
                 {authState.isAuthenticated ? 'Update Prices' : 'Login to Update Prices'}

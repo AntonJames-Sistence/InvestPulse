@@ -17,10 +17,7 @@ interface NewsData {
 
 export const GET = async (req: NextRequest, res: NextResponse) => {
     if (!process.env.DATABASE_URL) {
-        return new Response(``, {
-          status: 400,
-          statusText: `Couldn't reach DB, please check your key`
-        })
+        return NextResponse.json({ message: 'Couldn\'t reach DB' }, { status: 500 });
     }
     
     const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
@@ -31,10 +28,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     
         return Response.json(news);
     } catch (error) {
-        return new Response('', {
-          status: 400,
-          statusText: `Couldn't retrieve stored coins data, ${error}`
-        });
+        return NextResponse.json({ message: `Couldn't retrieve stored coins data, ${error}` }, { status: 400 });
     }
 }
 
@@ -44,10 +38,7 @@ export async function POST (req: NextRequest, res: NextResponse) {
     }
 
     if (!process.env.DATABASE_URL) {
-        return new Response(``, {
-          status: 400,
-          statusText: `Couldn't reach DB, please check your key`
-        })
+        return NextResponse.json({ message: 'Couldn\'t reach DB' }, { status: 500 });
     }
     
     const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
@@ -85,7 +76,6 @@ export async function POST (req: NextRequest, res: NextResponse) {
 
         return NextResponse.json({ message: 'News are up to date'}, {status: 200});
     } catch (error) {
-        console.log("Error fetching data", error);
-        return NextResponse.json({ message: 'Error while fetching data'}, {status: 500});
+        return NextResponse.json({ message: 'Error while fetching data from NEWS API'}, {status: 500});
     }
 }
