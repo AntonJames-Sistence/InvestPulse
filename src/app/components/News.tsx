@@ -5,6 +5,10 @@ import ReusableTile from './ReusableTile';
 import Link from 'next/link';
 import { truncateText } from '../utils/truncateText';
 import { IoNewspaperOutline } from "react-icons/io5";
+// Redux imports
+import { fetchNews } from '../features/news/newsSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch } from '../store';
 
 interface NewsData {
   article_id: string;
@@ -55,41 +59,48 @@ const FooterStyled = styled('div')({
 });
 
 const News: React.FC = () => {
-  const [news, setNews] = useState<NewsData[]>([]);
+  const dispatch: AppDispatch = useDispatch();
+  const news = useSelector((state: any) => state.news.news);
+  const newsStatus = useSelector((state: any) => state.news.status);
+  const error = useSelector((state: any) => state.news.error);
+  // const [news, setNews] = useState<NewsData[]>([]);
 
   useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const response = await fetch('/api/news');
-        const data = await response.json();
-        setNews(data.slice(0, 3));
-      } catch (error) {
-        console.error('Error fetching news:', error);
-      }
-    };
+    if (newsStatus === 'idle') {
+      dispatch(fetchNews());
+    }
 
-    fetchNews();
-  }, []);
+  }, [newsStatus, dispatch]);
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     // Set your placeholder image path here
     e.currentTarget.src = 'https://mpost.io/wp-content/uploads/UXUY-1024x608.jpg';
   };
 
-  if (!news.length) {
+  if (newsStatus === 'loading') {
     return (
-        <ReusableTile title="Latest News">
-            <div className='m-10 self-center flex justify-center'>
-                <CircularProgress />
-            </div>
-        </ReusableTile>
+      <ReusableTile title="Latest News">
+        <div className='m-10 self-center flex justify-center'>
+          <CircularProgress />
+        </div>
+      </ReusableTile>
+    );
+  }
+
+  if (newsStatus === 'failed') {
+    return (
+      <ReusableTile title="Latest News">
+        <Typography variant="body1" color="error">
+          {error}
+        </Typography>
+      </ReusableTile>
     );
   }
 
   return (
     <ReusableTile title="Latest News">
         <Grid container spacing={4}>
-          {news.map((article) => (
+          {news.map((article: NewsData) => (
             <Grid item key={article.article_id} xs={12}>
               <NewsCard>
                 {article.image_url && (

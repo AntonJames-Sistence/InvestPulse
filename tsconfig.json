@@ -115,7 +115,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/app/layout.js", "src/app/store.js"  ],
+, "src/app/layout.js", "src/app/store.ts"  ],
   "exclude": [
     "node_modules"
   ]
