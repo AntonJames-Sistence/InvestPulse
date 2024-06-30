@@ -100,7 +100,7 @@ const News: React.FC = () => {
   return (
     <ReusableTile title="Latest News">
         <Grid container spacing={4}>
-          {news.map((article: NewsData) => (
+          {news.slice(0, 3).map((article: NewsData) => (
             <Grid item key={article.article_id} xs={12}>
               <NewsCard>
                 {article.image_url && (

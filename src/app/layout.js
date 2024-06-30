@@ -6,8 +6,6 @@ import { AuthProvider } from "./components/Auth/AuthContext";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
-import { Provider } from "react-redux";
-import store from "./store";
 
 const inter = Inter({ subsets: ["latin"]});
 
@@ -26,11 +24,9 @@ export default function RootLayout({ children }) {
         <AppRouterCacheProvider>
           <AuthProvider>
             <ThemeProvider theme={theme}>
-              <Provider store={store}>
-                <NavBar />
-                {children}
-                <Footer />
-              </Provider>
+              <NavBar />
+              {children}
+              <Footer />
             </ThemeProvider>
           </AuthProvider>
         </AppRouterCacheProvider>
