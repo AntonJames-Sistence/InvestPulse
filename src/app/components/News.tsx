@@ -6,9 +6,9 @@ import Link from 'next/link';
 import { truncateText } from '../utils/truncateText';
 import { IoNewspaperOutline } from "react-icons/io5";
 // Redux imports
-import { fetchNews } from '../features/news/newsSlice';
+import { fetchNews } from '../../lib/news/newsSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { AppDispatch } from '../store';
+import { AppDispatch } from '../../lib/store';
 
 interface NewsData {
   article_id: string;

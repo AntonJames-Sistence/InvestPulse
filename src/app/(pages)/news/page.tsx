@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { Container, Card, CardContent, CardMedia, Typography, CircularProgress, Grid, Button, Link } from '@mui/material';
 import { styled } from '@mui/system';
 import { truncateText } from '../../utils/truncateText';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch } from '../../../lib/store';
+import { fetchNews } from '../../../lib/news/newsSlice';
 
 interface NewsData {
   article_id: string;
@@ -19,6 +22,7 @@ const NewsCard = styled(Card)(({ theme }) => ({
   height: '500px',
   display: 'flex',
   flexDirection: 'column',
+  borderRadius: '20px',
   justifyContent: 'space-between',
   boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Consistent shadow
   transition: 'box-shadow 0.3s ease-in-out',
@@ -47,22 +51,18 @@ const FooterStyled = styled('div')({
 });
 
 const News: React.FC = () => {
-  const [news, setNews] = useState<NewsData[]>([]);
   const [visibleNewsCount, setVisibleNewsCount] = useState(6);
+  // Redux variables
+  const dispatch: AppDispatch = useDispatch();
+  const news = useSelector((state: any) => state.news.news);
+  const newsStatus = useSelector((state: any) => state.news.status);
+  const error = useSelector((state: any) => state.news.error);
 
   useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const response = await fetch('/api/news');
-        const data = await response.json();
-        setNews(data);
-      } catch (error) {
-        console.error('Error fetching news:', error);
-      }
-    };
-
-    fetchNews();
-  }, []);
+    if (newsStatus === 'idle') {
+      dispatch(fetchNews);
+    }
+  }, [newsStatus, dispatch]);
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     e.currentTarget.src = 'https://mpost.io/wp-content/uploads/UXUY-1024x608.jpg';
@@ -85,7 +85,7 @@ const News: React.FC = () => {
   return (
     <Container className='mt-24 mb-8'>
       <Grid container spacing={4}>
-        {news.slice(0, visibleNewsCount).map((article) => (
+        {news.slice(0, visibleNewsCount).map((article: NewsData) => (
           <Grid item key={article.article_id} xs={12} sm={6} md={4}>
             <NewsCard className='rounded-lg'>
               {article.image_url && (
