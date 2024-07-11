@@ -14,7 +14,7 @@ import { store } from '../lib/store'
 
 export default function Home() {
   return (
-    <Provider store={store}>
+    
       <main className="flex w-full flex-col justify-between">
         <Toaster position="top-center" reverseOrder={false} />
 
@@ -37,6 +37,6 @@ export default function Home() {
           </div>
         </div>
       </main>
-    </Provider>
+    
   );
 }
