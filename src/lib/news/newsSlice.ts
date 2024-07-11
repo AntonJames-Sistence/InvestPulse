@@ -1,10 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
-interface NewsState {
-    news: NewsData[];
-    status: 'idle' | 'loading' | 'succeeded' | 'failed';
-    error: string | null;  // Allow error to be either string or null
-}
 
 interface NewsData {
     article_id: string;
@@ -16,21 +11,29 @@ interface NewsData {
     source_url: string | null;
 }
 
-// Define the initial state
-const initialState: NewsState = {
-    news: [],
-    status: 'idle',
-    error:  null
-};
+interface NewsState {
+    news: NewsData[];
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error: string | null;
+}
 
 // Async thunk for fetching news
 export const fetchNews = createAsyncThunk('news/fetchNews', async () => {
     const response = await fetch('/api/news');
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
     const data = await response.json();
     return data;
 });
 
-export const newsSlice = createSlice({
+const initialState: NewsState = {
+    news: [],
+    status: 'idle',
+    error: null,
+};
+
+const newsSlice = createSlice({
     name: 'news',
     initialState,
     reducers: {},
@@ -39,15 +42,15 @@ export const newsSlice = createSlice({
             .addCase(fetchNews.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(fetchNews.fulfilled, (state, action) => {
+            .addCase(fetchNews.fulfilled, (state, action: PayloadAction<NewsData[]>) => {
                 state.status = 'succeeded';
                 state.news = action.payload;
             })
             .addCase(fetchNews.rejected, (state, action) => {
                 state.status = 'failed';
-                state.error = action.error.message || null;
+                state.error = action.error.message || 'Failed to fetch news';
             });
-    }
-})
+    },
+});
 
 export default newsSlice.reducer;

@@ -6,9 +6,9 @@ import Link from 'next/link';
 import { truncateText } from '../utils/truncateText';
 import { IoNewspaperOutline } from "react-icons/io5";
 // Redux imports
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchNews } from '../../lib/news/newsSlice';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppDispatch } from '../../lib/store';
+import { RootState, AppDispatch } from '../../lib/store';
 
 interface NewsData {
   article_id: string;
@@ -59,17 +59,16 @@ const FooterStyled = styled('div')({
 });
 
 const News: React.FC = () => {
-  const dispatch: AppDispatch = useDispatch();
-  const news = useSelector((state: any) => state.news.news);
-  const newsStatus = useSelector((state: any) => state.news.status);
-  const error = useSelector((state: any) => state.news.error);
   // const [news, setNews] = useState<NewsData[]>([]);
+  const dispatch: AppDispatch = useDispatch();
+  const news = useSelector((state: RootState) => state.news.news);
+  const newsStatus = useSelector((state: RootState) => state.news.status);
+  const error = useSelector((state: RootState) => state.news.error);
 
   useEffect(() => {
     if (newsStatus === 'idle') {
       dispatch(fetchNews());
     }
-
   }, [newsStatus, dispatch]);
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
@@ -78,23 +77,11 @@ const News: React.FC = () => {
   };
 
   if (newsStatus === 'loading') {
-    return (
-      <ReusableTile title="Latest News">
-        <div className='m-10 self-center flex justify-center'>
-          <CircularProgress />
-        </div>
-      </ReusableTile>
-    );
+    return <CircularProgress />;
   }
 
-  if (newsStatus === 'failed') {
-    return (
-      <ReusableTile title="Latest News">
-        <Typography variant="body1" color="error">
-          {error}
-        </Typography>
-      </ReusableTile>
-    );
+  if (error) {
+    return <Typography color="error">{error}</Typography>;
   }
 
   return (

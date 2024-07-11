@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Team from "./components/Team";
 import Tokenomics from "./components/Tokenomics";
@@ -9,10 +9,12 @@ import { Toaster } from "react-hot-toast";
 import News from "./components/News";
 import { Suspense } from "react";
 import CoinDataProvider from "./components/Perfomance/CoinDataProvider";
+import { Provider } from "react-redux";
+import { store } from '../lib/store'
 
 export default function Home() {
-
   return (
+    <Provider store={store}>
       <main className="flex w-full flex-col justify-between">
         <Toaster position="top-center" reverseOrder={false} />
 
@@ -35,5 +37,6 @@ export default function Home() {
           </div>
         </div>
       </main>
+    </Provider>
   );
 }
