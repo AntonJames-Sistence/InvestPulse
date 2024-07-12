@@ -1,140 +1,29 @@
-'use client'
-import React, { useEffect, useState } from 'react';
-import { Container, Card, CardContent, CardMedia, Typography, CircularProgress, Grid, Button, Link } from '@mui/material';
-import { styled } from '@mui/system';
-import { truncateText } from '../../utils/truncateText';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../../lib/store';
-import { fetchNews } from '../../../lib/news/newsSlice';
+import React from 'react';
+import News, { NewsData } from '../../components/News';
 
-interface NewsData {
-  article_id: string;
-  title: string;
-  link: string;
-  description: string | null;
-  pub_date: string | null;
-  image_url: string | null;
-  source_url: string | null;
-}
+async function fetchNewsData(): Promise<NewsData[]> {
+  const response = await fetch('/api/news', {
+    next: { revalidate: 60 }, // Revalidate every 60 seconds
+  });
 
-const NewsCard = styled(Card)(({ theme }) => ({
-  width: '100%',
-  height: '500px',
-  display: 'flex',
-  flexDirection: 'column',
-  borderRadius: '20px',
-  justifyContent: 'space-between',
-  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Consistent shadow
-  transition: 'box-shadow 0.3s ease-in-out',
-  '&:hover': {
-    boxShadow: '0 8px 10px rgba(0, 0, 0, 0.15)', // Slightly deeper shadow on hover
-  },
-}));
-
-const CardContentStyled = styled(CardContent)({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-  height: '100%', 
-});
-
-const DateStyled = styled('span')(({ theme }) => ({
-  color: theme.palette.text.secondary,
-  alignSelf: 'flex-end',
-}));
-
-const FooterStyled = styled('div')({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'flex-end',
-  marginTop: 'auto',
-});
-
-const News: React.FC = () => {
-  const [visibleNewsCount, setVisibleNewsCount] = useState(6);
-  // Redux variables
-  const dispatch: AppDispatch = useDispatch();
-  const news = useSelector((state: any) => state.news.news);
-  const newsStatus = useSelector((state: any) => state.news.status);
-  const error = useSelector((state: any) => state.news.error);
-
-  useEffect(() => {
-    if (newsStatus === 'idle') {
-      dispatch(fetchNews);
-    }
-  }, [newsStatus, dispatch]);
-
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.src = 'https://mpost.io/wp-content/uploads/UXUY-1024x608.jpg';
-  };
-
-  if (!news.length) {
-    return (
-      <Container>
-        <div className='mt-24 mb-8 self-center flex justify-center'>
-            <CircularProgress />
-        </div>
-      </Container>
-    );
+  if (!response.ok) {
+    throw new Error('Failed to fetch news data');
   }
 
-  const handleLoadMore = () => {
-    setVisibleNewsCount((prevCount) => prevCount + 3);
-  };
+  const data: NewsData[] = await response.json();
+  return data;
+}
 
-  return (
-    <Container className='mt-24 mb-8'>
-      <Grid container spacing={4}>
-        {news.slice(0, visibleNewsCount).map((article: NewsData) => (
-          <Grid item key={article.article_id} xs={12} sm={6} md={4}>
-            <NewsCard className='rounded-lg'>
-              {article.image_url && (
-                <CardMedia
-                  component="img"
-                  alt={article.title}
-                  style={{ height: '200px', width: '100%', objectFit: 'cover' }}
-                  image={article.image_url}
-                  onError={handleImageError} // Handle image loading errors
-                />
-              )}
-              <CardContentStyled>
-                <Typography gutterBottom variant="h6" component="div">
-                {truncateText(article.title, 100)}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {truncateText(article.description, 150)}
-                </Typography>
-                <FooterStyled>
-                  <Link href={article.link} target="_blank" rel="noopener noreferrer" underline='hover'>
-                    Read more
-                  </Link>
-                  <DateStyled>
-                    {new Date(article.pub_date ?? '').toLocaleDateString()}
-                  </DateStyled>
-                </FooterStyled>
-              </CardContentStyled>
-            </NewsCard>
-          </Grid>
-        ))}
-      </Grid>
-      {visibleNewsCount < news.length && (
-        <div className="flex justify-center mt-4">
-          <Button 
-              variant="contained" 
-              sx={{
-                  mx: 2,
-                  '&.MuiButton-root': {
-                      backgroundColor: '#1976d2',
-                      color: '#ffffff',
-                  },}} 
-              onClick={handleLoadMore}
-          >
-            Load More
-          </Button>
-        </div>
-      )}
-    </Container>
-  );
+const NewsPage = async () => {
+  let newsData: NewsData[] = [];
+
+  try {
+    newsData = await fetchNewsData();
+  } catch (error) {
+    console.error(error);
+  }
+
+  return <News newsData={newsData} />;
 };
 
-export default News;
+export default NewsPage;
