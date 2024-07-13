@@ -1,7 +1,20 @@
-import React from 'react';
-import { Container, Card, CardContent, CardMedia, Typography, Grid, Link } from '@mui/material';
-import { styled } from '@mui/system';
-import { truncateText } from '../utils/truncateText';
+import React from "react";
+import {
+  Container,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Grid,
+  Link,
+} from "@mui/material";
+import {
+  NewsCard,
+  CardContentStyled,
+  DateStyled,
+  FooterStyled,
+} from "./NewsStyledComponents";
+import { truncateText } from "../../utils/truncateText";
 
 export interface NewsData {
   article_id: string;
@@ -35,7 +48,7 @@ interface NewsProps {
 //   display: 'flex',
 //   flexDirection: 'column',
 //   justifyContent: 'space-between',
-//   height: '100%', 
+//   height: '100%',
 // });
 
 // const DateStyled = styled('span')(({ theme }) => ({
@@ -54,30 +67,32 @@ const News: React.FC<NewsProps> = ({ newsData }) => {
   if (!newsData) {
     return (
       <Container>
-        <div className='mt-24 mb-8 self-center flex justify-center'>
+        <div className="mt-24 mb-8 self-center flex justify-center">
           <Typography variant="h6">No news data available</Typography>
         </div>
       </Container>
     );
   }
 
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.src = 'https://mpost.io/wp-content/uploads/UXUY-1024x608.jpg';
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    e.currentTarget.src =
+      "https://mpost.io/wp-content/uploads/UXUY-1024x608.jpg";
   };
 
   return (
-    <Container className='mt-24 mb-8'>
+    <Container className="mt-24 mb-8">
       <Grid container spacing={4}>
         {newsData.map((article: NewsData) => (
           <Grid item key={article.article_id} xs={12} sm={6} md={4}>
-            <NewsCard className='rounded-lg'>
+            <NewsCard>
               {article.image_url && (
                 <CardMedia
                   component="img"
                   alt={article.title}
-                  style={{ height: '200px', width: '100%', objectFit: 'cover' }}
+                  style={{ height: "200px", width: "100%", objectFit: "cover" }}
                   image={article.image_url}
-                  onError={handleImageError} // Handle image loading errors
                 />
               )}
               <CardContentStyled>
@@ -88,11 +103,16 @@ const News: React.FC<NewsProps> = ({ newsData }) => {
                   {truncateText(article.description, 150)}
                 </Typography>
                 <FooterStyled>
-                  <Link href={article.link} target="_blank" rel="noopener noreferrer" underline='hover'>
+                  <Link
+                    href={article.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    underline="hover"
+                  >
                     Read more
                   </Link>
                   <DateStyled>
-                    {new Date(article.pub_date ?? '').toLocaleDateString()}
+                    {new Date(article.pub_date ?? "").toLocaleDateString()}
                   </DateStyled>
                 </FooterStyled>
               </CardContentStyled>

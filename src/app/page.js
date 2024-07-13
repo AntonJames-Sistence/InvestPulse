@@ -6,7 +6,7 @@ import Sentiment from "./components/Sentiment/Sentiment";
 import Banner from "./components/Banner";
 import TrendingCoins from "./components/TrendingCoins";
 import { Toaster } from "react-hot-toast";
-import News from "./components/News";
+import News from "./components/News/News";
 import { Suspense } from "react";
 import CoinDataProvider from "./components/Perfomance/CoinDataProvider";
 
