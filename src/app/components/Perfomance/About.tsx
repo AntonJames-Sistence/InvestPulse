@@ -75,7 +75,7 @@ const About: React.FC<AboutProps> = ({ coinData }) => {
             width={500}
             height={500}
             alt="hand holding smartphone with investing sparkline on the screen"
-            src="/placeholder1.png"
+            src="/placeholder1.webp"
             priority={false}
           />
 
@@ -102,7 +102,7 @@ const About: React.FC<AboutProps> = ({ coinData }) => {
             height={500}
             width={500}
             alt="hand holding smartphone with numbers and monitor on the background"
-            src="/placeholder2.png"
+            src="/placeholder2.webp"
             priority={false}
           />
 

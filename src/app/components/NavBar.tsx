@@ -6,7 +6,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { navLinks } from "../data/navLinks";
 import Image from "next/image";
-import logo from "../../../public/koiny.jpeg";
 import LoginButton from "./Auth/LoginButton";
 
 const NavBar: React.FC = () => {
@@ -18,8 +17,10 @@ const NavBar: React.FC = () => {
       <div className="md:px-12 px-4 pt-2 flex justify-between items-center">
         <Link href="/" className="flex items-center">
             <Image
-                src={logo}
+                src={'/koiny.webp'}
                 alt="KoinY logo"
+                width={50}
+                height={50}
                 className="rounded-xl h-[50px] w-auto"
                 priority={true}
             />
