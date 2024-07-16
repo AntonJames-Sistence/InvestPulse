@@ -4,7 +4,7 @@ import Team from "./components/Team";
 import Tokenomics from "./components/Tokenomics";
 import Sentiment from "./components/Sentiment/Sentiment";
 import Banner from "./components/Banner";
-import TrendingCoins from "./components/TrendingCoins";
+import TrendingCoins from "./components/TrendingCoins/TrendingCoins";
 import { Toaster } from "react-hot-toast";
 import News from "./components/News/News";
 import { Suspense } from "react";

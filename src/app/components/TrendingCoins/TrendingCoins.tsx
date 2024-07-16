@@ -1,23 +1,23 @@
 "use client";
-import ReusableTile from "./ReusableTile";
+import ReusableTile from "../ReusableTile";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { CircularProgress, Button } from "@mui/material";
-import { useAuth } from "./Auth/AuthContext";
-import Modal from "./Modal/Modal";
-import LoginForm from "./Auth/LoginForm";
-import SignupForm from "./Auth/SignupForm";
+import { useAuth } from "../Auth/AuthContext";
+import Modal from "../Modal/Modal";
+import LoginForm from "../Auth/LoginForm";
+import SignupForm from "../Auth/SignupForm";
 import { RxUpdate } from "react-icons/rx";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Image from "next/image";
+import TrendingCoin from "./TrendingCoin";
 
 interface Coin {
   id: string;
   name: string;
   symbol: string;
   image: string;
-  sparkline: string;
   price_change_percentage_24h: string;
 }
 
@@ -37,12 +37,9 @@ const TrendingCoins: React.FC = () => {
     fetchTrendingCoins();
   }, []);
 
-  const handleClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    coinId: string
-  ) => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
-    router.push(`/?coin=${coinId}`);
+    router.push(`/?coin=${id}`);
   };
 
   const fetchTrendingCoins = async () => {
@@ -148,51 +145,9 @@ const TrendingCoins: React.FC = () => {
         )}
       </Modal>
       <div className="flex flex-col -mt-4">
-        {trendingCoins.map((coin, idx) => {
-          const priceChange = parseFloat(coin.price_change_percentage_24h);
-          const isNegative = priceChange < 0;
-          return (
-            <a
-              className={`rounded-lg ${
-                isNegative ? "hover-red" : "hover-green"
-              } ease-in-out duration-200 h-[200%] mb-4 cursor-pointer "`}
-              onClick={(e) => handleClick(e, coin.id)}
-              key={idx}
-            >
-              <div className="flex justify-between p-2">
-                <div className="flex self-center">
-                  <Image
-                    className="h-6 w-6 rounded-full"
-                    width={100}
-                    height={100}
-                    src={coin.image}
-                    alt={`${coin.name} logo`}
-                    priority={true}
-                  />
-                  <div className="flex self-center ml-2 font-[400]">
-                    <p>{coin.name}</p>
-                    <p className="ml-1">{`(${coin.symbol})`}</p>
-                  </div>
-                </div>
-
-                <div
-                  className={`flex flex-row bg-${
-                    isNegative ? "red" : "green"
-                  }-100 bg-opacity-50 rounded-md max-w-[100px] px-6 py-1 text-${
-                    isNegative ? "red" : "green"
-                  }-600 self-center text-sm`}
-                >
-                  <div
-                    className={`triangle-${
-                      isNegative ? "red" : "green"
-                    } self-center border-${isNegative ? "red" : "green"} mr-1`}
-                  ></div>
-                  <div>{`${priceChange.toFixed(2)}%`}</div>
-                </div>
-              </div>
-            </a>
-          );
-        })}
+        {trendingCoins.map((coin, idx) => (
+          <TrendingCoin key={idx} coinData={coin} handleClick={handleClick} />
+        ))}
         <LoadingButton
           variant="contained"
           size="small"
