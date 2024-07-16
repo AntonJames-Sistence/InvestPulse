@@ -27,7 +27,7 @@ const LogoutButton: React.FC = () => {
       size='small'
       onClick={handleLogout}
       startIcon={<CgLogOut />}
-      sx={{ borderRadius: '50px', px: 2 }}
+      sx={{ m: "10px", px: "20px", py: "10px", borderRadius: "10px" }}
     >
       Logout
     </Button>

@@ -12,7 +12,7 @@ interface CoinData {
 
 interface TrendingCoinProps {
   coinData: CoinData;
-  handleClick: (e: React.MouseEvent<HTMLAnchorElement>, id: string) => void;
+  handleClick: (e: React.MouseEvent<HTMLButtonElement>, id: string) => void;
 }
 
 const TrendingCoin: React.FC<TrendingCoinProps> = ({
@@ -21,8 +21,8 @@ const TrendingCoin: React.FC<TrendingCoinProps> = ({
 }) => {
   const { price_change_percentage_24h, id, image, name, symbol } = coinData;
   // setup positive / negative flag for styling component
-  const priceChange = parseFloat(price_change_percentage_24h.toString());
-  const isNegative = priceChange < 0;
+  const priceChange = Math.abs(parseFloat(price_change_percentage_24h.toString()));
+  const isNegative = parseFloat(price_change_percentage_24h.toString()) < 0;
 
   return (
     <ButtonBase
@@ -58,10 +58,10 @@ const TrendingCoin: React.FC<TrendingCoinProps> = ({
             />
           </Box>
           <Box>
-            <Typography variant="body1" fontWeight="400">
+            <Typography align="left" variant="body1" fontWeight="400">
               {name}
             </Typography>
-            <Typography variant="body2" color="textSecondary">
+            <Typography align="left" variant="body2" color="textSecondary">
               {`(${symbol})`}
             </Typography>
           </Box>
@@ -72,6 +72,7 @@ const TrendingCoin: React.FC<TrendingCoinProps> = ({
           bgcolor={isNegative ? 'rgba(255, 0, 0, 0.1)' : 'rgba(0, 255, 0, 0.1)'}
           color={isNegative ? 'rgba(255, 0, 0, 0.8)' : 'green'}
           borderRadius={1}
+          width={100}
           px={2}
           py={0.5}
         >
@@ -82,7 +83,8 @@ const TrendingCoin: React.FC<TrendingCoinProps> = ({
               height: 0,
               borderLeft: '5px solid transparent',
               borderRight: '5px solid transparent',
-              borderBottom: isNegative ? '5px solid red' : '5px solid green',
+              borderTop: isNegative ?  '5px solid red' : 'none',
+              borderBottom: isNegative ? 'none' : '5px solid green',
               mr: 1,
             }}
           />

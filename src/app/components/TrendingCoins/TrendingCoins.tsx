@@ -36,7 +36,7 @@ const TrendingCoins: React.FC = () => {
     fetchTrendingCoins();
   }, []);
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
     e.preventDefault();
     router.push(`/?coin=${id}`);
   };
@@ -138,10 +138,10 @@ const TrendingCoins: React.FC = () => {
         Array.from(new Array(4)).map((_, idx) => (
           <Box key={idx} display="flex" justifyContent="space-between" p={1} alignItems="center">
             <Box display="flex" alignItems="center">
-              <Skeleton variant="circular" width={25} height={25} sx={{ mr: 2 }} />
-              <Skeleton width={100} height={40} />
+              <Skeleton animation="wave" variant="circular" width={40} height={40} sx={{ mr: 2 }} />
+              <Skeleton animation="wave" width={100} height={60} />
             </Box>
-            <Skeleton width={100} height={40} />
+            <Skeleton animation="wave" width={80} height={40} />
           </Box>
         ))
       ) : (
@@ -151,9 +151,9 @@ const TrendingCoins: React.FC = () => {
       )}
       <LoadingButton
         variant="contained"
-        size="small"
+        size="medium"
         loading={loading}
-        sx={{ mx: "auto", borderRadius: "50px" }}
+        sx={{ m: "10px", px: "20px", py: "10px", borderRadius: "10px" }}
         onClick={authState.isAuthenticated ? handleUpdateDB : handleLoginClick}
         startIcon={<RxUpdate />}
       >
