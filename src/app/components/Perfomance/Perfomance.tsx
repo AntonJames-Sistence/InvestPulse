@@ -145,11 +145,11 @@ const Performance: React.FC<PerformanceProps> = ({ coinData }) => {
               <span className="text-gray-500">Symbol</span>
               <div className="flex items-center">
                 <Image
-                  className="h-5 inline-block mr-2"
+                  className="h-5 w-5 inline-block mr-2"
                   src={coinData?.image}
                   alt={coinData?.symbol}
-                  height={300}
-                  width={300}
+                  height={50}
+                  width={50}
                   priority={true}
                 />
                 <div>{coinData?.symbol.toUpperCase()}</div>

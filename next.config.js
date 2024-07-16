@@ -1,5 +1,16 @@
 module.exports = {
   images: {
-    domains: ['i.ibb.co', 'coin-images.coingecko.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'i.ibb.co',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'coin-images.coingecko.com',
+        pathname: '**',
+      },
+    ],
   },
 };
