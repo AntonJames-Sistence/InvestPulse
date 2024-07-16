@@ -3,14 +3,13 @@ import ReusableTile from "../ReusableTile";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
-import { CircularProgress, Button } from "@mui/material";
+import { CircularProgress, Button, Box, Skeleton, Typography } from "@mui/material";
 import { useAuth } from "../Auth/AuthContext";
 import Modal from "../Modal/Modal";
 import LoginForm from "../Auth/LoginForm";
 import SignupForm from "../Auth/SignupForm";
 import { RxUpdate } from "react-icons/rx";
 import LoadingButton from "@mui/lab/LoadingButton";
-import Image from "next/image";
 import TrendingCoin from "./TrendingCoin";
 
 interface Coin {
@@ -125,16 +124,6 @@ const TrendingCoins: React.FC = () => {
     setIsLogin(!isLogin);
   };
 
-  if (!trendingCoins.length) {
-    return (
-      <ReusableTile title="Trending Coins (24h)">
-        <div className="self-center text-black">
-          <CircularProgress />
-        </div>
-      </ReusableTile>
-    );
-  }
-
   return (
     <ReusableTile title="Trending Coins (24h)">
       <Modal isOpen={openModal} onClose={handleCloseModal}>
@@ -144,26 +133,34 @@ const TrendingCoins: React.FC = () => {
           <SignupForm toggleForm={toggleForm} onClose={handleCloseModal} />
         )}
       </Modal>
-      <div className="flex flex-col -mt-4">
-        {trendingCoins.map((coin, idx) => (
+      <Box display="flex" flexDirection="column" mt={-2}>
+      {!trendingCoins.length ? (
+        Array.from(new Array(4)).map((_, idx) => (
+          <Box key={idx} display="flex" justifyContent="space-between" p={1} alignItems="center">
+            <Box display="flex" alignItems="center">
+              <Skeleton variant="circular" width={25} height={25} sx={{ mr: 2 }} />
+              <Skeleton width={100} height={40} />
+            </Box>
+            <Skeleton width={100} height={40} />
+          </Box>
+        ))
+      ) : (
+        trendingCoins.map((coin, idx) => (
           <TrendingCoin key={idx} coinData={coin} handleClick={handleClick} />
-        ))}
-        <LoadingButton
-          variant="contained"
-          size="small"
-          loading={loading}
-          sx={{ mx: "auto", borderRadius: "50px" }}
-          onClick={
-            authState.isAuthenticated ? handleUpdateDB : handleLoginClick
-          }
-          startIcon={<RxUpdate />}
-        >
-          {authState.isAuthenticated
-            ? "Update Prices"
-            : "Login to Update Prices"}
-        </LoadingButton>
-      </div>
-    </ReusableTile>
+        ))
+      )}
+      <LoadingButton
+        variant="contained"
+        size="small"
+        loading={loading}
+        sx={{ mx: "auto", borderRadius: "50px" }}
+        onClick={authState.isAuthenticated ? handleUpdateDB : handleLoginClick}
+        startIcon={<RxUpdate />}
+      >
+        {authState.isAuthenticated ? "Update Prices" : "Login to Update Prices"}
+      </LoadingButton>
+    </Box>
+  </ReusableTile>
   );
 };
 
