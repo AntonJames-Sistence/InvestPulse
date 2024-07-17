@@ -11,6 +11,7 @@ import SignupForm from "../Auth/SignupForm";
 import { RxUpdate } from "react-icons/rx";
 import LoadingButton from "@mui/lab/LoadingButton";
 import TrendingCoin from "./TrendingCoin";
+import { Fullscreen } from "@mui/icons-material";
 
 interface Coin {
   id: string;
@@ -139,7 +140,7 @@ const TrendingCoins: React.FC = () => {
           <Box key={idx} display="flex" justifyContent="space-between" p={1} alignItems="center">
             <Box display="flex" alignItems="center">
               <Skeleton animation="wave" variant="circular" width={40} height={40} sx={{ mr: 2 }} />
-              <Skeleton animation="wave" width={100} height={60} />
+              <Skeleton animation="wave" width={150} height={60} />
             </Box>
             <Skeleton animation="wave" width={80} height={40} />
           </Box>

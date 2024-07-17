@@ -63,7 +63,7 @@ const About: React.FC<AboutProps> = ({ coinData }) => {
   return (
     <ReusableTile title={`About ${coinData.name}`}>
       <hr className="border-gray-200 -mt-4 mb-4 hidden lg:block" />
-      {coinData.description ? coinDescription : noDescriptionMessage}
+      {/* {coinData.description ? coinDescription : noDescriptionMessage} */}
       <hr className="border-gray-200 mt-4 hidden lg:block" />
 
       <div className="font-semibold text-2xl mb-4 mt-2">{`Already Holding ${coinData.name}`}</div>
