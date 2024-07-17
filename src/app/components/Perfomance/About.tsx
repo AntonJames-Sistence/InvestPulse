@@ -1,8 +1,8 @@
 import ReusableTile from "../ReusableTile";
 import { FaArrowRightLong } from "react-icons/fa6";
-import { styled } from "@mui/system";
 import { Link, Button } from "@mui/material";
 import Image from "next/image";
+import { stripHTMLTags } from "../../utils/stripHTMLTags";
 
 interface AboutProps {
   coinData: {
@@ -47,7 +47,7 @@ const About: React.FC<AboutProps> = ({ coinData }) => {
   );
   const coinDescription = (
     <>
-      <div>{coinData.description}</div>
+      <div>{stripHTMLTags(coinData.description)}</div>
       <Link
         href={coinData.homepage}
         underline="hover"
@@ -63,7 +63,7 @@ const About: React.FC<AboutProps> = ({ coinData }) => {
   return (
     <ReusableTile title={`About ${coinData.name}`}>
       <hr className="border-gray-200 -mt-4 mb-4 hidden lg:block" />
-      {/* {coinData.description ? coinDescription : noDescriptionMessage} */}
+      {coinData.description ? coinDescription : noDescriptionMessage}
       <hr className="border-gray-200 mt-4 hidden lg:block" />
 
       <div className="font-semibold text-2xl mb-4 mt-2">{`Already Holding ${coinData.name}`}</div>

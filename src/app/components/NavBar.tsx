@@ -18,7 +18,7 @@ import {
   ListItem,
   ListItemText,
   ListItemButton,
-  Divider,
+  ListItemIcon,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -31,6 +31,12 @@ const NavBar: React.FC = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key === "Enter" || event.key === " ") {
+      toggleDrawer();
+    }
+  };
+
   return (
     <>
       <AppBar
@@ -38,10 +44,17 @@ const NavBar: React.FC = () => {
         sx={{
           background: "rgba(255, 255, 255, 0.5)",
           backdropFilter: "blur(10px)",
-          borderBottom: "1px solid hsla(0, 0%, 92%, 1)",
+          borderBottom: "1px solid rgba(229, 231, 235, 0.5)",
+          boxShadow: "inset 0 -1px 0 0 var(--accents-2)",
         }}
       >
-        <Toolbar>
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
           <Link
             href="/"
             style={{
@@ -77,23 +90,33 @@ const NavBar: React.FC = () => {
                     path === navlink.href ? "primary.main" : "text.primary",
                   mx: 1,
                 }}
+                startIcon={navlink.icon}
               >
                 {navlink.title}
               </Button>
             ))}
           </Box>
 
-          <LoginLogoutButton />
+          <Box display="flex">
+            <LoginLogoutButton />
 
-          <Box sx={{ display: { xs: "flex", lg: "none" }, ml: 'auto', color: "black" }}>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              onClick={toggleDrawer}
+            <Box
+              sx={{
+                display: { xs: "flex", lg: "none" },
+                color: "black",
+              }}
             >
-              {isDrawerOpen ? <CloseIcon /> : <MenuIcon />}
-            </IconButton>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                onClick={toggleDrawer}
+                onKeyDown={handleKeyDown}
+                tabIndex={0}
+              >
+                {isDrawerOpen ? <CloseIcon /> : <MenuIcon />}
+              </IconButton>
+            </Box>
           </Box>
         </Toolbar>
       </AppBar>
@@ -101,15 +124,17 @@ const NavBar: React.FC = () => {
       <Collapse
         in={isDrawerOpen}
         sx={{
-          mt: 3,
+          mt: "57px",
           position: "fixed",
           width: "100vw",
           bgcolor: "background.paper",
+          zIndex: 100,
         }}
       >
         <List>
           {navLinks.map((navlink) => (
             <ListItem key={navlink.href}>
+              <ListItemIcon sx={{ minWidth: 0 }}>{navlink.icon}</ListItemIcon>
               <ListItemButton
                 component={Link}
                 href={navlink.href}

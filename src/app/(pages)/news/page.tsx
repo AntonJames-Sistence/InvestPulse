@@ -37,13 +37,6 @@ async function fetchNewsData(): Promise<NewsData[]> {
 const NewsPage = async (): Promise<ReactElement> => {
   const newsData = await fetchNewsData();
 
-  const handleImageError = (
-    e: React.SyntheticEvent<HTMLImageElement, Event>
-  ) => {
-    e.currentTarget.src =
-      "https://mpost.io/wp-content/uploads/UXUY-1024x608.jpg";
-  };
-
   return (
     <Container sx={{ mt: 8, mb: 4 }}>
       <Grid container spacing={4}>

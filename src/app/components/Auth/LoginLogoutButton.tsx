@@ -33,17 +33,17 @@ const LoginLogoutButton: React.FC = () => {
   };
 
   const logoutButton = (
-    <Box>
-    <Typography variant="body1" sx={{ ml: 6, mr: 4 }}>
+    <Box display="flex" alignItems="center">
+      <Typography color="primary" variant="body2">
           {`Welcome back ${authState.user?.username}`}
-        </Typography>
+      </Typography>
     <Button
       variant="contained"
       color="secondary"
       size='small'
       onClick={handleLogout}
       startIcon={<CgLogOut />}
-      sx={{ m: "10px", px: "20px", py: "8px", borderRadius: "10px" }}
+      sx={{ mx: 2, px: "20px", py: "8px", borderRadius: "10px" }}
     >
       Logout
     </Button>
@@ -58,7 +58,7 @@ const LoginLogoutButton: React.FC = () => {
         size="small"
         onClick={openModal}
         startIcon={<CgLogIn />}
-        sx={{ m: "10px", px: "20px", py: "8px", borderRadius: "10px" }}
+        sx={{ mx: 2, px: "20px", py: "8px", borderRadius: "10px" }}
       >
         Login
       </Button>
