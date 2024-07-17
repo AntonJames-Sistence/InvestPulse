@@ -3,7 +3,6 @@ import {
   Container,
   Card,
   CardContent,
-  CardMedia,
   Typography,
   Grid,
   Link,

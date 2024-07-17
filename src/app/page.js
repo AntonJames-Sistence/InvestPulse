@@ -4,7 +4,7 @@ import Team from "./components/Team";
 import Tokenomics from "./components/Tokenomics";
 import TrendingCoins from "./components/TrendingCoins/TrendingCoins";
 import { Toaster } from "react-hot-toast";
-import News from "./components/News/News";
+import HomePageNews from "./components/HomePageNews";
 import { Suspense } from "react";
 import CoinDataProvider from "./components/Perfomance/CoinDataProvider";
 
@@ -27,7 +27,7 @@ export default function Home() {
 
         {/* Right side of the page */}
         <div className="flex flex-col lg:ml-4 w-full lg:w-1/3">
-          <News limit={3}/>
+          <HomePageNews />
           <TrendingCoins />
         </div>
       </div>

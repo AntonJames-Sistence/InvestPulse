@@ -3,14 +3,13 @@ import {
   Container,
   Card,
   CardContent,
-  CardMedia,
   Typography,
   Grid,
   Link,
   Button,
   Box,
 } from "@mui/material";
-import { truncateText } from "../../utils/truncateText";
+import Image from "next/image";
 
 interface NewsData {
   article_id: string;
@@ -26,20 +25,17 @@ interface NewsProps {
   newsData: NewsData[];
 }
 
-const News: React.FC<NewsProps> = ({ newsData }) => {
-
+const HomePageNews: React.FC<NewsProps> = ({ newsData }) => {
   if (!newsData) {
     return (
-      <Container>
-        <div className="mt-24 mb-8 self-center flex justify-center">
-          <Typography variant="h6">No news data available</Typography>
+        <div className="flex flex-col w-full bg-white rounded-lg p-2 lg:p-8 mb-4 lg:mb-8">
+          <Typography variant="h6">No news available</Typography>
         </div>
-      </Container>
     );
   }
 
   return (
-    <Container className="mt-24 mb-8">
+    <Container>
       <Grid container spacing={4}>
         {newsData.map((article: NewsData) => (
           <Grid item key={article.article_id} xs={12} sm={6} md={4}>
@@ -59,11 +55,12 @@ const News: React.FC<NewsProps> = ({ newsData }) => {
               }}
             >
               {article.image_url && (
-                <CardMedia 
-                  component="img"
+                <Image
+                  className="h-48 w-full object-cover"
                   alt={article.title}
-                  sx={{ height: "200px", width: "100%", objectFit: "cover" }}
-                  image={article.image_url}
+                  src={article.image_url}
+                  height={200}
+                  width={400}
                 />
               )}
               <CardContent
@@ -136,4 +133,4 @@ const News: React.FC<NewsProps> = ({ newsData }) => {
   );
 };
 
-export default News;
+export default HomePageNews;
