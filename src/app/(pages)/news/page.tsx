@@ -7,10 +7,12 @@ import {
   Typography,
   Grid,
   Link,
+  Divider,
   Box,
 } from "@mui/material";
+import Image from "next/image";
 
-export interface NewsData {
+interface NewsData {
   article_id: string;
   title: string;
   link: string;
@@ -38,53 +40,73 @@ const NewsPage = async (): Promise<ReactElement> => {
   const newsData = await fetchNewsData();
 
   return (
-    <Container sx={{ mt: 8, mb: 4 }}>
+    <Container className="mt-24 mb-8">
       <Grid container spacing={4}>
         {newsData.map((article: NewsData) => (
           <Grid item key={article.article_id} xs={12} sm={6} md={4}>
             <Card
               sx={{
-                width: "100%",
-                height: "500px",
-                display: "flex",
-                flexDirection: "column",
-                borderRadius: "20px",
-                justifyContent: "space-between",
-                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                transition: "box-shadow 0.3s ease-in-out",
-                "&:hover": {
-                  boxShadow: "0 8px 10px rgba(0, 0, 0, 0.15)",
-                },
+                width: '100%',
+                height: '500px',
+                display: 'flex',
+                flexDirection: 'column',
+                borderRadius: 10,
+                justifyContent: 'space-between',
+                transition: 'box-shadow 0.3s ease-in-out',
               }}
             >
               {article.image_url && (
-                <CardMedia
-                  component="img"
+                <Image
+                  className="h-48 w-full object-cover"
                   alt={article.title}
-                  sx={{ height: "200px", width: "100%", objectFit: "cover" }}
-                  image={article.image_url}
+                  src={article.image_url}
+                  height={200}
+                  width={400}
                 />
               )}
               <CardContent
                 sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  height: "100%",
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  height: '100%',
                 }}
               >
-                <Typography gutterBottom variant="h6" component="div">
+                <Typography
+                  gutterBottom
+                  variant="h6"
+                  component="div"
+                  sx={{
+                    display: '-webkit-box',
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    WebkitLineClamp: 2, // Adjust the number of lines to truncate here
+                  }}
+                >
                   {article.title}
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Divider orientation="horizontal" sx={{ my: 2 }} flexItem />
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  component="p"
+                  sx={{
+                    display: '-webkit-box',
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    WebkitLineClamp: 4, // Adjust the number of lines to truncate here
+                  }}
+                >
                   {article.description}
                 </Typography>
                 <Box
                   sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "flex-end",
-                    mt: "auto",
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-end',
+                    marginTop: 'auto',
                   }}
                 >
                   <Link
@@ -95,12 +117,13 @@ const NewsPage = async (): Promise<ReactElement> => {
                   >
                     Read more
                   </Link>
-                  <Typography
-                    component="span"
-                    sx={{ color: "text.secondary", alignSelf: "flex-end" }}
+                  <Box
+                    sx={{
+                      alignSelf: 'flex-end',
+                    }}
                   >
                     {new Date(article.pub_date ?? "").toLocaleDateString()}
-                  </Typography>
+                  </Box>
                 </Box>
               </CardContent>
             </Card>

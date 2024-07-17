@@ -7,11 +7,12 @@ import {
   Typography,
   Grid,
   Link,
+  Button,
   Box,
 } from "@mui/material";
 import { truncateText } from "../../utils/truncateText";
 
-export interface NewsData {
+interface NewsData {
   article_id: string;
   title: string;
   link: string;
@@ -26,6 +27,7 @@ interface NewsProps {
 }
 
 const News: React.FC<NewsProps> = ({ newsData }) => {
+
   if (!newsData) {
     return (
       <Container>
@@ -57,7 +59,7 @@ const News: React.FC<NewsProps> = ({ newsData }) => {
               }}
             >
               {article.image_url && (
-                <CardMedia
+                <CardMedia 
                   component="img"
                   alt={article.title}
                   sx={{ height: "200px", width: "100%", objectFit: "cover" }}
@@ -72,11 +74,33 @@ const News: React.FC<NewsProps> = ({ newsData }) => {
                   height: "100%",
                 }}
               >
-                <Typography gutterBottom variant="h6" component="div">
-                  {truncateText(article.title, 100)}
+                <Typography
+                  gutterBottom
+                  variant="h6"
+                  component="div"
+                  sx={{
+                    display: "-webkit-box",
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    WebkitLineClamp: 2, // Adjust the number of lines to truncate here
+                  }}
+                >
+                  {article.title}
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {truncateText(article.description, 150)}
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  component="p"
+                  sx={{
+                    display: "-webkit-box",
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    WebkitLineClamp: 3, // Adjust the number of lines to truncate here
+                  }}
+                >
+                  {article.description}
                 </Typography>
                 <Box
                   sx={{

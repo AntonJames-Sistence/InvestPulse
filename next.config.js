@@ -11,6 +11,10 @@ module.exports = {
         hostname: 'coin-images.coingecko.com',
         pathname: '**',
       },
+      {
+        protocol: 'https', // this allow all the images to be shown, not good for security
+        hostname: '**',
+      },
     ],
   },
 };

@@ -2,13 +2,12 @@
 
 import Team from "./components/Team";
 import Tokenomics from "./components/Tokenomics";
-import Sentiment from "./components/Sentiment/Sentiment";
-import Banner from "./components/Banner";
 import TrendingCoins from "./components/TrendingCoins/TrendingCoins";
 import { Toaster } from "react-hot-toast";
 import News from "./components/News/News";
 import { Suspense } from "react";
 import CoinDataProvider from "./components/Perfomance/CoinDataProvider";
+
 
 export default function Home() {
   return (
@@ -28,8 +27,7 @@ export default function Home() {
 
         {/* Right side of the page */}
         <div className="flex flex-col lg:ml-4 w-full lg:w-1/3">
-          {/* <Banner /> */}
-          <News />
+          <News limit={3}/>
           <TrendingCoins />
         </div>
       </div>
