@@ -41,6 +41,7 @@ const NavBar: React.FC = () => {
     <>
       <AppBar
         position="fixed"
+        role="navigation"
         sx={{
           background: "rgba(255, 255, 255, 0.5)",
           backdropFilter: "blur(10px)",
