@@ -17,9 +17,9 @@ export default function Home() {
       <div className="flex flex-col lg:flex-row self-center w-full mt-28 px-2 lg:px-16">
         {/* Left side of the page */}
         <div className="flex flex-col w-full lg:w-5/6">
-          <Suspense>
+          {/* <Suspense>
             <CoinDataProvider />
-          </Suspense>
+          </Suspense> */}
           {/* <Sentiment /> */}
           <Tokenomics />
           <Team />
@@ -28,7 +28,7 @@ export default function Home() {
         {/* Right side of the page */}
         <div className="flex flex-col lg:ml-4 w-full lg:w-1/3">
           <HomePageNews />
-          <TrendingCoins />
+          {/* <TrendingCoins /> */}
         </div>
       </div>
     </main>

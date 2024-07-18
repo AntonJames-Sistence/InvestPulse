@@ -114,6 +114,7 @@ const NavBar: React.FC = () => {
                 onClick={toggleDrawer}
                 onKeyDown={handleKeyDown}
                 tabIndex={0}
+                sx={{ml: 2}}
               >
                 {isDrawerOpen ? <CloseIcon /> : <MenuIcon />}
               </IconButton>

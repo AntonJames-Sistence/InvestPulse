@@ -16,15 +16,24 @@ interface NewsData {
   source_url: string | null;
 }
 
-export const GET = async (req: NextRequest, res: NextResponse) => {
+export const GET = async (req: NextRequest) => {
   if (!process.env.DATABASE_URL) {
     return NextResponse.json({ message: "Couldn't reach DB" }, { status: 500 });
   }
 
+  // Get the size parameter from the query string
+  const { searchParams } = new URL(req.url);
+  const size = searchParams.get('size');
+  // Connect to DB
   const sql = postgres(process.env.DATABASE_URL, { ssl: "require" });
-  const news: NewsData[] = await sql<
-    NewsData[]
-  >`SELECT * FROM news ORDER BY pub_date DESC;`;
+  
+  // Fetch the news articles with the limit if size is provided, else fetch all
+  let news: NewsData[];
+  if (size && Number.isInteger(parseInt(size)) && parseInt(size) > 0) {
+    news = await sql<NewsData[]>`SELECT * FROM news ORDER BY pub_date DESC LIMIT ${size};`;
+  } else {
+    news = await sql<NewsData[]>`SELECT * FROM news ORDER BY pub_date DESC;`;
+  }
 
   return Response.json(news);
 };
