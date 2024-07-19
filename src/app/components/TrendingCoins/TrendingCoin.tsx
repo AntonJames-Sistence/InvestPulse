@@ -30,7 +30,7 @@ const TrendingCoin: React.FC<TrendingCoinProps> = ({
         display: 'block',
         borderRadius: 4,
         transition: '0.2s',
-        mb: 2,
+        mb: 0,
         p: 1,
         '&:hover': {
           backgroundColor: 'rgba(229, 231, 235, 0.5);',

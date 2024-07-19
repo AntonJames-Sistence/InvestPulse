@@ -91,7 +91,6 @@ const NavBar: React.FC = () => {
                     path === navlink.href ? "primary.main" : "text.primary",
                   mx: 1,
                 }}
-                startIcon={navlink.icon}
               >
                 {navlink.title}
               </Button>

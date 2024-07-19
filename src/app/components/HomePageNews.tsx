@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { FaNewspaper } from "react-icons/fa6";
 import {
   Skeleton,
   Card,
@@ -8,6 +9,7 @@ import {
   Link,
   Button,
   Box,
+  Divider,
 } from "@mui/material";
 import Image from "next/image";
 import ReusableTile from "./ReusableTile";
@@ -72,13 +74,24 @@ const HomePageNews: React.FC = () => {
       <ReusableTile title="Hot News">
         <Grid container spacing={4} direction="column">
           {Array.from(new Array(3)).map((_, idx) => (
-            <Box key={idx} display="flex" flexDirection="column" p={1}>
+            <Grid item key={idx}>
+            <Box
+              display="flex"
+              flexDirection="column"
+              p={1}
+              sx={{
+                borderRadius: 5,
+                border: "1px solid rgba(0, 0, 0, 0.12)",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                height: "400px"
+              }}
+            >
               <Skeleton
                 animation="wave"
                 variant="rectangular"
                 width="100%"
                 height={200}
-                sx={{ mb: 2 }}
+                sx={{ mb: 2, borderRadius: 10, }}
               />
               <Skeleton
                 animation="wave"
@@ -101,10 +114,11 @@ const HomePageNews: React.FC = () => {
               <Skeleton
                 animation="wave"
                 width="40%"
-                height={20}
-                sx={{ mt: "auto" }}
+                height={30}
+                sx={{ mt: "auto", alignSelf: "self-end" }}
               />
             </Box>
+            </Grid>
           ))}
         </Grid>
       </ReusableTile>
@@ -119,18 +133,13 @@ const HomePageNews: React.FC = () => {
             <Card
               sx={{
                 display: "flex",
-                flexDirection: "row",
-                borderRadius: (theme) => theme.shape.borderRadius,
-                boxShadow: (theme) => theme.shadows[1],
-                transition: "box-shadow 0.3s ease-in-out",
-                "&:hover": {
-                  boxShadow: (theme) => theme.shadows[4],
-                },
+                flexDirection: "column",
+                justifyContent: "space-between",
               }}
             >
               {article.image_url && (
                 <Image
-                  className="object-cover"
+                  className="h-48 w-full object-cover"
                   alt={article.title}
                   src={article.image_url}
                   height={200}
@@ -159,6 +168,7 @@ const HomePageNews: React.FC = () => {
                 >
                   {article.title}
                 </Typography>
+                <Divider orientation="horizontal" sx={{ my: 2 }} flexItem />
                 <Typography
                   variant="body2"
                   color="textSecondary"
@@ -178,7 +188,7 @@ const HomePageNews: React.FC = () => {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "flex-end",
-                    marginTop: "auto",
+                    marginTop: "1rem",
                   }}
                 >
                   <Link
@@ -202,18 +212,25 @@ const HomePageNews: React.FC = () => {
             </Card>
           </Grid>
         ))}
-        <Box sx={{ mt: 4 }}>
-          <Button
-            variant="contained"
-            color="primary"
-            size="medium"
-            sx={{ m: "auto", borderRadius: "10px" }}
-            // startIcon={}
-          >
-            Go to News Page
-          </Button>
-        </Box>
       </Grid>
+      <Box
+        sx={{
+          mt: 4,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Button
+          variant="contained"
+          color="primary"
+          size="medium"
+          sx={{ m: "auto", borderRadius: "10px" }}
+          startIcon={<FaNewspaper />}
+        >
+          News Page
+        </Button>
+      </Box>
     </ReusableTile>
   );
 };
