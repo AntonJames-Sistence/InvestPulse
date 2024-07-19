@@ -2,8 +2,8 @@
 import ReusableTile from "../ReusableTile";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import toast, { Toaster } from "react-hot-toast";
-import { CircularProgress, Button, Box, Skeleton, Typography } from "@mui/material";
+import toast from "react-hot-toast";
+import { Box, Skeleton } from "@mui/material";
 import { useAuth } from "../Auth/AuthContext";
 import Modal from "../Modal/Modal";
 import LoginForm from "../Auth/LoginForm";
@@ -11,7 +11,6 @@ import SignupForm from "../Auth/SignupForm";
 import { RxUpdate } from "react-icons/rx";
 import LoadingButton from "@mui/lab/LoadingButton";
 import TrendingCoin from "./TrendingCoin";
-import { Fullscreen } from "@mui/icons-material";
 
 interface Coin {
   id: string;
