@@ -1,167 +1,154 @@
-'use client';
+"use client";
 
-import { motion } from "framer-motion";
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { navLinks } from "../data/navLinks";
 import Image from "next/image";
-import logo from "../../../public/koiny.jpeg";
-import LoginButton from "./Auth/LoginButton";
+import LoginLogoutButton from "./Auth/LoginLogoutButton";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Button,
+  Box,
+  Collapse,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemButton,
+  ListItemIcon,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 
 const NavBar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const path = usePathname();
 
-  return (
-    <nav className="fixed top-0 left-0 w-full z-30 bg-white shadow-md items-center">
-      <div className="md:px-12 px-4 pt-2 flex justify-between items-center">
-        <Link href="/" className="flex items-center">
-            <Image
-                src={logo}
-                alt="KoinY logo"
-                className="rounded-xl h-[50px] w-auto"
-                priority={true}
-            />
-            <span className="ml-2 text-2xl font-bold text-primary">KoinY</span>
-        </Link>
+  const toggleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
 
-        <div className="flex items-center">
-          <div className="hidden lg:flex space-x-5">
-            {navLinks.map((navlink, index) => (
-              <Link
-                key={index}
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key === "Enter" || event.key === " ") {
+      toggleDrawer();
+    }
+  };
+
+  return (
+    <>
+      <AppBar
+        position="fixed"
+        role="navigation"
+        sx={{
+          background: "rgba(255, 255, 255, 0.5)",
+          backdropFilter: "blur(10px)",
+          borderBottom: "1px solid rgba(229, 231, 235, 0.5)",
+          boxShadow: "inset 0 -1px 0 0 var(--accents-2)",
+        }}
+      >
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          <Link
+            href="/"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginRight: "5rem",
+            }}
+          >
+            <Image
+              src="/koiny.webp"
+              alt="KoinY logo"
+              width={50}
+              height={50}
+              className="rounded-xl"
+              priority
+            />
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ ml: 1, color: "primary.main" }}
+            >
+              KoinY
+            </Typography>
+          </Link>
+
+          <Box sx={{ flexGrow: 1, display: { xs: "none", lg: "flex" } }}>
+            {navLinks.map((navlink) => (
+              <Button
+                key={navlink.href}
                 href={navlink.href}
-                className={`hover:text-blue-600 px-3 py-2 rounded-md font-medium transition-colors duration-300 ${
-                  path === navlink.href ? "text-blue-600" : "text-gray-800"
-                }`}
+                sx={{
+                  color:
+                    path === navlink.href ? "primary.main" : "text.primary",
+                  mx: 1,
+                }}
               >
                 {navlink.title}
-              </Link>
+              </Button>
             ))}
-          </div>
-          
-          <LoginButton />
+          </Box>
 
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden text-black hover:text-blue-600 focus:outline-none focus:text-blue-600 ml-4"
-          >
-            <span className="sr-only">Open main menu</span>
-            {isOpen ? (
-              <svg
-                className="h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            ) : (
-              <svg
-                className="h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            )}
-          </button>
-        </div>
-      </div>
+          <Box display="flex">
+            <LoginLogoutButton />
 
-      <motion.div animate={isOpen ? "open" : "closed"} className="relative mt-4">
-        <motion.ul
-          initial={wrapperVariants.closed}
-          variants={wrapperVariants}
-          style={{ originY: "top" }}
-          className="flex flex-col bg-white shadow-xl absolute w-full overflow-hidden"
-        >
-          {navLinks.map((navlink, index) => (
-            <Option
-              key={index}
-              href={navlink.href}
-              title={navlink.title}
-              icon={navlink.icon}
-              setIsOpen={setIsOpen}
-            />
+            <Box
+              sx={{
+                display: { xs: "flex", lg: "none" },
+                color: "black",
+              }}
+            >
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                onClick={toggleDrawer}
+                onKeyDown={handleKeyDown}
+                tabIndex={0}
+                sx={{ml: 2}}
+              >
+                {isDrawerOpen ? <CloseIcon /> : <MenuIcon />}
+              </IconButton>
+            </Box>
+          </Box>
+        </Toolbar>
+      </AppBar>
+
+      <Collapse
+        in={isDrawerOpen}
+        sx={{
+          mt: "57px",
+          position: "fixed",
+          width: "100vw",
+          bgcolor: "background.paper",
+          zIndex: 100,
+        }}
+      >
+        <List>
+          {navLinks.map((navlink) => (
+            <ListItem key={navlink.href}>
+              <ListItemIcon sx={{ minWidth: 0 }}>{navlink.icon}</ListItemIcon>
+              <ListItemButton
+                component={Link}
+                href={navlink.href}
+                onClick={toggleDrawer}
+              >
+                <ListItemText primary={navlink.title} />
+              </ListItemButton>
+            </ListItem>
           ))}
-        </motion.ul>
-      </motion.div>
-    </nav>
+        </List>
+      </Collapse>
+    </>
   );
-}
-
-interface OptionProps {
-    title: string;
-    href: string;
-    icon: React.ReactNode;
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-  
-const Option: React.FC<OptionProps> = ({ title, href, icon, setIsOpen }) => {
-    return (
-        <motion.li
-          variants={itemVariants}
-          className="flex justify-left w-full text-2xl ml-2 md:ml-6 font-medium whitespace-nowrap hover:bg-indigo-100 text-slate-700 hover:text-indigo-500 transition-colors duration-200 cursor-pointer last:mb-4"
-        >
-          <Link href={href} className="flex flex-row px-3 py-2 items-center" onClick={() => setIsOpen(false)}>
-            <span className="mr-2">{icon}</span>
-            {title}
-          </Link>
-        </motion.li>
-      );
-};
-
-const wrapperVariants = {
-  open: {
-    scaleY: 1,
-    transition: {
-      when: "beforeChildren",
-      duration: 0.1,  // Speed up the open animation
-      staggerChildren: 0.01,  // Reduce the stagger effect
-    },
-  },
-  closed: {
-    scaleY: 0,
-    transition: {
-      when: "afterChildren",
-      duration: 0.1,  // Speed up the close animation
-      staggerChildren: 0.01,  // Reduce the stagger effect
-    },
-  },
-};
-
-const itemVariants = {
-  open: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      when: "beforeChildren",
-    },
-  },
-  closed: {
-    opacity: 0,
-    y: -25,
-    transition: {
-      when: "afterChildren",
-    },
-  },
 };
 
 export default NavBar;

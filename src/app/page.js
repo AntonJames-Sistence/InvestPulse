@@ -1,18 +1,15 @@
-'use client';
+"use client";
 
 import Team from "./components/Team";
 import Tokenomics from "./components/Tokenomics";
-import Sentiment from "./components/Sentiment/Sentiment";
-import Banner from "./components/Banner";
-import TrendingCoins from "./components/TrendingCoins";
+import TrendingCoins from "./components/TrendingCoins/TrendingCoins";
 import { Toaster } from "react-hot-toast";
-import News from "./components/News";
+import HomePageNews from "./components/HomePageNews";
 import { Suspense } from "react";
 import CoinDataProvider from "./components/Perfomance/CoinDataProvider";
 
 
 export default function Home() {
-
   return (
     <main className="flex w-full flex-col justify-between">
       <Toaster position="top-center" reverseOrder={false} />
@@ -30,9 +27,8 @@ export default function Home() {
 
         {/* Right side of the page */}
         <div className="flex flex-col lg:ml-4 w-full lg:w-1/3">
-          {/* <Banner /> */}
-          <News />
           <TrendingCoins />
+          <HomePageNews />
         </div>
       </div>
     </main>

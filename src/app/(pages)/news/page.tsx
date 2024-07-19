@@ -1,8 +1,15 @@
-'use client'
-import React, { useEffect, useState } from 'react';
-import { Container, Card, CardContent, CardMedia, Typography, CircularProgress, Grid, Button, Link } from '@mui/material';
-import { styled } from '@mui/system';
-import { truncateText } from '../../utils/truncateText';
+import { ReactElement } from "react";
+import {
+  Container,
+  Card,
+  CardContent,
+  Typography,
+  Grid,
+  Link,
+  Divider,
+  Box,
+} from "@mui/material";
+import Image from "next/image";
 
 interface NewsData {
   article_id: string;
@@ -14,127 +21,116 @@ interface NewsData {
   source_url: string | null;
 }
 
-const NewsCard = styled(Card)(({ theme }) => ({
-  width: '100%',
-  height: '500px',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Consistent shadow
-  transition: 'box-shadow 0.3s ease-in-out',
-  '&:hover': {
-    boxShadow: '0 8px 10px rgba(0, 0, 0, 0.15)', // Slightly deeper shadow on hover
-  },
-}));
+async function fetchNewsData(): Promise<NewsData[]> {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const response = await fetch(`${apiUrl}/api/news`, {
+    next: { revalidate: 86400 }, // Revalidate every 24h
+  });
 
-const CardContentStyled = styled(CardContent)({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-  height: '100%', 
-});
-
-const DateStyled = styled('span')(({ theme }) => ({
-  color: theme.palette.text.secondary,
-  alignSelf: 'flex-end',
-}));
-
-const FooterStyled = styled('div')({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'flex-end',
-  marginTop: 'auto',
-});
-
-const News: React.FC = () => {
-  const [news, setNews] = useState<NewsData[]>([]);
-  const [visibleNewsCount, setVisibleNewsCount] = useState(6);
-
-  useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const response = await fetch('/api/news');
-        const data = await response.json();
-        setNews(data);
-      } catch (error) {
-        console.error('Error fetching news:', error);
-      }
-    };
-
-    fetchNews();
-  }, []);
-
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.src = 'https://mpost.io/wp-content/uploads/UXUY-1024x608.jpg';
-  };
-
-  if (!news.length) {
-    return (
-      <Container>
-        <div className='mt-24 mb-8 self-center flex justify-center'>
-            <CircularProgress />
-        </div>
-      </Container>
-    );
+  if (!response.ok) {
+    throw new Error("Failed to fetch news data");
   }
 
-  const handleLoadMore = () => {
-    setVisibleNewsCount((prevCount) => prevCount + 3);
-  };
+  const data: NewsData[] = await response.json();
+  return data;
+}
+
+const NewsPage = async (): Promise<ReactElement> => {
+  const newsData = await fetchNewsData();
 
   return (
-    <Container className='mt-24 mb-8'>
+    <Container className="mt-24 mb-8">
       <Grid container spacing={4}>
-        {news.slice(0, visibleNewsCount).map((article) => (
+        {newsData.map((article: NewsData) => (
           <Grid item key={article.article_id} xs={12} sm={6} md={4}>
-            <NewsCard className='rounded-lg'>
+            <Card
+              sx={{
+                width: '100%',
+                height: '500px',
+                display: 'flex',
+                flexDirection: 'column',
+                borderRadius: 10,
+                justifyContent: 'space-between',
+                transition: 'box-shadow 0.3s ease-in-out',
+              }}
+            >
               {article.image_url && (
-                <CardMedia
-                  component="img"
+                <Image
+                  className="h-48 w-full object-cover"
                   alt={article.title}
-                  style={{ height: '200px', width: '100%', objectFit: 'cover' }}
-                  image={article.image_url}
-                  onError={handleImageError} // Handle image loading errors
+                  src={article.image_url}
+                  height={200}
+                  width={400}
                 />
               )}
-              <CardContentStyled>
-                <Typography gutterBottom variant="h6" component="div">
-                {truncateText(article.title, 100)}
+              <CardContent
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  height: '100%',
+                }}
+              >
+                <Typography
+                  gutterBottom
+                  variant="h6"
+                  component="div"
+                  sx={{
+                    display: '-webkit-box',
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    WebkitLineClamp: 2, // Adjust the number of lines to truncate here
+                  }}
+                >
+                  {article.title}
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {truncateText(article.description, 150)}
+                <Divider orientation="horizontal" sx={{ my: 2 }} flexItem />
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  component="p"
+                  sx={{
+                    display: '-webkit-box',
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    WebkitLineClamp: 4, // Adjust the number of lines to truncate here
+                  }}
+                >
+                  {article.description}
                 </Typography>
-                <FooterStyled>
-                  <Link href={article.link} target="_blank" rel="noopener noreferrer" underline='hover'>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-end',
+                    marginTop: 'auto',
+                  }}
+                >
+                  <Link
+                    href={article.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    underline="hover"
+                  >
                     Read more
                   </Link>
-                  <DateStyled>
-                    {new Date(article.pub_date ?? '').toLocaleDateString()}
-                  </DateStyled>
-                </FooterStyled>
-              </CardContentStyled>
-            </NewsCard>
+                  <Box
+                    sx={{
+                      alignSelf: 'flex-end',
+                    }}
+                  >
+                    {new Date(article.pub_date ?? "").toLocaleDateString()}
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
           </Grid>
         ))}
       </Grid>
-      {visibleNewsCount < news.length && (
-        <div className="flex justify-center mt-4">
-          <Button 
-              variant="contained" 
-              sx={{
-                  mx: 2,
-                  '&.MuiButton-root': {
-                      backgroundColor: '#1976d2',
-                      color: '#ffffff',
-                  },}} 
-              onClick={handleLoadMore}
-          >
-            Load More
-          </Button>
-        </div>
-      )}
     </Container>
   );
 };
 
-export default News;
+export default NewsPage;

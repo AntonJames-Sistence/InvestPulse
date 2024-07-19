@@ -1,12 +1,20 @@
-// module.exports = {
-//     async redirects() {
-//         return [
-//         // Basic redirect
-//         {
-//             source: '/:slug',
-//             destination: '/?slug=:slug',
-//             permanent: true,
-//         },
-//         ]
-//     },
-// }
+module.exports = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'i.ibb.co',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'coin-images.coingecko.com',
+        pathname: '**',
+      },
+      {
+        protocol: 'https', // this allow all the images to be shown, not good for security
+        hostname: '**',
+      },
+    ],
+  },
+};

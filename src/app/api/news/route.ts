@@ -3,79 +3,85 @@ import postgres from "postgres";
 import { isRelevantArticle } from "../../utils/newsFilter";
 
 const newsKey = process.env.NEWSDATA_KEY;
-const placeholderImage = 'https://i.ibb.co/0rgx9gB/Cryptocurrency-Photo-by-stockphoto-graf.webp';
+const placeholderImage =
+  "https://i.ibb.co/0rgx9gB/Cryptocurrency-Photo-by-stockphoto-graf.webp";
 
 interface NewsData {
-    article_id: string;
-    title: string;
-    link: string;
-    description: string | null;
-    pub_date: string | null;
-    image_url: string | null;
-    source_url: string | null;
+  article_id: string;
+  title: string;
+  link: string;
+  description: string | null;
+  pub_date: string | null;
+  image_url: string | null;
+  source_url: string | null;
 }
 
-export const GET = async (req: NextRequest, res: NextResponse) => {
-    if (!process.env.DATABASE_URL) {
-        return NextResponse.json({ message: 'Couldn\'t reach DB' }, { status: 500 });
-    }
-    
-    const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
-    
-    try {
-        // Fetch all stored news articles from the database
-        const news: NewsData[] = await sql<NewsData[]>`SELECT * FROM news ORDER BY pub_date DESC;`;
-    
-        return Response.json(news);
-    } catch (error) {
-        return NextResponse.json({ message: `Couldn't retrieve stored coins data, ${error}` }, { status: 400 });
-    }
-}
+export const GET = async (req: NextRequest) => {
+  if (!process.env.DATABASE_URL) {
+    return NextResponse.json({ message: "Couldn't reach DB" }, { status: 500 });
+  }
 
-export async function POST (req: NextRequest, res: NextResponse) {
-    if (!newsKey) {
-        return NextResponse.json({ message: 'Error while getting news, please ensure key is up to date' }, { status: 400 });
-    }
+  // Get the size parameter from the query string
+  const { searchParams } = new URL(req.url);
+  const size = searchParams.get('size');
+  // Connect to DB
+  const sql = postgres(process.env.DATABASE_URL, { ssl: "require" });
+  
+  // Fetch the news articles with the limit if size is provided, else fetch all
+  let news: NewsData[];
+  if (size && Number.isInteger(parseInt(size)) && parseInt(size) > 0) {
+    news = await sql<NewsData[]>`SELECT * FROM news ORDER BY pub_date DESC LIMIT ${size};`;
+  } else {
+    news = await sql<NewsData[]>`SELECT * FROM news ORDER BY pub_date DESC;`;
+  }
 
-    if (!process.env.DATABASE_URL) {
-        return NextResponse.json({ message: 'Couldn\'t reach DB' }, { status: 500 });
-    }
-    
-    const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
-    const url = `https://newsdata.io/api/1/latest?apikey=${newsKey}&q=cryptocurrency&language=en`;
+  return Response.json(news);
+};
 
-    try {
-        const response = await fetch(url);
+export async function POST(req: NextRequest, res: NextResponse) {
+  //   if (!newsKey) {
+  //     return NextResponse.json(
+  //       { message: "Error while getting news, please ensure key is up to date" },
+  //       { status: 400 }
+  //     );
+  //   }
 
-        if (!response.ok) {
-            throw new Error("Failed to fetch trending coins");
-        }
+  if (!process.env.DATABASE_URL) {
+    return NextResponse.json({ message: "Couldn't reach DB" }, { status: 500 });
+  }
 
-        const data = await response.json();
+  const sql = postgres(process.env.DATABASE_URL, { ssl: "require" });
+  const url = `https://newsdata.io/api/1/latest?apikey=${newsKey}&q=cryptocurrency&language=en`;
 
-        for (const article of data.results){
-            // Make sure we have title, description and link to the article
-            if (!article.title || !article.description || !article.link) continue;
+  const response = await fetch(url);
 
-            // Check if the article is relevant based on the keywords
-            if (!isRelevantArticle(article.title, article.description)) continue;
+  if (!response.ok) {
+    throw new Error("Failed to fetch trending coins");
+  }
 
-            // Make sure uniqueness of the article, by title, because id doesn't guarantee it
-            const existingRecord = await sql`SELECT * FROM news WHERE title = ${article.title};`;
-            if (existingRecord.length > 0) continue;
+  const data = await response.json();
 
-            // Check if image is available, if not, use the placeholder image
-            const imageUrl = article.image_url ? article.image_url : placeholderImage;
+  for (const article of data.results) {
+    // Make sure we have title, description and link to the article
+    if (!article.title || !article.description || !article.link) continue;
 
-            // Insert only when all requirements are fulfilled
-            await sql`
+    // Check if the article is relevant based on the keywords
+    if (!isRelevantArticle(article.title, article.description)) continue;
+
+    // Make sure uniqueness of the article, by title, because id doesn't guarantee it
+    const existingRecord =
+      await sql`SELECT * FROM news WHERE title = ${article.title};`;
+    if (existingRecord.length > 0) continue;
+
+    // Check if image is available, if not, use the placeholder image
+    const imageUrl = article.image_url ? article.image_url : placeholderImage;
+
+    // Insert only when all requirements are fulfilled
+    await sql`
                 INSERT INTO news (article_id, title, link, description, pub_date, image_url, source_url)
                 VALUES (${article.article_id}, ${article.title}, ${article.link}, ${article.description}, ${article.pubDate}, ${imageUrl}, ${article.source_url});
             `;
-        }
+  }
 
-        return NextResponse.json({ message: 'News are up to date'}, {status: 200});
-    } catch (error) {
-        return NextResponse.json({ message: 'Error while fetching data from NEWS API'}, {status: 500});
-    }
+  return NextResponse.json({ message: "News are up to date" }, { status: 200 });
 }
