@@ -1,16 +1,18 @@
+'use client';
 import React, { useEffect, useState } from "react";
 import { FaNewspaper } from "react-icons/fa6";
+import Link from 'next/link';
 import {
   Skeleton,
   Card,
   CardContent,
   Typography,
   Grid,
-  Link,
   Button,
   Box,
   Divider,
 } from "@mui/material";
+import { Link as MuiLink } from '@mui/material';
 import Image from "next/image";
 import ReusableTile from "./ReusableTile";
 
@@ -44,7 +46,7 @@ const HomePageNews: React.FC = () => {
     }
     // Fetch data from the server
     getNewsData();
-  });
+  }, []);
 
   const getNewsData = async () => {
     try {
@@ -75,49 +77,49 @@ const HomePageNews: React.FC = () => {
         <Grid container spacing={4} direction="column">
           {Array.from(new Array(3)).map((_, idx) => (
             <Grid item key={idx}>
-            <Box
-              display="flex"
-              flexDirection="column"
-              p={1}
-              sx={{
-                borderRadius: 5,
-                border: "1px solid rgba(0, 0, 0, 0.12)",
-                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                height: "400px"
-              }}
-            >
-              <Skeleton
-                animation="wave"
-                variant="rectangular"
-                width="100%"
-                height={200}
-                sx={{ mb: 2, borderRadius: 10, }}
-              />
-              <Skeleton
-                animation="wave"
-                width="60%"
-                height={40}
-                sx={{ mb: 1 }}
-              />
-              <Skeleton
-                animation="wave"
-                width="80%"
-                height={20}
-                sx={{ mb: 1 }}
-              />
-              <Skeleton
-                animation="wave"
-                width="80%"
-                height={20}
-                sx={{ mb: 1 }}
-              />
-              <Skeleton
-                animation="wave"
-                width="40%"
-                height={30}
-                sx={{ mt: "auto", alignSelf: "self-end" }}
-              />
-            </Box>
+              <Box
+                display="flex"
+                flexDirection="column"
+                p={1}
+                sx={{
+                  borderRadius: 5,
+                  border: "1px solid rgba(0, 0, 0, 0.12)",
+                  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                  height: "400px",
+                }}
+              >
+                <Skeleton
+                  animation="wave"
+                  variant="rectangular"
+                  width="100%"
+                  height={200}
+                  sx={{ mb: 2, borderRadius: 10 }}
+                />
+                <Skeleton
+                  animation="wave"
+                  width="60%"
+                  height={40}
+                  sx={{ mb: 1 }}
+                />
+                <Skeleton
+                  animation="wave"
+                  width="80%"
+                  height={20}
+                  sx={{ mb: 1 }}
+                />
+                <Skeleton
+                  animation="wave"
+                  width="80%"
+                  height={20}
+                  sx={{ mb: 1 }}
+                />
+                <Skeleton
+                  animation="wave"
+                  width="40%"
+                  height={30}
+                  sx={{ mt: "auto", alignSelf: "self-end" }}
+                />
+              </Box>
             </Grid>
           ))}
         </Grid>
@@ -191,14 +193,14 @@ const HomePageNews: React.FC = () => {
                     marginTop: "1rem",
                   }}
                 >
-                  <Link
+                  <MuiLink
                     href={article.link}
                     target="_blank"
                     rel="noopener noreferrer"
                     underline="hover"
                   >
                     Read more
-                  </Link>
+                  </MuiLink>
                   <Typography
                     sx={{
                       color: (theme) => theme.palette.text.secondary,
@@ -221,15 +223,17 @@ const HomePageNews: React.FC = () => {
           alignItems: "center",
         }}
       >
-        <Button
-          variant="contained"
-          color="primary"
-          size="medium"
-          sx={{ m: "auto", borderRadius: "10px" }}
-          startIcon={<FaNewspaper />}
-        >
-          News Page
-        </Button>
+        <Link href="/news" passHref>
+          <Button
+            variant="contained"
+            color="primary"
+            size="medium"
+            sx={{ m: "auto", borderRadius: "10px" }}
+            startIcon={<FaNewspaper />}
+          >
+            News Page
+          </Button>
+        </Link>
       </Box>
     </ReusableTile>
   );
