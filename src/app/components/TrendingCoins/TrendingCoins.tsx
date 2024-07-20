@@ -124,6 +124,54 @@ const TrendingCoins: React.FC = () => {
     setIsLogin(!isLogin);
   };
 
+  if (!trendingCoins.length) {
+    return (
+      <ReusableTile title="Trending Coins (24h)">
+        {Array.from(new Array(4)).map((_, idx) => (
+          <Box
+            key={idx}
+            display="flex"
+            justifyContent="space-between"
+            px={1}
+            mb={1}
+            alignItems="center"
+            sx={{
+              borderRadius: 5,
+              border: ".5px solid rgba(0, 0, 0, 0.12)",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+            }}
+          >
+            <Box display="flex" alignItems="center">
+              <Skeleton
+                animation="wave"
+                variant="circular"
+                width={40}
+                height={40}
+                sx={{ mr: 2 }}
+              />
+              <Skeleton animation="wave" width={100} height={60} />
+            </Box>
+            <Skeleton animation="wave" width={80} height={40} />
+          </Box>
+        ))}
+        <LoadingButton
+          variant="contained"
+          size="medium"
+          loading={loading}
+          sx={{ m: "auto", borderRadius: "10px", mt: 2 }}
+          onClick={
+            authState.isAuthenticated ? handleUpdateDB : handleLoginClick
+          }
+          startIcon={<RxUpdate />}
+        >
+          {authState.isAuthenticated
+            ? "Update Prices"
+            : "Login to Update Prices"}
+        </LoadingButton>
+      </ReusableTile>
+    );
+  }
+
   return (
     <ReusableTile title="Trending Coins (24h)">
       <Modal isOpen={openModal} onClose={handleCloseModal}>
@@ -133,34 +181,26 @@ const TrendingCoins: React.FC = () => {
           <SignupForm toggleForm={toggleForm} onClose={handleCloseModal} />
         )}
       </Modal>
-      <Box display="flex" flexDirection="column" mt={-2}>
-      {!trendingCoins.length ? (
-        Array.from(new Array(4)).map((_, idx) => (
-          <Box key={idx} display="flex" justifyContent="space-between" p={1} alignItems="center">
-            <Box display="flex" alignItems="center">
-              <Skeleton animation="wave" variant="circular" width={40} height={40} sx={{ mr: 2 }} />
-              <Skeleton animation="wave" width={150} height={60} />
-            </Box>
-            <Skeleton animation="wave" width={80} height={40} />
-          </Box>
-        ))
-      ) : (
-        trendingCoins.map((coin, idx) => (
+      <Box display="flex" flexDirection="column">
+        {trendingCoins.map((coin, idx) => (
           <TrendingCoin key={idx} coinData={coin} handleClick={handleClick} />
-        ))
-      )}
-      <LoadingButton
-        variant="contained"
-        size="medium"
-        loading={loading}
-        sx={{ m: "auto", borderRadius: "10px", mt: 2 }}
-        onClick={authState.isAuthenticated ? handleUpdateDB : handleLoginClick}
-        startIcon={<RxUpdate />}
-      >
-        {authState.isAuthenticated ? "Update Prices" : "Login to Update Prices"}
-      </LoadingButton>
-    </Box>
-  </ReusableTile>
+        ))}
+        <LoadingButton
+          variant="contained"
+          size="medium"
+          loading={loading}
+          sx={{ m: "auto", borderRadius: "10px", mt: 2 }}
+          onClick={
+            authState.isAuthenticated ? handleUpdateDB : handleLoginClick
+          }
+          startIcon={<RxUpdate />}
+        >
+          {authState.isAuthenticated
+            ? "Update Prices"
+            : "Login to Update Prices"}
+        </LoadingButton>
+      </Box>
+    </ReusableTile>
   );
 };
 

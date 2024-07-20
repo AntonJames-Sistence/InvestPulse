@@ -11,13 +11,13 @@ jest.mock("../../data/teamData", () => ({
       name: "John Doe",
       title: "Software Engineer",
       description: "Experienced in building scalable web applications.",
-      img: "path/to/johndoe.jpg",
+      img: "/johndoe.webp",
     },
     {
       name: "Jane Smith",
       title: "Product Manager",
       description: "Expert in product lifecycle management.",
-      img: "path/to/janesmith.jpg",
+      img: "/janesmith.webp",
     },
   ],
 }));
