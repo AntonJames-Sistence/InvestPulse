@@ -16,6 +16,7 @@ import {
 import { Link as MuiLink } from '@mui/material';
 import Image from "next/image";
 import ReusableTile from "./ReusableTile";
+import { setNewsCache, getNewsCache } from "../utils/cacheUtils";
 
 interface NewsData {
   article_id: string;
@@ -36,14 +37,11 @@ const HomePageNews: React.FC = () => {
 
   useEffect(() => {
     // Try to get data from local storage first
-    const cachedData = localStorage.getItem(CACHE_KEY);
-    if (cachedData) {
-      const { data, timestamp } = JSON.parse(cachedData);
-      if (Date.now() - timestamp < CACHE_EXPIRY) {
-        setNewsData(data);
-        setLoading(false);
-        return;
-      }
+    const cachedNewsData = getNewsCache<NewsData[]>(CACHE_KEY, CACHE_EXPIRY);
+    if (cachedNewsData) {
+      setNewsData(cachedNewsData);
+      setLoading(false);
+      return;
     }
     // Fetch data from the server
     getNewsData();
@@ -61,10 +59,7 @@ const HomePageNews: React.FC = () => {
       const data = await response.json();
       setNewsData(data);
       // Caching to local storage
-      localStorage.setItem(
-        CACHE_KEY,
-        JSON.stringify({ data, timestamp: Date.now() })
-      );
+      setNewsCache(CACHE_KEY, data, CACHE_EXPIRY)
     } catch (error) {
       console.error("Couldn't get news data");
     } finally {
