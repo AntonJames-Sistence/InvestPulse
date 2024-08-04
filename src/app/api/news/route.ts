@@ -3,8 +3,16 @@ import postgres from "postgres";
 import { isRelevantArticle } from "../../utils/newsFilter";
 
 const newsKey = process.env.NEWSDATA_KEY;
-const placeholderImage =
-  "https://i.ibb.co/0rgx9gB/Cryptocurrency-Photo-by-stockphoto-graf.webp";
+const placeholderImages = [
+  "https://i.ibb.co/R34fRP2/crpto.webp",
+  "https://i.ibb.co/0rgx9gB/Cryptocurrency-Photo-by-stockphoto-graf.webp"
+];
+
+  // Function to get a random placeholder image
+const getRandomPlaceholderImage = () => {
+  const randomIndex = Math.floor(Math.random() * placeholderImages.length);
+  return placeholderImages[randomIndex];
+};
 
 interface NewsData {
   article_id: string;
@@ -74,7 +82,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     if (existingRecord.length > 0) continue;
 
     // Check if image is available and it starts with https enabling usage of next/image if not, use the placeholder image
-    const imageUrl = article.image_url && article.image_url.startsWith('https') ? article.image_url : placeholderImage;
+    const imageUrl = article.image_url && article.image_url.startsWith('https') ? article.image_url : getRandomPlaceholderImage();
 
     // Insert only when all requirements are fulfilled
     await sql`
