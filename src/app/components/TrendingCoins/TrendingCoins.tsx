@@ -136,8 +136,9 @@ const TrendingCoins: React.FC = () => {
             mb={1}
             alignItems="center"
             sx={{
-              borderRadius: 5,
-              border: ".5px solid rgba(0, 0, 0, 0.12)",
+              borderRadius: 7,
+              borderTop: ".5px solid rgba(0, 0, 0, 0.12)",
+              borderBottom: ".5px solid rgba(0, 0, 0, 0.12)",
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
             }}
           >

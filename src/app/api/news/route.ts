@@ -5,10 +5,10 @@ import { isRelevantArticle } from "../../utils/newsFilter";
 const newsKey = process.env.NEWSDATA_KEY;
 const placeholderImages = [
   "https://i.ibb.co/R34fRP2/crpto.webp",
-  "https://i.ibb.co/0rgx9gB/Cryptocurrency-Photo-by-stockphoto-graf.webp"
+  "https://i.ibb.co/0rgx9gB/Cryptocurrency-Photo-by-stockphoto-graf.webp",
 ];
 
-  // Function to get a random placeholder image
+// Function to get a random placeholder image
 const getRandomPlaceholderImage = () => {
   const randomIndex = Math.floor(Math.random() * placeholderImages.length);
   return placeholderImages[randomIndex];
@@ -31,14 +31,16 @@ export const GET = async (req: NextRequest) => {
 
   // Get the size parameter from the query string
   const { searchParams } = new URL(req.url);
-  const size = searchParams.get('size');
+  const size = searchParams.get("size");
   // Connect to DB
   const sql = postgres(process.env.DATABASE_URL, { ssl: "require" });
-  
+
   // Fetch the news articles with the limit if size is provided, else fetch all
   let news: NewsData[];
   if (size && Number.isInteger(parseInt(size)) && parseInt(size) > 0) {
-    news = await sql<NewsData[]>`SELECT * FROM news ORDER BY pub_date DESC LIMIT ${size};`;
+    news = await sql<
+      NewsData[]
+    >`SELECT * FROM news ORDER BY pub_date DESC LIMIT ${size};`;
   } else {
     news = await sql<NewsData[]>`SELECT * FROM news ORDER BY pub_date DESC;`;
   }
@@ -46,14 +48,7 @@ export const GET = async (req: NextRequest) => {
   return Response.json(news);
 };
 
-export async function POST(req: NextRequest, res: NextResponse) {
-  //   if (!newsKey) {
-  //     return NextResponse.json(
-  //       { message: "Error while getting news, please ensure key is up to date" },
-  //       { status: 400 }
-  //     );
-  //   }
-
+export async function POST() {
   if (!process.env.DATABASE_URL) {
     return NextResponse.json({ message: "Couldn't reach DB" }, { status: 500 });
   }
@@ -82,7 +77,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
     if (existingRecord.length > 0) continue;
 
     // Check if image is available and it starts with https enabling usage of next/image if not, use the placeholder image
-    const imageUrl = article.image_url && article.image_url.startsWith('https') ? article.image_url : getRandomPlaceholderImage();
+    const imageUrl =
+      article.image_url && article.image_url.startsWith("https")
+        ? article.image_url
+        : getRandomPlaceholderImage();
 
     // Insert only when all requirements are fulfilled
     await sql`

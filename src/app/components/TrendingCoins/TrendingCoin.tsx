@@ -30,7 +30,7 @@ const TrendingCoin: React.FC<TrendingCoinProps> = ({
     <ButtonBase
       sx={{
         display: "block",
-        borderRadius: 5,
+        borderRadius: 7,
         transition: "0.2s",
         mb: 1,
         p: 1,
@@ -47,7 +47,7 @@ const TrendingCoin: React.FC<TrendingCoinProps> = ({
             sx={{
               width: 40,
               height: 40,
-              borderRadius: "50%",
+              borderRadius: 5,
               overflow: "hidden",
               mr: 2,
             }}
@@ -74,7 +74,7 @@ const TrendingCoin: React.FC<TrendingCoinProps> = ({
           alignItems="center"
           bgcolor={isNegative ? "rgba(255, 0, 0, 0.1)" : "rgba(0, 255, 0, 0.1)"}
           color={isNegative ? "rgba(255, 0, 0, 0.8)" : "green"}
-          borderRadius={1}
+          borderRadius={5}
           width={100}
           px={2}
           py={0.5}

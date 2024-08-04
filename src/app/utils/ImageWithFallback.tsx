@@ -14,6 +14,7 @@ const ImageWithFallback: React.FC<ImageWithFallbackProps> = (props) => {
     <Image
       {...rest}
       src={imgSrc}
+      alt="Image of the wallet with crypto coins in it"
       onError={() => {
         setImgSrc(fallbackSrc);
       }}

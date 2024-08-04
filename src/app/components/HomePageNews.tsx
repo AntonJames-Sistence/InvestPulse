@@ -80,7 +80,8 @@ const HomePageNews: React.FC = () => {
                 p={1}
                 sx={{
                   borderRadius: 5,
-                  border: "1px solid rgba(0, 0, 0, 0.12)",
+                  borderTop: "1px solid rgba(0, 0, 0, 0.12)",
+                  borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
                   height: "400px",
                 }}
               >
