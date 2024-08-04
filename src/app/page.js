@@ -11,15 +11,6 @@ import CoinDataProvider from "./components/Perfomance/CoinDataProvider";
 export default function Home() {
   return (
     <main className="flex w-full flex-col justify-between">
-      <script
-        async
-        src="https://www.googletagmanager.com/gtag/js?id=G-W46SFCSN20"
-      ></script>
-      <script>
-        window.dataLayer = window.dataLayer || []; function gtag()
-        {dataLayer.push(arguments)}
-        gtag('js', new Date()); gtag('config', 'G-W46SFCSN20');
-      </script>
       <Toaster position="top-center" reverseOrder={false} />
 
       <div className="flex flex-col lg:flex-row self-center w-full mt-20 px-2 lg:px-16">

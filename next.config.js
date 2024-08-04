@@ -12,6 +12,10 @@ module.exports = {
         pathname: '**',
       },
       {
+        protocol: 'http', // this allow all the images to be shown, not good for security
+        hostname: '**',
+      },
+      {
         protocol: 'https', // this allow all the images to be shown, not good for security
         hostname: '**',
       },

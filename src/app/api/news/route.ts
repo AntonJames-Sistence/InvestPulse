@@ -73,8 +73,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
       await sql`SELECT * FROM news WHERE title = ${article.title};`;
     if (existingRecord.length > 0) continue;
 
-    // Check if image is available, if not, use the placeholder image
-    const imageUrl = article.image_url ? article.image_url : placeholderImage;
+    // Check if image is available and it starts with https enabling usage of next/image if not, use the placeholder image
+    const imageUrl = article.image_url && article.image_url.startsWith('https') ? article.image_url : placeholderImage;
 
     // Insert only when all requirements are fulfilled
     await sql`
