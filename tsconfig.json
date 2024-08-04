@@ -115,6 +115,6 @@
     "src/lib/store.ts",
     "src/app/components/__tests__/Team.test.jsx",
     "src/app/components/News/NewsStyledComponents.js"
-  ],
+, "src/app/components/__tests__/NavBar.test.jsx"  ],
   "exclude": ["node_modules"]
 }

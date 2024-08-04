@@ -18,7 +18,6 @@ import {
   ListItem,
   ListItemText,
   ListItemButton,
-  ListItemIcon,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -45,7 +44,6 @@ const NavBar: React.FC = () => {
         sx={{
           background: "rgba(255, 255, 255, 0.5)",
           backdropFilter: "blur(10px)",
-          borderBottom: "1px solid rgba(229, 231, 235, 0.5)",
           boxShadow: "inset 0 -1px 0 0 var(--accents-2)",
         }}
       >
@@ -67,9 +65,9 @@ const NavBar: React.FC = () => {
             <Image
               src="/koiny.webp"
               alt="KoinY logo"
-              width={50}
-              height={50}
-              className="rounded-xl"
+              width={40}
+              height={40}
+              className="rounded-full"
               priority
             />
             <Typography
@@ -90,6 +88,7 @@ const NavBar: React.FC = () => {
                   color:
                     path === navlink.href ? "primary.main" : "text.primary",
                   mx: 1,
+                  
                 }}
               >
                 {navlink.title}
@@ -130,18 +129,20 @@ const NavBar: React.FC = () => {
           width: "100vw",
           bgcolor: "background.paper",
           zIndex: 100,
+          background: "rgba(255, 255, 255, 0.5)",
+          backdropFilter: "blur(10px)",
         }}
       >
         <List>
           {navLinks.map((navlink) => (
             <ListItem key={navlink.href}>
-              <ListItemIcon sx={{ minWidth: 0 }}>{navlink.icon}</ListItemIcon>
               <ListItemButton
                 component={Link}
                 href={navlink.href}
                 onClick={toggleDrawer}
               >
-                <ListItemText primary={navlink.title} />
+                {navlink.icon}
+                <ListItemText primary={navlink.title} sx={{ml: 2}} />
               </ListItemButton>
             </ListItem>
           ))}

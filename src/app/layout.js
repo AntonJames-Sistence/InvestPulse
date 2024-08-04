@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { Provider } from "react-redux";
 import { store } from '../lib/store'
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 const inter = Inter({ subsets: ["latin"]});
 
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body className={`bg-gray-200 ${inter.className}`}>
@@ -36,6 +38,7 @@ export default function RootLayout({ children }) {
             </Provider>
           </AuthProvider>
         </AppRouterCacheProvider>
+        <GoogleAnalytics gaId="G-W46SFCSN20" />
       </body>
     </html>
   );

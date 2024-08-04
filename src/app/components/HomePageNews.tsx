@@ -14,8 +14,9 @@ import {
   Divider,
 } from "@mui/material";
 import { Link as MuiLink } from '@mui/material';
-import Image from "next/image";
 import ReusableTile from "./ReusableTile";
+import { setCache, getCache } from "../utils/cacheUtils";
+import ImageWithFallback from "../utils/ImageWithFallback";
 
 interface NewsData {
   article_id: string;
@@ -28,7 +29,7 @@ interface NewsData {
 }
 
 const CACHE_KEY = "newsDataCache";
-const CACHE_EXPIRY = 20 * 60 * 60 * 1000; // 20 hours in milliseconds
+const CACHE_EXPIRY = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
 
 const HomePageNews: React.FC = () => {
   const [newsData, setNewsData] = useState<NewsData[]>([]);
@@ -36,20 +37,18 @@ const HomePageNews: React.FC = () => {
 
   useEffect(() => {
     // Try to get data from local storage first
-    const cachedData = localStorage.getItem(CACHE_KEY);
-    if (cachedData) {
-      const { data, timestamp } = JSON.parse(cachedData);
-      if (Date.now() - timestamp < CACHE_EXPIRY) {
-        setNewsData(data);
-        setLoading(false);
-        return;
-      }
+    const cachedNewsData = getCache<NewsData[]>(CACHE_KEY, CACHE_EXPIRY);
+    if (cachedNewsData) {
+      setNewsData(cachedNewsData);
+      setLoading(false);
+      return;
     }
     // Fetch data from the server
     getNewsData();
   }, []);
 
   const getNewsData = async () => {
+    // Fetch news and limit size to 3
     try {
       const response = await fetch(`/api/news?size=3`, {
         method: "GET",
@@ -61,10 +60,7 @@ const HomePageNews: React.FC = () => {
       const data = await response.json();
       setNewsData(data);
       // Caching to local storage
-      localStorage.setItem(
-        CACHE_KEY,
-        JSON.stringify({ data, timestamp: Date.now() })
-      );
+      setCache(CACHE_KEY, data, CACHE_EXPIRY)
     } catch (error) {
       console.error("Couldn't get news data");
     } finally {
@@ -84,8 +80,8 @@ const HomePageNews: React.FC = () => {
                 p={1}
                 sx={{
                   borderRadius: 5,
-                  border: "1px solid rgba(0, 0, 0, 0.12)",
-                  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                  borderTop: "1px solid rgba(0, 0, 0, 0.12)",
+                  borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
                   height: "400px",
                 }}
               >
@@ -141,10 +137,11 @@ const HomePageNews: React.FC = () => {
               }}
             >
               {article.image_url && (
-                <Image
+                <ImageWithFallback
                   className="h-48 w-full object-cover"
                   alt={article.title}
                   src={article.image_url}
+                  fallbackSrc={"https://i.ibb.co/R34fRP2/crpto.webp"}
                   height={200}
                   width={200}
                 />
