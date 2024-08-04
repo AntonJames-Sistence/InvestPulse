@@ -124,13 +124,13 @@ const NavBar: React.FC = () => {
       <Collapse
         in={isDrawerOpen}
         sx={{
-          mt: "57px",
+          mt: "56px",
           position: "fixed",
           width: "100vw",
           bgcolor: "background.paper",
           zIndex: 100,
-          background: "rgba(255, 255, 255, 0.5)",
-          backdropFilter: "blur(10px)",
+          background: "rgba(255, 255, 255, 0.9)",
+          backdropFilter: "blur(20px)",
         }}
       >
         <List>
