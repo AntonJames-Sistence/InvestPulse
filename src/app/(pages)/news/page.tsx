@@ -23,9 +23,7 @@ interface NewsData {
 
 async function fetchNewsData(): Promise<NewsData[]> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const response = await fetch(`${apiUrl}/api/news`, {
-    next: { revalidate: 3600 }, // Revalidate every 1h
-  });
+  const response = await fetch(`${apiUrl}/api/news`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch news data");
@@ -39,8 +37,8 @@ const NewsPage = async (): Promise<ReactElement> => {
   const newsData = await fetchNewsData();
 
   return (
-    <Container className="mt-24 mb-8">
-      <Grid container spacing={4}>
+    <Container>
+      <Grid sx={{my: "56px"}} container spacing={4}>
         {newsData.map((article: NewsData) => (
           <Grid item key={article.article_id} xs={12} sm={6} md={4}>
             <Card

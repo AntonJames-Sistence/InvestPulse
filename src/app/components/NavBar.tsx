@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { navLinks } from "../data/navLinks";
@@ -25,6 +25,7 @@ import CloseIcon from "@mui/icons-material/Close";
 const NavBar: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const path = usePathname();
+  const navRef = useRef<HTMLDivElement>(null);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -124,8 +125,8 @@ const NavBar: React.FC = () => {
       <Collapse
         in={isDrawerOpen}
         sx={{
-          mt: "56px",
           position: "fixed",
+          top: "56px",
           width: "100vw",
           bgcolor: "background.paper",
           zIndex: 100,
