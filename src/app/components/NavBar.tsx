@@ -158,8 +158,7 @@ const NavBar: React.FC = () => {
           width: "100vw",
           bgcolor: "background.paper",
           zIndex: 100,
-          background: "rgba(255, 255, 255, 0.9)",
-          backdropFilter: "blur(20px)",
+          background: "rgba(255, 255, 255)",
         }}
       >
         <List>
