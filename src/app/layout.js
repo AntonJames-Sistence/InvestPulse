@@ -23,7 +23,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body className={`bg-gray-200 ${inter.className}`}>

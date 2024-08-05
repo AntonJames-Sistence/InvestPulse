@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { navLinks } from "../data/navLinks";
@@ -25,16 +25,44 @@ import CloseIcon from "@mui/icons-material/Close";
 const NavBar: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const path = usePathname();
+  const navRef = useRef<HTMLDivElement>(null);
 
   const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
+    setIsDrawerOpen((prev) => !prev);
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (event.key === "Enter" || event.key === " ") {
+  const handleMenuButtonKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key === "Enter") { // Doesn't work, should fix this later
       toggleDrawer();
     }
   };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (navRef.current && !navRef.current.contains(event.target as Node)) {
+      setIsDrawerOpen(false);
+    }
+  }
+
+  const handleKeyPress = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      setIsDrawerOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isDrawerOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleKeyPress);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyPress);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyPress);
+    }
+  }, [isDrawerOpen])
 
   return (
     <>
@@ -110,7 +138,7 @@ const NavBar: React.FC = () => {
                 color="inherit"
                 aria-label="menu"
                 onClick={toggleDrawer}
-                onKeyDown={handleKeyDown}
+                onKeyDown={handleMenuButtonKeyDown}
                 tabIndex={0}
                 sx={{ml: 2}}
               >
@@ -123,14 +151,15 @@ const NavBar: React.FC = () => {
 
       <Collapse
         in={isDrawerOpen}
+        ref={navRef}
         sx={{
-          mt: "57px",
           position: "fixed",
+          top: "56px",
           width: "100vw",
           bgcolor: "background.paper",
           zIndex: 100,
-          background: "rgba(255, 255, 255, 0.5)",
-          backdropFilter: "blur(10px)",
+          background: "rgba(255, 255, 255, 0.9)",
+          backdropFilter: "blur(20px)",
         }}
       >
         <List>
