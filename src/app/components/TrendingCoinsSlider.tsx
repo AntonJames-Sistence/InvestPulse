@@ -1,11 +1,11 @@
-"use client";
-import React from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
+'use client';
+import React from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+// import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 interface Coin {
   id: string;
@@ -34,23 +34,23 @@ const TrendingCoinsSlider: React.FC<TrendingCoinsSliderProps> = ({
     router.push(`/?coin=${coinId}`);
   };
 
-  const NextArrow: React.FC<{ onClick: () => void }> = ({ onClick }) => (
-    <div
-      className="slick-arrow next-arrow bg-white flex justify-center items-center"
-      onClick={onClick}
-    >
-      <FaChevronRight />
-    </div>
-  );
+  // const NextArrow: React.FC<{ onClick: () => void }> = ({ onClick }) => (
+  //   <div
+  //     className="slick-arrow next-arrow bg-white flex justify-center items-center"
+  //     onClick={onClick}
+  //   >
+  //     <FaChevronRight />
+  //   </div>
+  // );
 
-  const PrevArrow: React.FC<{ onClick: () => void }> = ({ onClick }) => (
-    <div
-      className="slick-arrow prev-arrow bg-white flex justify-center items-center"
-      onClick={onClick}
-    >
-      <FaChevronLeft />
-    </div>
-  );
+  // const PrevArrow: React.FC<{ onClick: () => void }> = ({ onClick }) => (
+  //   <div
+  //     className="slick-arrow prev-arrow bg-white flex justify-center items-center"
+  //     onClick={onClick}
+  //   >
+  //     <FaChevronLeft />
+  //   </div>
+  // );
 
   const settings = {
     dots: false,
@@ -59,7 +59,7 @@ const TrendingCoinsSlider: React.FC<TrendingCoinsSliderProps> = ({
     speed: 6000,
     autoplay: true,
     autoplaySpeed: 1,
-    cssEase: "linear",
+    cssEase: 'linear',
     waitForAnimate: true,
     pauseOnFocus: false,
     pauseOnHover: true,
@@ -80,7 +80,7 @@ const TrendingCoinsSlider: React.FC<TrendingCoinsSliderProps> = ({
   };
 
   const isPepe = (s: string) => {
-    return s.includes("title");
+    return s.includes('title');
   };
 
   return (
@@ -98,7 +98,7 @@ const TrendingCoinsSlider: React.FC<TrendingCoinsSliderProps> = ({
             >
               <div
                 className={`rounded-lg bg-white border-2 p-4 flex flex-col ${
-                  isNegative ? "hover-red" : "hover-green"
+                  isNegative ? 'hover-red' : 'hover-green'
                 }`}
               >
                 <div className="flex">
@@ -113,21 +113,22 @@ const TrendingCoinsSlider: React.FC<TrendingCoinsSliderProps> = ({
                   <p className="self-center mr-2">{coin.symbol}</p>
                   <div
                     className={`flex flex-row bg-${
-                      isNegative ? "red" : "green"
+                      isNegative ? 'red' : 'green'
                     }-100 bg-opacity-50 rounded-md max-w-[100px] px-3 py-1 text-${
-                      isNegative ? "red" : "green"
+                      isNegative ? 'red' : 'green'
                     }-600 self-center text-sm`}
                   >
-                    <p>{isNegative ? "" : "+"}</p>
+                    <p>{isNegative ? '' : '+'}</p>
                     <div>{`${priceChange.toFixed(2)}%`}</div>
                   </div>
                 </div>
                 <div className="overflow-auto text-lg">
                   {isPepe(coin.price)
-                    ? "$0.000"
-                    : coin.price.includes(".")
-                    ? "$" + coin.price.substring(0, coin.price.indexOf(".") + 4)
-                    : coin.price}
+                    ? '$0.000'
+                    : coin.price.includes('.')
+                      ? '$' +
+                        coin.price.substring(0, coin.price.indexOf('.') + 4)
+                      : coin.price}
                 </div>
                 <div className="flex justify-center">
                   <Image

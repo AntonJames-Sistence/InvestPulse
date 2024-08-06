@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from "react";
-import { FaNewspaper } from "react-icons/fa6";
+import React, { useEffect, useState } from 'react';
+import { FaNewspaper } from 'react-icons/fa6';
 import Link from 'next/link';
 import {
   Skeleton,
@@ -12,11 +12,11 @@ import {
   Button,
   Box,
   Divider,
-} from "@mui/material";
+} from '@mui/material';
 import { Link as MuiLink } from '@mui/material';
-import ReusableTile from "./ReusableTile";
-import { setCache, getCache } from "../utils/cacheUtils";
-import ImageWithFallback from "../utils/ImageWithFallback";
+import ReusableTile from './ReusableTile';
+import { setCache, getCache } from '../utils/cacheUtils';
+import ImageWithFallback from '../utils/ImageWithFallback';
 
 interface NewsData {
   article_id: string;
@@ -28,7 +28,7 @@ interface NewsData {
   source_url: string | null;
 }
 
-const CACHE_KEY = "newsDataCache";
+const CACHE_KEY = 'newsDataCache';
 const CACHE_EXPIRY = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
 
 const HomePageNews: React.FC = () => {
@@ -51,18 +51,18 @@ const HomePageNews: React.FC = () => {
     // Fetch news and limit size to 3
     try {
       const response = await fetch(`/api/news?size=3`, {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
 
       const data = await response.json();
       setNewsData(data);
       // Caching to local storage
-      setCache(CACHE_KEY, data, CACHE_EXPIRY)
+      setCache(CACHE_KEY, data);
     } catch (error) {
-      console.error("Couldn't get news data");
+      console.error(`Couldn't get news data ${error}`);
     } finally {
       setLoading(false);
     }
@@ -80,9 +80,9 @@ const HomePageNews: React.FC = () => {
                 p={1}
                 sx={{
                   borderRadius: 5,
-                  borderTop: "1px solid rgba(0, 0, 0, 0.12)",
-                  borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
-                  height: "400px",
+                  borderTop: '1px solid rgba(0, 0, 0, 0.12)',
+                  borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+                  height: '400px',
                 }}
               >
                 <Skeleton
@@ -114,7 +114,7 @@ const HomePageNews: React.FC = () => {
                   animation="wave"
                   width="40%"
                   height={30}
-                  sx={{ mt: "auto", alignSelf: "self-end" }}
+                  sx={{ mt: 'auto', alignSelf: 'self-end' }}
                 />
               </Box>
             </Grid>
@@ -131,9 +131,9 @@ const HomePageNews: React.FC = () => {
           <Grid item key={article.article_id}>
             <Card
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
               }}
             >
               {article.image_url && (
@@ -141,17 +141,17 @@ const HomePageNews: React.FC = () => {
                   className="h-48 w-full object-cover"
                   alt={article.title}
                   src={article.image_url}
-                  fallbackSrc={"https://i.ibb.co/R34fRP2/crpto.webp"}
+                  fallbackSrc={'https://i.ibb.co/R34fRP2/crpto.webp'}
                   height={200}
                   width={200}
                 />
               )}
               <CardContent
                 sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  width: "100%",
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  width: '100%',
                 }}
               >
                 <Typography
@@ -159,10 +159,10 @@ const HomePageNews: React.FC = () => {
                   variant="h6"
                   component="div"
                   sx={{
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
+                    display: '-webkit-box',
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
                     WebkitLineClamp: 2,
                   }}
                 >
@@ -174,10 +174,10 @@ const HomePageNews: React.FC = () => {
                   color="textSecondary"
                   component="p"
                   sx={{
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
+                    display: '-webkit-box',
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
                     WebkitLineClamp: 3,
                   }}
                 >
@@ -185,10 +185,10 @@ const HomePageNews: React.FC = () => {
                 </Typography>
                 <Box
                   sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "flex-end",
-                    marginTop: "1rem",
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-end',
+                    marginTop: '1rem',
                   }}
                 >
                   <MuiLink
@@ -202,10 +202,10 @@ const HomePageNews: React.FC = () => {
                   <Typography
                     sx={{
                       color: (theme) => theme.palette.text.secondary,
-                      alignSelf: "flex-end",
+                      alignSelf: 'flex-end',
                     }}
                   >
-                    {new Date(article.pub_date ?? "").toLocaleDateString()}
+                    {new Date(article.pub_date ?? '').toLocaleDateString()}
                   </Typography>
                 </Box>
               </CardContent>
@@ -216,9 +216,9 @@ const HomePageNews: React.FC = () => {
       <Box
         sx={{
           mt: 4,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
         <Link href="/news" passHref>
@@ -226,7 +226,7 @@ const HomePageNews: React.FC = () => {
             variant="contained"
             color="primary"
             size="medium"
-            sx={{ m: "auto", borderRadius: "10px" }}
+            sx={{ m: 'auto', borderRadius: '10px' }}
             startIcon={<FaNewspaper />}
           >
             News Page

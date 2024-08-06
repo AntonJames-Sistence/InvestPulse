@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
-import postgres from "postgres";
-import { isRelevantArticle } from "../../utils/newsFilter";
+import { NextRequest, NextResponse } from 'next/server';
+import postgres from 'postgres';
+import { isRelevantArticle } from '../../utils/newsFilter';
 
 const newsKey = process.env.NEWSDATA_KEY;
 const placeholderImages = [
-  "https://i.ibb.co/R34fRP2/crpto.webp",
-  "https://i.ibb.co/0rgx9gB/Cryptocurrency-Photo-by-stockphoto-graf.webp",
+  'https://i.ibb.co/R34fRP2/crpto.webp',
+  'https://i.ibb.co/0rgx9gB/Cryptocurrency-Photo-by-stockphoto-graf.webp',
 ];
 
 // Function to get a random placeholder image
@@ -31,9 +31,9 @@ export const GET = async (req: NextRequest) => {
 
   // Get the size parameter from the query string
   const { searchParams } = new URL(req.url);
-  const size = searchParams.get("size");
+  const size = searchParams.get('size');
   // Connect to DB
-  const sql = postgres(process.env.DATABASE_URL, { ssl: "require" });
+  const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
 
   // Fetch the news articles with the limit if size is provided, else fetch all
   let news: NewsData[];
@@ -53,13 +53,13 @@ export async function POST() {
     return NextResponse.json({ message: "Couldn't reach DB" }, { status: 500 });
   }
 
-  const sql = postgres(process.env.DATABASE_URL, { ssl: "require" });
+  const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
   const url = `https://newsdata.io/api/1/latest?apikey=${newsKey}&q=cryptocurrency&language=en`;
 
   const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error("Failed to fetch trending coins");
+    throw new Error('Failed to fetch trending coins');
   }
 
   const data = await response.json();
@@ -78,7 +78,7 @@ export async function POST() {
 
     // Check if image is available and it starts with https enabling usage of next/image if not, use the placeholder image
     const imageUrl =
-      article.image_url && article.image_url.startsWith("https")
+      article.image_url && article.image_url.startsWith('https')
         ? article.image_url
         : getRandomPlaceholderImage();
 
@@ -89,5 +89,5 @@ export async function POST() {
             `;
   }
 
-  return NextResponse.json({ message: "News are up to date" }, { status: 200 });
+  return NextResponse.json({ message: 'News are up to date' }, { status: 200 });
 }

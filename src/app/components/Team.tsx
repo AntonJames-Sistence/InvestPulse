@@ -1,7 +1,7 @@
-import React from "react";
-import { teamData } from "../data/teamData";
-import ReusableTile from "./ReusableTile";
-import Image from "next/image";
+import React from 'react';
+import { teamData } from '../data/teamData';
+import ReusableTile from './ReusableTile';
+import Image from 'next/image';
 
 const Team = () => {
   return (

@@ -9,28 +9,28 @@ import ReusableTile from '../ReusableTile';
 import { CircularProgress } from '@mui/material';
 
 interface CoinData {
-    symbol: string,
-    name: string,
-    description: string,
-    homepage: string,
-    image: string,
-    market_cap_rank: number,
-    current_price: number,
-    ath: number,
-    ath_change_percentage: number,
-    ath_date: Date,
-    atl: number,
-    atl_change_percentage: number,
-    atl_date: Date,
-    market_cap: number,
-    total_volume: number,
-    high_24h: number,
-    low_24h: number,
-    price_change_24h: number,
-    price_change_percentage_24h: number,
-    price_change_percentage_7d: number,
-    price_change_percentage_1y: number,
-    last_updated: Date;
+  symbol: string;
+  name: string;
+  description: string;
+  homepage: string;
+  image: string;
+  market_cap_rank: number;
+  current_price: number;
+  ath: number;
+  ath_change_percentage: number;
+  ath_date: Date;
+  atl: number;
+  atl_change_percentage: number;
+  atl_date: Date;
+  market_cap: number;
+  total_volume: number;
+  high_24h: number;
+  low_24h: number;
+  price_change_24h: number;
+  price_change_percentage_24h: number;
+  price_change_percentage_7d: number;
+  price_change_percentage_1y: number;
+  last_updated: Date;
 }
 
 const CoinDataProvider: React.FC = () => {
@@ -40,21 +40,21 @@ const CoinDataProvider: React.FC = () => {
 
   const searchParams = useSearchParams();
   const coin = searchParams.get('coin');
-  let coinName = coin?.toLowerCase() || 'bitcoin';
+  const coinName = coin?.toLowerCase() || 'bitcoin';
 
   useEffect(() => {
     const fetchCoinData = async () => {
-        const apiUrl = `/api/coin?id=${coinName}`;
+      const apiUrl = `/api/coin?id=${coinName}`;
 
-        try {
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-            setCoinData(data);
-        } catch (err) {
-            setError('Failed to fetch coin data');
-        } finally {
-            setLoading(false);
-        }
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        setCoinData(data);
+      } catch (err) {
+        setError(`Failed to fetch coin data ${err}`);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchCoinData();
@@ -62,12 +62,12 @@ const CoinDataProvider: React.FC = () => {
 
   if (loading || !coinData) {
     return (
-        <ReusableTile title="Loading Perfomance">
-            <div className='m-10 self-center flex justify-center'>
-                <CircularProgress />
-            </div>
-        </ReusableTile>
-    )
+      <ReusableTile title="Loading Perfomance">
+        <div className="m-10 self-center flex justify-center">
+          <CircularProgress />
+        </div>
+      </ReusableTile>
+    );
   }
 
   if (error) {

@@ -2,49 +2,49 @@ import { NextRequest } from 'next/server';
 import postgres from 'postgres';
 
 export async function GET(req: Request | NextRequest) {
-    const reqUrl = new URL(req.url || '');
-    const searchParam = new URLSearchParams(reqUrl.searchParams);
-    const coinId = searchParam.get('id');
-    
-    if (!coinId) {
-        return new Response('', {
-            status: 400,
-            statusText: 'Coin name not provided in query parameters'
-        });
-    }
+  const reqUrl = new URL(req.url || '');
+  const searchParam = new URLSearchParams(reqUrl.searchParams);
+  const coinId = searchParam.get('id');
 
-    const url = `https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=true`;
-    if (!process.env.DATABASE_URL) {
-        return new Response('', {
-          status: 400,
-          statusText: 'DATABASE_URL environment variable is not defined'
-        })
-    }
+  if (!coinId) {
+    return new Response('', {
+      status: 400,
+      statusText: 'Coin name not provided in query parameters',
+    });
+  }
 
-    const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
+  const url = `https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=true`;
+  if (!process.env.DATABASE_URL) {
+    return new Response('', {
+      status: 400,
+      statusText: 'DATABASE_URL environment variable is not defined',
+    });
+  }
 
-    try {
-        let existingCoin = await sql`SELECT * FROM coins WHERE id = ${coinId}`;
-        // console.log('existingCoin:', existingCoin);
-        
-        if (existingCoin.length > 0) {
-            // Check if last_updated is more than 24 hours ago
-            const lastUpdated = existingCoin[0].last_updated;
-            const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
 
-            if (lastUpdated > twentyFourHoursAgo) {
-                // Coin data is up to date, return it
-                return Response.json(existingCoin[0])
-            } else {
-                // Fetch data from Coingecko API
-                const res = await fetch(url);
-                if (!res.ok) {
-                    throw new Error("Failed to fetch coin data");
-                }
-                const jsonData = await res.json();
+  try {
+    let existingCoin = await sql`SELECT * FROM coins WHERE id = ${coinId}`;
+    // console.log('existingCoin:', existingCoin);
 
-                // Update data in database
-                await sql`
+    if (existingCoin.length > 0) {
+      // Check if last_updated is more than 24 hours ago
+      const lastUpdated = existingCoin[0].last_updated;
+      const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+      if (lastUpdated > twentyFourHoursAgo) {
+        // Coin data is up to date, return it
+        return Response.json(existingCoin[0]);
+      } else {
+        // Fetch data from Coingecko API
+        const res = await fetch(url);
+        if (!res.ok) {
+          throw new Error('Failed to fetch coin data');
+        }
+        const jsonData = await res.json();
+
+        // Update data in database
+        await sql`
                     UPDATE coins 
                     SET id = ${jsonData.id},
                         symbol = ${jsonData.symbol}, 
@@ -71,40 +71,39 @@ export async function GET(req: Request | NextRequest) {
                         last_updated = ${jsonData.last_updated}
                     WHERE id = ${coinId}
                 `;
-                
-                existingCoin = await sql`SELECT * FROM coins WHERE id = ${coinId}`;
-                return Response.json(existingCoin[0]);
-            }
-        } else {
-            // Fetch data from Coingecko API
-            const res = await fetch(url);
-            if (!res.ok) {
-                throw new Error("Failed to fetch coin data");
-            }
-            const jsonData = await res.json();
 
-            // Put data into database
-            await sql`
+        existingCoin = await sql`SELECT * FROM coins WHERE id = ${coinId}`;
+        return Response.json(existingCoin[0]);
+      }
+    } else {
+      // Fetch data from Coingecko API
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error('Failed to fetch coin data');
+      }
+      const jsonData = await res.json();
+
+      // Put data into database
+      await sql`
                 INSERT INTO coins (id, symbol, name, description, homepage, image, market_cap_rank, current_price, ath, ath_change_percentage, ath_date, atl, atl_change_percentage, atl_date, market_cap, total_volume, high_24h, low_24h, price_change_24h, price_change_percentage_24h, price_change_percentage_7d, price_change_percentage_1y, last_updated)
                 VALUES (${jsonData.id}, ${jsonData.symbol}, ${jsonData.name}, ${jsonData.description.en}, ${jsonData.links.homepage[0]}, ${jsonData.image.large}, ${jsonData.market_cap_rank}, ${jsonData.market_data.current_price.usd}, ${jsonData.market_data.ath.usd}, ${jsonData.market_data.ath_change_percentage.usd}, ${jsonData.market_data.ath_date.usd}, ${jsonData.market_data.atl.usd}, ${jsonData.market_data.atl_change_percentage.usd}, ${jsonData.market_data.atl_date.usd}, ${jsonData.market_data.market_cap.usd}, ${jsonData.market_data.total_volume.usd}, ${jsonData.market_data.high_24h.usd}, ${jsonData.market_data.low_24h.usd}, ${jsonData.market_data.price_change_24h}, ${jsonData.market_data.price_change_percentage_24h}, ${jsonData.market_data.price_change_percentage_7d}, ${jsonData.market_data.price_change_percentage_1y}, ${jsonData.last_updated}
                 );`;
 
-            existingCoin = await sql`SELECT * FROM coins WHERE id = ${coinId}`;
-            return Response.json(existingCoin[0])
-        }
-    }  catch (error) {
-        return new Response('', {
-            status: 400,
-            statusText: `Couldn't retrieve stored coins data: ${error}`
-        });
+      existingCoin = await sql`SELECT * FROM coins WHERE id = ${coinId}`;
+      return Response.json(existingCoin[0]);
     }
+  } catch (error) {
+    return new Response('', {
+      status: 400,
+      statusText: `Couldn't retrieve stored coins data: ${error}`,
+    });
+  }
 }
 
 // export async function PUT() {
 
 // }
 
-        
 // console.log("Symbol:", jsonData.symbol);
 // console.log("Name:", jsonData.name);
 // console.log("Description:", jsonData.description.en);

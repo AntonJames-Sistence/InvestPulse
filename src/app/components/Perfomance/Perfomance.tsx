@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import ReusableTile from "../ReusableTile";
-import React, { useState } from "react";
-import { formatDate } from "../../utils/formatDate";
-import { formatAsUSD } from "../../utils/formatAsUsd";
-import { formatPercentage } from "../../utils/formatPercentage";
-import Image from "next/image";
+import ReusableTile from '../ReusableTile';
+import React from 'react';
+import { formatDate } from '../../utils/formatDate';
+import { formatAsUSD } from '../../utils/formatAsUsd';
+import { formatPercentage } from '../../utils/formatPercentage';
+import Image from 'next/image';
 
 interface PerformanceProps {
   coinData: {
@@ -35,29 +35,29 @@ interface PerformanceProps {
 }
 
 const Performance: React.FC<PerformanceProps> = ({ coinData }) => {
-  const [showFundamentalsTip, setShowFundamentalsTip] = useState(false);
+  // const [showFundamentalsTip, setShowFundamentalsTip] = useState(false);
 
   const getTodaysHighTrianglePosition = () => {
-    if (!coinData) return "0%";
+    if (!coinData) return '0%';
 
     const low = coinData.atl ?? 0;
     const high = coinData.ath ?? 0;
     const current = coinData.high_24h ?? 0;
 
-    if (high === low) return "0%";
+    if (high === low) return '0%';
 
     const percentage = ((current - low) / (high - low)) * 100;
     return `${percentage}%`;
   };
 
   const getTodaysLowTrianglePosition = () => {
-    if (!coinData) return "0%";
+    if (!coinData) return '0%';
 
     const low = coinData.atl ?? 0;
     const high = coinData.ath ?? 0;
     const current = coinData.low_24h ?? 0;
 
-    if (high === low) return "0%";
+    if (high === low) return '0%';
 
     const percentage = ((current - low) / (high - low)) * 100;
     return `${percentage}%`;
@@ -76,7 +76,7 @@ const Performance: React.FC<PerformanceProps> = ({ coinData }) => {
               className="absolute -top-4 w-0 h-0 border-l-[8px] border-r-[8px] border-t-[16px] border-transparent border-t-sky-500"
               style={{
                 left: getTodaysHighTrianglePosition(),
-                transform: "translateX(-50%)",
+                transform: 'translateX(-50%)',
               }}
             >
               <div className="relative text-[10px] md:text-sm">
@@ -92,7 +92,7 @@ const Performance: React.FC<PerformanceProps> = ({ coinData }) => {
               className="absolute top-3 w-0 h-0 border-l-[8px] border-r-[8px] border-b-[16px] border-transparent border-b-sky-500"
               style={{
                 left: getTodaysLowTrianglePosition(),
-                transform: "translateX(-50%)",
+                transform: 'translateX(-50%)',
               }}
             >
               <div className="relative text-[10px] md:text-sm">
@@ -172,8 +172,8 @@ const Performance: React.FC<PerformanceProps> = ({ coinData }) => {
               <span
                 className={`${
                   (coinData?.price_change_24h ?? 0) >= 0
-                    ? "text-green-500"
-                    : "text-red-500"
+                    ? 'text-green-500'
+                    : 'text-red-500'
                 }`}
               >
                 {formatAsUSD(coinData?.price_change_24h ?? 0)}
@@ -212,8 +212,8 @@ const Performance: React.FC<PerformanceProps> = ({ coinData }) => {
               <span
                 className={`${
                   (coinData?.ath_change_percentage ?? 0) >= 0
-                    ? "text-green-500"
-                    : "text-red-500"
+                    ? 'text-green-500'
+                    : 'text-red-500'
                 }`}
               >
                 {`${formatPercentage(coinData?.ath_change_percentage ?? 0)} %`}
@@ -236,8 +236,8 @@ const Performance: React.FC<PerformanceProps> = ({ coinData }) => {
               <span
                 className={`${
                   (coinData?.atl_change_percentage ?? 0) >= 0
-                    ? "text-green-500"
-                    : "text-red-500"
+                    ? 'text-green-500'
+                    : 'text-red-500'
                 }`}
               >
                 {`${formatPercentage(coinData?.atl_change_percentage ?? 0)} %`}
@@ -252,8 +252,8 @@ const Performance: React.FC<PerformanceProps> = ({ coinData }) => {
               <span
                 className={`${
                   (coinData?.price_change_percentage_7d ?? 0) >= 0
-                    ? "text-green-500"
-                    : "text-red-500"
+                    ? 'text-green-500'
+                    : 'text-red-500'
                 }`}
               >
                 {`${formatPercentage(
@@ -270,8 +270,8 @@ const Performance: React.FC<PerformanceProps> = ({ coinData }) => {
               <span
                 className={`${
                   (coinData?.price_change_percentage_1y ?? 0) >= 0
-                    ? "text-green-500"
-                    : "text-red-500"
+                    ? 'text-green-500'
+                    : 'text-red-500'
                 }`}
               >
                 {`${formatPercentage(

@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement } from 'react';
 import {
   Container,
   Card,
@@ -8,8 +8,8 @@ import {
   Link,
   Divider,
   Box,
-} from "@mui/material";
-import Image from "next/image";
+} from '@mui/material';
+import Image from 'next/image';
 
 interface NewsData {
   article_id: string;
@@ -26,7 +26,7 @@ async function fetchNewsData(): Promise<NewsData[]> {
   const response = await fetch(`${apiUrl}/api/news`);
 
   if (!response.ok) {
-    throw new Error("Failed to fetch news data");
+    throw new Error('Failed to fetch news data');
   }
 
   const data: NewsData[] = await response.json();
@@ -38,7 +38,7 @@ const NewsPage = async (): Promise<ReactElement> => {
 
   return (
     <Container>
-      <Grid sx={{my: "56px"}} container spacing={4}>
+      <Grid sx={{ my: '56px' }} container spacing={4}>
         {newsData.map((article: NewsData) => (
           <Grid item key={article.article_id} xs={12} sm={6} md={4}>
             <Card
@@ -119,7 +119,7 @@ const NewsPage = async (): Promise<ReactElement> => {
                       alignSelf: 'flex-end',
                     }}
                   >
-                    {new Date(article.pub_date ?? "").toLocaleDateString()}
+                    {new Date(article.pub_date ?? '').toLocaleDateString()}
                   </Box>
                 </Box>
               </CardContent>

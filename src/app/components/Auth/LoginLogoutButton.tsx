@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import Modal from "../Modal/Modal";
-import LoginForm from "./LoginForm";
-import SignupForm from "./SignupForm";
-import { Button, Typography, Box } from "@mui/material";
-import { useAuth } from "./AuthContext";
-import { CgLogIn, CgLogOut } from "react-icons/cg";
-import { useRouter } from "next/navigation";
+import React, { useState } from 'react';
+import Modal from '../Modal/Modal';
+import LoginForm from './LoginForm';
+import SignupForm from './SignupForm';
+import { Button, Typography, Box } from '@mui/material';
+import { useAuth } from './AuthContext';
+import { CgLogIn, CgLogOut } from 'react-icons/cg';
+import { useRouter } from 'next/navigation';
 
 const LoginLogoutButton: React.FC = () => {
   const router = useRouter();
@@ -20,13 +20,13 @@ const LoginLogoutButton: React.FC = () => {
 
   const handleLogout = () => {
     // Clear authentication tokens
-    localStorage.removeItem("token");
-    sessionStorage.removeItem("sessionToken");
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('sessionToken');
     // Update the authentication state
     logout();
     // Redirect to the home page or login page
     if (router) {
-      router.push("/");
+      router.push('/');
     }
   };
 
@@ -37,7 +37,7 @@ const LoginLogoutButton: React.FC = () => {
         variant="body1"
         sx={{
           mr: 2,
-          display: { xs: "none", sm: "block" }, // Hide on xs, show on sm and above
+          display: { xs: 'none', sm: 'block' }, // Hide on xs, show on sm and above
         }}
       >
         {`Welcome back ${authState.user?.username}`}
@@ -49,10 +49,10 @@ const LoginLogoutButton: React.FC = () => {
         onClick={handleLogout}
         startIcon={<CgLogOut />}
         sx={{
-          borderRadius: "10px",
-          padding: { xs: "0.2rem 0.5rem", sm: "0.375rem 1rem" },
-          fontSize: { xs: "0.625rem", md: "0.8rem" },
-          minWidth: { xs: "auto", sm: "4rem" },
+          borderRadius: '10px',
+          padding: { xs: '0.2rem 0.5rem', sm: '0.375rem 1rem' },
+          fontSize: { xs: '0.625rem', md: '0.8rem' },
+          minWidth: { xs: 'auto', sm: '4rem' },
         }}
       >
         Logout
@@ -62,19 +62,19 @@ const LoginLogoutButton: React.FC = () => {
 
   const loginButton = (
     <Box
-      sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
     >
       <Button
         variant="contained"
         color="primary"
-        size={"medium"}
+        size={'medium'}
         onClick={openModal}
         startIcon={<CgLogIn />}
         sx={{
-          borderRadius: "10px",
-          padding: { xs: "0.2rem 0.5rem", sm: "0.375rem 1rem" },
-          fontSize: { xs: "0.625rem", md: "0.8rem" },
-          minWidth: { xs: "auto", sm: "4rem" },
+          borderRadius: '10px',
+          padding: { xs: '0.2rem 0.5rem', sm: '0.375rem 1rem' },
+          fontSize: { xs: '0.625rem', md: '0.8rem' },
+          minWidth: { xs: 'auto', sm: '4rem' },
         }}
       >
         Login

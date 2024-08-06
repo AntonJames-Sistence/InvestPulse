@@ -1,8 +1,9 @@
-import ReusableTile from "../ReusableTile";
-import { FaArrowRightLong } from "react-icons/fa6";
-import { Link, Button } from "@mui/material";
-import Image from "next/image";
-import { stripHTMLTags } from "../../utils/stripHTMLTags";
+import ReusableTile from '../ReusableTile';
+import { FaArrowRightLong } from 'react-icons/fa6';
+import { Link, Button } from '@mui/material';
+import Image from 'next/image';
+import { stripHTMLTags } from '../../utils/stripHTMLTags';
+import React from 'react';
 
 interface AboutProps {
   coinData: {
@@ -51,7 +52,7 @@ const About: React.FC<AboutProps> = ({ coinData }) => {
       <Link
         href={coinData.homepage}
         underline="hover"
-        sx={{ mt: 4, alignSelf: "self-end" }}
+        sx={{ mt: 4, alignSelf: 'self-end' }}
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -89,7 +90,7 @@ const About: React.FC<AboutProps> = ({ coinData }) => {
               href="https://www.coinbase.com/earn"
               target="_blanc"
               endIcon={<FaArrowRightLong />}
-              sx={{ borderRadius: "50px", m: "auto", ml: 0, mb: 0 }}
+              sx={{ borderRadius: '50px', m: 'auto', ml: 0, mb: 0 }}
             >
               Check now
             </Button>
@@ -116,7 +117,7 @@ const About: React.FC<AboutProps> = ({ coinData }) => {
               href="https://www.coinbase.com/earn"
               target="_blanc"
               endIcon={<FaArrowRightLong />}
-              sx={{ borderRadius: "50px", m: "auto", ml: 0, mb: 0 }}
+              sx={{ borderRadius: '50px', m: 'auto', ml: 0, mb: 0 }}
             >
               Check now
             </Button>

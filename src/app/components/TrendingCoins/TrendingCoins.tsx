@@ -1,16 +1,16 @@
-"use client";
-import ReusableTile from "../ReusableTile";
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-import { Box, Skeleton } from "@mui/material";
-import { useAuth } from "../Auth/AuthContext";
-import Modal from "../Modal/Modal";
-import LoginForm from "../Auth/LoginForm";
-import SignupForm from "../Auth/SignupForm";
-import { RxUpdate } from "react-icons/rx";
-import LoadingButton from "@mui/lab/LoadingButton";
-import TrendingCoin from "./TrendingCoin";
+'use client';
+import ReusableTile from '../ReusableTile';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
+import { Box, Skeleton } from '@mui/material';
+import { useAuth } from '../Auth/AuthContext';
+import Modal from '../Modal/Modal';
+import LoginForm from '../Auth/LoginForm';
+import SignupForm from '../Auth/SignupForm';
+import { RxUpdate } from 'react-icons/rx';
+import LoadingButton from '@mui/lab/LoadingButton';
+import TrendingCoin from './TrendingCoin';
 
 interface Coin {
   id: string;
@@ -42,12 +42,12 @@ const TrendingCoins: React.FC = () => {
   };
 
   const fetchTrendingCoins = async () => {
-    const url = "api/trending";
+    const url = 'api/trending';
 
     try {
       const response = await fetch(url);
       const data = await response.json();
-      let topTrending = data.slice(0, 4);
+      const topTrending = data.slice(0, 4);
       setTrendingCoins(topTrending);
     } catch (error) {
       console.log(error);
@@ -58,10 +58,10 @@ const TrendingCoins: React.FC = () => {
 
   const updateTrendingCoins = async () => {
     try {
-      const response = await fetch("api/trending", {
-        method: "POST",
+      const response = await fetch('api/trending', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
 
@@ -71,17 +71,17 @@ const TrendingCoins: React.FC = () => {
         );
       }
     } catch (error) {
-      console.error("Failed to update trending coins:", error);
-      throw new Error("Failed to update trending coins.");
+      console.error('Failed to update trending coins:', error);
+      throw new Error('Failed to update trending coins.');
     }
   };
 
   const updateNews = async () => {
     try {
-      const response = await fetch("api/news", {
-        method: "POST",
+      const response = await fetch('api/news', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
 
@@ -103,9 +103,9 @@ const TrendingCoins: React.FC = () => {
       await updateNews();
       await fetchTrendingCoins();
 
-      toast.success("Trending Coins are up-to-date");
+      toast.success('Trending Coins are up-to-date');
     } catch (error) {
-      toast.error("Failed to update the database.");
+      toast.error('Failed to update the database.');
       console.error(error);
     } finally {
       setLoading(false);
@@ -137,9 +137,9 @@ const TrendingCoins: React.FC = () => {
             alignItems="center"
             sx={{
               borderRadius: 7,
-              borderTop: ".5px solid rgba(0, 0, 0, 0.12)",
-              borderBottom: ".5px solid rgba(0, 0, 0, 0.12)",
-              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+              borderTop: '.5px solid rgba(0, 0, 0, 0.12)',
+              borderBottom: '.5px solid rgba(0, 0, 0, 0.12)',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
             }}
           >
             <Box display="flex" alignItems="center">
@@ -159,15 +159,15 @@ const TrendingCoins: React.FC = () => {
           variant="contained"
           size="medium"
           loading={loading}
-          sx={{ m: "auto", borderRadius: "10px", mt: 2 }}
+          sx={{ m: 'auto', borderRadius: '10px', mt: 2 }}
           onClick={
             authState.isAuthenticated ? handleUpdateDB : handleLoginClick
           }
           startIcon={<RxUpdate />}
         >
           {authState.isAuthenticated
-            ? "Update Prices"
-            : "Login to Update Prices"}
+            ? 'Update Prices'
+            : 'Login to Update Prices'}
         </LoadingButton>
       </ReusableTile>
     );
@@ -190,15 +190,15 @@ const TrendingCoins: React.FC = () => {
           variant="contained"
           size="medium"
           loading={loading}
-          sx={{ m: "auto", borderRadius: "10px", mt: 2 }}
+          sx={{ m: 'auto', borderRadius: '10px', mt: 2 }}
           onClick={
             authState.isAuthenticated ? handleUpdateDB : handleLoginClick
           }
           startIcon={<RxUpdate />}
         >
           {authState.isAuthenticated
-            ? "Update Prices"
-            : "Login to Update Prices"}
+            ? 'Update Prices'
+            : 'Login to Update Prices'}
         </LoadingButton>
       </Box>
     </ReusableTile>

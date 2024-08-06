@@ -3,7 +3,7 @@ interface CacheData<T> {
   timestamp: number;
 }
 
-export const setCache = <T>(key: string, data: T, expiry: number): void => {
+export const setCache = <T>(key: string, data: T): void => {
   const cacheData: CacheData<T> = { data, timestamp: Date.now() };
   localStorage.setItem(key, JSON.stringify(cacheData));
 };

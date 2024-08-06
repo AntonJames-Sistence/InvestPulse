@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef } from "react";
-import { formatAsUSD } from "../../utils/formatAsUsd";
-import Image from "next/image";
+import React, { useEffect, useRef } from 'react';
+import { formatAsUSD } from '../../utils/formatAsUsd';
+import Image from 'next/image';
 
 interface TradingViewWidgetProps {
   coinData: {
@@ -33,13 +33,11 @@ interface TradingViewWidgetProps {
 
 const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ coinData }) => {
   const container = useRef<HTMLDivElement>(null);
-  const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 
   useEffect(() => {
-    if (coinData) {
-      generateTradingViewWidget(coinData.symbol, isMobile);
-    }
-  }, [coinData]);
+    generateTradingViewWidget(coinData.symbol, isMobile);
+  }, [coinData, isMobile]);
 
   const generateTradingViewWidget = (coinSymbol: string, isMobile: boolean) => {
     if (!container.current) return;
@@ -48,10 +46,10 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ coinData }) => {
       container.current.removeChild(container.current.firstChild);
     }
 
-    const script = document.createElement("script");
+    const script = document.createElement('script');
     script.src =
-      "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
-    script.type = "text/javascript";
+      'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
+    script.type = 'text/javascript';
     script.async = true;
     script.innerHTML = `
       {
@@ -109,16 +107,16 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ coinData }) => {
 
             <div
               className={`flex flex-row bg-${
-                coinData.price_change_percentage_24h < 0 ? "red" : "green"
+                coinData.price_change_percentage_24h < 0 ? 'red' : 'green'
               }-100 bg-opacity-50 rounded-md px-4 py-1 ml-6 mr-2 text-${
-                coinData.price_change_percentage_24h < 0 ? "red" : "green"
+                coinData.price_change_percentage_24h < 0 ? 'red' : 'green'
               }-600 self-center`}
             >
               <div
                 className={`triangle-${
-                  coinData.price_change_percentage_24h < 0 ? "red" : "green"
+                  coinData.price_change_percentage_24h < 0 ? 'red' : 'green'
                 } self-center border-${
-                  coinData.price_change_percentage_24h < 0 ? "red" : "green"
+                  coinData.price_change_percentage_24h < 0 ? 'red' : 'green'
                 }`}
               ></div>
               <div>{`${Math.abs(coinData.price_change_percentage_24h)}%`}</div>

@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import Team from "./components/Team";
-import Tokenomics from "./components/Tokenomics";
-import TrendingCoins from "./components/TrendingCoins/TrendingCoins";
-import { Toaster } from "react-hot-toast";
-import HomePageNews from "./components/HomePageNews";
-import { Suspense } from "react";
-import CoinDataProvider from "./components/Perfomance/CoinDataProvider";
+import Team from './components/Team';
+import Tokenomics from './components/Tokenomics';
+import TrendingCoins from './components/TrendingCoins/TrendingCoins';
+import { Toaster } from 'react-hot-toast';
+import HomePageNews from './components/HomePageNews';
+import { Suspense } from 'react';
+import CoinDataProvider from './components/Perfomance/CoinDataProvider';
 
 export default function Home() {
   return (

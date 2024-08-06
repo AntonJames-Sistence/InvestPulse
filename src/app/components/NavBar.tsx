@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { navLinks } from "../data/navLinks";
-import Image from "next/image";
-import LoginLogoutButton from "./Auth/LoginLogoutButton";
+import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { navLinks } from '../data/navLinks';
+import Image from 'next/image';
+import LoginLogoutButton from './Auth/LoginLogoutButton';
 import {
   AppBar,
   Toolbar,
@@ -18,9 +18,9 @@ import {
   ListItem,
   ListItemText,
   ListItemButton,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
 const NavBar: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -31,8 +31,11 @@ const NavBar: React.FC = () => {
     setIsDrawerOpen((prev) => !prev);
   };
 
-  const handleMenuButtonKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (event.key === "Enter") { // Doesn't work, should fix this later
+  const handleMenuButtonKeyDown = (
+    event: React.KeyboardEvent<HTMLButtonElement>
+  ) => {
+    if (event.key === 'Enter') {
+      // Doesn't work, should fix this later
       toggleDrawer();
     }
   };
@@ -41,28 +44,28 @@ const NavBar: React.FC = () => {
     if (navRef.current && !navRef.current.contains(event.target as Node)) {
       setIsDrawerOpen(false);
     }
-  }
+  };
 
   const handleKeyPress = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
+    if (event.key === 'Escape') {
       setIsDrawerOpen(false);
     }
   };
 
   useEffect(() => {
     if (isDrawerOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-      document.addEventListener("keydown", handleKeyPress);
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleKeyPress);
     } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleKeyPress);
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyPress);
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleKeyPress);
-    }
-  }, [isDrawerOpen])
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [isDrawerOpen]);
 
   return (
     <>
@@ -70,24 +73,24 @@ const NavBar: React.FC = () => {
         position="fixed"
         role="navigation"
         sx={{
-          background: "rgba(255, 255, 255, 0.5)",
-          backdropFilter: "blur(10px)",
-          boxShadow: "inset 0 -1px 0 0 var(--accents-2)",
+          background: 'rgba(255, 255, 255, 0.5)',
+          backdropFilter: 'blur(10px)',
+          boxShadow: 'inset 0 -1px 0 0 var(--accents-2)',
         }}
       >
         <Toolbar
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
+            display: 'flex',
+            justifyContent: 'space-between',
+            width: '100%',
           }}
         >
           <Link
             href="/"
             style={{
-              display: "flex",
-              alignItems: "center",
-              marginRight: "5rem",
+              display: 'flex',
+              alignItems: 'center',
+              marginRight: '5rem',
             }}
           >
             <Image
@@ -101,22 +104,21 @@ const NavBar: React.FC = () => {
             <Typography
               variant="h6"
               component="div"
-              sx={{ ml: 1, color: "primary.main" }}
+              sx={{ ml: 1, color: 'primary.main' }}
             >
               KoinY
             </Typography>
           </Link>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", lg: "flex" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' } }}>
             {navLinks.map((navlink) => (
               <Button
                 key={navlink.href}
                 href={navlink.href}
                 sx={{
                   color:
-                    path === navlink.href ? "primary.main" : "text.primary",
+                    path === navlink.href ? 'primary.main' : 'text.primary',
                   mx: 1,
-                  
                 }}
               >
                 {navlink.title}
@@ -129,8 +131,8 @@ const NavBar: React.FC = () => {
 
             <Box
               sx={{
-                display: { xs: "flex", lg: "none" },
-                color: "black",
+                display: { xs: 'flex', lg: 'none' },
+                color: 'black',
               }}
             >
               <IconButton
@@ -140,7 +142,7 @@ const NavBar: React.FC = () => {
                 onClick={toggleDrawer}
                 onKeyDown={handleMenuButtonKeyDown}
                 tabIndex={0}
-                sx={{ml: 2}}
+                sx={{ ml: 2 }}
               >
                 {isDrawerOpen ? <CloseIcon /> : <MenuIcon />}
               </IconButton>
@@ -153,12 +155,12 @@ const NavBar: React.FC = () => {
         in={isDrawerOpen}
         ref={navRef}
         sx={{
-          position: "fixed",
-          top: "56px",
-          width: "100vw",
-          bgcolor: "background.paper",
+          position: 'fixed',
+          top: '56px',
+          width: '100vw',
+          bgcolor: 'background.paper',
           zIndex: 100,
-          background: "rgba(255, 255, 255)",
+          background: 'rgba(255, 255, 255)',
         }}
       >
         <List>
@@ -170,7 +172,7 @@ const NavBar: React.FC = () => {
                 onClick={toggleDrawer}
               >
                 {navlink.icon}
-                <ListItemText primary={navlink.title} sx={{ml: 2}} />
+                <ListItemText primary={navlink.title} sx={{ ml: 2 }} />
               </ListItemButton>
             </ListItem>
           ))}

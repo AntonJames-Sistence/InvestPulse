@@ -1,6 +1,6 @@
-import { Box, Typography, ButtonBase } from "@mui/material";
-import Image from "next/image";
-import React from "react";
+import { Box, Typography, ButtonBase } from '@mui/material';
+import Image from 'next/image';
+import React from 'react';
 
 interface CoinData {
   price_change_percentage_24h: string;
@@ -29,14 +29,14 @@ const TrendingCoin: React.FC<TrendingCoinProps> = ({
   return (
     <ButtonBase
       sx={{
-        display: "block",
+        display: 'block',
         borderRadius: 7,
-        transition: "0.2s",
+        transition: '0.2s',
         mb: 1,
         p: 1,
-        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-        "&:hover": {
-          backgroundColor: "rgba(229, 231, 235, 0.5);",
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        '&:hover': {
+          backgroundColor: 'rgba(229, 231, 235, 0.5);',
         },
       }}
       onClick={(e) => handleClick(e, id)}
@@ -48,7 +48,7 @@ const TrendingCoin: React.FC<TrendingCoinProps> = ({
               width: 40,
               height: 40,
               borderRadius: 5,
-              overflow: "hidden",
+              overflow: 'hidden',
               mr: 2,
             }}
           >
@@ -72,8 +72,8 @@ const TrendingCoin: React.FC<TrendingCoinProps> = ({
         <Box
           display="flex"
           alignItems="center"
-          bgcolor={isNegative ? "rgba(255, 0, 0, 0.1)" : "rgba(0, 255, 0, 0.1)"}
-          color={isNegative ? "rgba(255, 0, 0, 0.8)" : "green"}
+          bgcolor={isNegative ? 'rgba(255, 0, 0, 0.1)' : 'rgba(0, 255, 0, 0.1)'}
+          color={isNegative ? 'rgba(255, 0, 0, 0.8)' : 'green'}
           borderRadius={5}
           width={100}
           px={2}
@@ -84,10 +84,10 @@ const TrendingCoin: React.FC<TrendingCoinProps> = ({
             sx={{
               width: 0,
               height: 0,
-              borderLeft: "5px solid transparent",
-              borderRight: "5px solid transparent",
-              borderTop: isNegative ? "5px solid red" : "none",
-              borderBottom: isNegative ? "none" : "5px solid green",
+              borderLeft: '5px solid transparent',
+              borderRight: '5px solid transparent',
+              borderTop: isNegative ? '5px solid red' : 'none',
+              borderBottom: isNegative ? 'none' : '5px solid green',
               mr: 1,
             }}
           />

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { TextField, Button, Typography, Box, Alert } from "@mui/material";
-import csrfFetch from "../../utils/csrfFetch";
-import { useAuth } from "./AuthContext";
-import LoadingButton from "@mui/lab/LoadingButton";
+import React, { useState } from 'react';
+import { TextField, Button, Typography, Box, Alert } from '@mui/material';
+import csrfFetch from '../../utils/csrfFetch';
+import { useAuth } from './AuthContext';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 interface SignupFormProps {
   toggleForm: () => void;
@@ -10,10 +10,10 @@ interface SignupFormProps {
 }
 
 const SignupForm: React.FC<SignupFormProps> = ({ toggleForm, onClose }) => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { login } = useAuth();
@@ -23,44 +23,44 @@ const SignupForm: React.FC<SignupFormProps> = ({ toggleForm, onClose }) => {
     setLoading(true);
 
     if (password !== confirmPassword) {
-      setErrorMessage("Passwords do not match");
+      setErrorMessage('Passwords do not match');
       setLoading(false);
       return;
     }
     if (password.length < 10 || !/[^A-Za-z0-9]/.test(password)) {
       setErrorMessage(
-        "Password must be at least 10 characters long and contain at least one symbol"
+        'Password must be at least 10 characters long and contain at least one symbol'
       );
       setLoading(false);
       return;
     }
 
     try {
-      const response = await csrfFetch("/api/signup", {
-        method: "POST",
+      const response = await csrfFetch('/api/signup', {
+        method: 'POST',
         body: JSON.stringify({ username, email, password }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("token", data.token);
-        sessionStorage.setItem("sessionToken", data.sessionToken);
+        localStorage.setItem('token', data.token);
+        sessionStorage.setItem('sessionToken', data.sessionToken);
         // Log in the user
         login({ username: data.username });
         onClose();
       } else {
-        setErrorMessage(data.message || "Error signing up");
+        setErrorMessage(data.message || 'Error signing up');
       }
       setLoading(false);
     } catch (error) {
-      let message = "Internal server error";
+      let message = 'Internal server error';
       if (error instanceof Response) {
         try {
           const errorData = await error.json();
           message = errorData.message || message;
         } catch (parseError) {
-          console.error("Error parsing JSON:", parseError);
+          console.error('Error parsing JSON:', parseError);
         }
       }
 
@@ -84,7 +84,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ toggleForm, onClose }) => {
       component="form"
       onSubmit={handleSubmit}
       autoComplete="off"
-      sx={{ p: 2, display: "flex", flexDirection: "column", gap: 2 }}
+      sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}
     >
       <Typography variant="h5">Sign Up</Typography>
       {errorMessage && <Alert severity="error">{errorMessage}</Alert>}

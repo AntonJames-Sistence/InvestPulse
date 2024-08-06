@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 
 interface ReusableTileProps {
-  title: string,
+  title: string;
   children: ReactNode;
 }
 
@@ -12,6 +12,6 @@ const ReusableTile: React.FC<ReusableTileProps> = ({ title, children }) => {
       {children}
     </div>
   );
-}
+};
 
 export default ReusableTile;
