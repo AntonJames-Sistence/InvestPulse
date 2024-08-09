@@ -47,7 +47,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ toggleForm, onClose }) => {
         localStorage.setItem('token', data.token);
         sessionStorage.setItem('sessionToken', data.sessionToken);
         // Log in the user
-        login({ username: data.username });
+        login(data.username);
         onClose();
       } else {
         setErrorMessage(data.message || 'Error signing up');
