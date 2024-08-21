@@ -24,6 +24,7 @@
     "@mui/system": "^5.16.1",
     "@next/third-parties": "^14.2.5",
     "@reduxjs/toolkit": "^2.2.6",
+    "@sentry/nextjs": "^8.26.0",
     "@types/jwt-decode": "^3.1.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
