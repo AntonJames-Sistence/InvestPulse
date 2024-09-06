@@ -33,37 +33,37 @@ interface AboutProps {
 }
 
 const About: React.FC<AboutProps> = ({ coinData }) => {
-  const noDescriptionMessage = (
-    <>
-      {`Coin description is currently unavailable. For the latest updates and detailed information, please visit the official webpage:`}
-      <Link
-        href={coinData.homepage}
-        underline="hover"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {coinData.homepage}
-      </Link>
-    </>
-  );
-  const coinDescription = (
-    <>
-      <div>{stripHTMLTags(coinData.description)}</div>
-      <Link
-        href={coinData.homepage}
-        underline="hover"
-        sx={{ mt: 4, alignSelf: 'self-end' }}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {`Learn more about ${coinData.name}`}
-      </Link>
-    </>
-  );
+  // const noDescriptionMessage = (
+  //   <>
+  //     {`Coin description is currently unavailable. For the latest updates and detailed information, please visit the official webpage:`}
+  //     <Link
+  //       href={coinData.homepage}
+  //       underline="hover"
+  //       target="_blank"
+  //       rel="noopener noreferrer"
+  //     >
+  //       {coinData.homepage}
+  //     </Link>
+  //   </>
+  // );
+  // const coinDescription = (
+  //   <>
+  //     <div>{stripHTMLTags(coinData.description)}</div>
+  //     <Link
+  //       href={coinData.homepage}
+  //       underline="hover"
+  //       sx={{ mt: 4, alignSelf: 'self-end' }}
+  //       target="_blank"
+  //       rel="noopener noreferrer"
+  //     >
+  //       {`Learn more about ${coinData.name}`}
+  //     </Link>
+  //   </>
+  // );
 
   return (
-    <ReusableTile title={`About ${coinData.name}`}>
-      <hr className="border-gray-200 -mt-4 mb-4 hidden lg:block" />
+    <ReusableTile title={`About `}>
+      {/* <hr className="border-gray-200 -mt-4 mb-4 hidden lg:block" />
       {coinData.description ? coinDescription : noDescriptionMessage}
       <hr className="border-gray-200 mt-4 hidden lg:block" />
 
@@ -123,7 +123,7 @@ const About: React.FC<AboutProps> = ({ coinData }) => {
             </Button>
           </div>
         </div>
-      </div>
+      </div> */}
     </ReusableTile>
   );
 };

@@ -95,7 +95,7 @@ const NavBar: React.FC = () => {
           >
             <Image
               src="/koiny.webp"
-              alt="KoinY logo"
+              alt="Koiny logo"
               width={40}
               height={40}
               className="rounded-full"
@@ -106,7 +106,7 @@ const NavBar: React.FC = () => {
               component="div"
               sx={{ ml: 1, color: 'primary.main' }}
             >
-              KoinY
+              Koiny
             </Typography>
           </Link>
 

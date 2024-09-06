@@ -8,8 +8,6 @@ import { AuthProvider } from './components/Auth/AuthContext';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
-import { Provider } from 'react-redux';
-import { store } from '../lib/store';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -28,13 +26,11 @@ export default function RootLayout({ children }) {
       <body className={`bg-gray-200 ${inter.className}`}>
         <AppRouterCacheProvider>
           <AuthProvider>
-            <Provider store={store}>
               <ThemeProvider theme={theme}>
                 <NavBar />
                 {children}
-                <Footer />
+                {/* <Footer /> */}
               </ThemeProvider>
-            </Provider>
           </AuthProvider>
         </AppRouterCacheProvider>
         <GoogleAnalytics gaId="G-W46SFCSN20" />

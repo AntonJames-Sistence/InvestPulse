@@ -20,14 +20,14 @@ export default function Home() {
             <CoinDataProvider />
           </Suspense>
           {/* <Sentiment /> */}
-          <Tokenomics />
-          <Team />
+          {/* <Tokenomics />
+          <Team /> */}
         </div>
 
         {/* Right side of the page */}
         <div className="flex flex-col lg:ml-4 w-full lg:w-1/3">
-          <TrendingCoins />
-          <HomePageNews />
+          {/* <TrendingCoins />
+          <HomePageNews /> */}
         </div>
       </div>
     </main>
