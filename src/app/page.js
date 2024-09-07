@@ -6,7 +6,7 @@ import TrendingCoins from './components/TrendingCoins/TrendingCoins';
 import { Toaster } from 'react-hot-toast';
 import HomePageNews from './components/HomePageNews';
 import { Suspense } from 'react';
-import CoinDataProvider from './components/Perfomance/CoinDataProvider';
+import StockDataProvider from './components/Perfomance/StockDataProvider';
 
 export default function Home() {
   return (
@@ -17,7 +17,7 @@ export default function Home() {
         {/* Left side of the page */}
         <div className="flex flex-col w-full lg:w-5/6">
           <Suspense>
-            <CoinDataProvider />
+            <StockDataProvider />
           </Suspense>
           {/* <Sentiment /> */}
           {/* <Tokenomics />

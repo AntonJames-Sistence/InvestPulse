@@ -4,35 +4,13 @@ import { Link, Button } from '@mui/material';
 import Image from 'next/image';
 import { stripHTMLTags } from '../../utils/stripHTMLTags';
 import React from 'react';
+import { StockData } from '../../types/StockDataInterfaces';
 
 interface AboutProps {
-  coinData: {
-    symbol: string;
-    name: string;
-    description: string;
-    homepage: string;
-    image: string;
-    market_cap_rank: number;
-    current_price: number;
-    ath: number;
-    ath_change_percentage: number;
-    ath_date: Date;
-    atl: number;
-    atl_change_percentage: number;
-    atl_date: Date;
-    market_cap: number;
-    total_volume: number;
-    high_24h: number;
-    low_24h: number;
-    price_change_24h: number;
-    price_change_percentage_24h: number;
-    price_change_percentage_7d: number;
-    price_change_percentage_1y: number;
-    last_updated: Date;
-  };
+  stockData: StockData;
 }
 
-const About: React.FC<AboutProps> = ({ coinData }) => {
+const About: React.FC<AboutProps> = ({ stockData }) => {
   // const noDescriptionMessage = (
   //   <>
   //     {`Coin description is currently unavailable. For the latest updates and detailed information, please visit the official webpage:`}
