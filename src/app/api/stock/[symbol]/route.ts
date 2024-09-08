@@ -14,7 +14,7 @@ export async function GET(req: Request, { params }: { params: { symbol: string }
 
   try {
     const stockResult = await yahooFinance.quoteSummary(symbol, queryOptions);
-    // console.log(stockResult)
+    
     return NextResponse.json(stockResult);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch stock data' }, { status: 500 });
