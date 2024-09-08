@@ -7,6 +7,7 @@ import { Toaster } from 'react-hot-toast';
 import HomePageNews from './components/HomePageNews';
 import { Suspense } from 'react';
 import StockDataProvider from './components/Perfomance/StockDataProvider';
+import TrendingStocks from './components/TrendingStocks/TrendingStocks';
 
 export default function Home() {
   return (
@@ -17,7 +18,7 @@ export default function Home() {
         {/* Left side of the page */}
         <div className="flex flex-col w-full lg:w-5/6">
           <Suspense>
-            <StockDataProvider />
+            {/* <StockDataProvider /> */}
           </Suspense>
           {/* <Sentiment /> */}
           {/* <Tokenomics />
@@ -26,8 +27,8 @@ export default function Home() {
 
         {/* Right side of the page */}
         <div className="flex flex-col lg:ml-4 w-full lg:w-1/3">
-          {/* <TrendingCoins />
-          <HomePageNews /> */}
+           <TrendingStocks />
+          {/* <HomePageNews /> */}
         </div>
       </div>
     </main>

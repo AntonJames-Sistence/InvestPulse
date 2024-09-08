@@ -1,38 +1,62 @@
-// import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import postgres from 'postgres';
 
-interface CoinData {
-  id: string;
-  name: string;
-  symbol: string;
-  thumb: string;
-  price_change_percentage_24h: number;
-  sparkline: string;
-  price: number;
-}
+
+// export async function GET() {
+  // if (!process.env.DATABASE_URL) {
+  //   return new Response(``, {
+  //     status: 400,
+  //     statusText: `Couldn't reach DB, please check your key`,
+  //   });
+  // }
+
+  // const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
+
+  // try {
+  //   // Fetch all stored coins from the database
+  //   const coins: CoinData[] = await sql`SELECT * FROM trending_coins;`;
+
+  //   return Response.json(coins);
+  // } catch (error) {
+  //   return new Response('', {
+  //     status: 400,
+  //     statusText: `Couldn't retrieve stored coins data, ${error}`,
+  //   });
+  // }
+
+// }
+import yahooFinance from 'yahoo-finance2';
 
 export async function GET() {
-  if (!process.env.DATABASE_URL) {
-    return new Response(``, {
-      status: 400,
-      statusText: `Couldn't reach DB, please check your key`,
-    });
-  }
+  const symbols = ['AAPL', 'GOOG', 'MSFT']; // Add more symbols as needed
 
-  const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
+  const queryOptions = {
+    modules: ['price', 'summaryDetail', 'assetProfile'] as any
+  };
 
   try {
-    // Fetch all stored coins from the database
-    const coins: CoinData[] = await sql`SELECT * FROM trending_coins;`;
+    // Use Promise.all to fetch data for multiple symbols in parallel
+    const results = await Promise.all(
+      symbols.map(async (symbol) => {
+        const stockResult = await yahooFinance.quoteSummary(symbol, queryOptions);
 
-    return Response.json(coins);
+        // Calculate percentage change for 24 hours
+        const percentageChange24h = ((stockResult.price.regularMarketPrice - stockResult.price.regularMarketPreviousClose) / stockResult.price.regularMarketPreviousClose) * 100;
+
+        // Embed the percentage change into the response
+        stockResult.price.percentageChange24h = percentageChange24h; // Add percentage change with 2 decimal places
+
+        return stockResult; // Return symbol and result
+      })
+    );
+
+    // Return the combined results as a JSON response
+    return NextResponse.json(results);
   } catch (error) {
-    return new Response('', {
-      status: 400,
-      statusText: `Couldn't retrieve stored coins data, ${error}`,
-    });
+    return NextResponse.json({ error: 'Failed to fetch stock data' }, { status: 500 });
   }
 }
+
 
 export async function POST() {
   if (!process.env.DATABASE_URL) {
