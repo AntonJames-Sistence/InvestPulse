@@ -48,9 +48,9 @@ const About: React.FC<AboutProps> = ({ stockData }) => {
       {stockData.assetProfile?.longBusinessSummary ? companyDescription : noDescriptionMessage}
       <hr className="border-gray-200 mt-4 hidden lg:block" />
 
-      <div className="font-semibold text-2xl mb-4 mt-2">{`Investing in ${stockData.price.shortName}`}</div>
+      {/* <div className="font-semibold text-2xl mb-4 mt-2">{`Investing in ${stockData.price.shortName}`}</div> */}
 
-      <div className="flex flex-col lg:flex-row">
+      {/* <div className="flex flex-col lg:flex-row">
         <div className="w-full lg:h-40 w-[47%] bg-gradient-to-br from-blue-500 to-green-500 rounded-xl flex mr-8">
           <Image
             className="w-1/3 rounded-lg m-3"
@@ -104,7 +104,7 @@ const About: React.FC<AboutProps> = ({ stockData }) => {
             </Button>
           </div>
         </div>
-      </div>
+      </div> */}
     </ReusableTile>
   );
 };

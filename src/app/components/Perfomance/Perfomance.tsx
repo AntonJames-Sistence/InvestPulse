@@ -9,11 +9,10 @@ import Image from 'next/image';
 import { StockData } from '../../types/StockDataInterfaces';
 
 interface PerformanceProps {
-  stockData: StockData
+  stockData: StockData;
 }
 
 const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
-
   const getTodaysHighTrianglePosition = () => {
     if (!stockData) return '0%';
 
@@ -46,7 +45,9 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
         <div className="flex flex-row text-xs md:text-sm my-10 md:mt-2 md:mb-10 relative">
           <div>
             <p className="mb-2 text-gray-600">Today's Low</p>
-            <p className="font-semibold">{formatAsUSD(stockData?.price.regularMarketDayLow ?? 0)}</p>
+            <p className="font-semibold">
+              {formatAsUSD(stockData?.price.regularMarketDayLow ?? 0)}
+            </p>
           </div>
           <div className="h-3 mx-4 w-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 rounded-lg self-center mx-2 lg:mx-14 relative">
             <div
@@ -58,22 +59,6 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
             >
               <div className="relative text-[10px] md:text-sm">
                 <div className="absolute -mt-12 md:-mt-14 -left-8">
-                  <p className="whitespace-nowrap">Today's High</p>
-                  <p className="font-semibold">
-                    {formatAsUSD(stockData?.price.regularMarketDayHigh ?? 0)}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div
-              className="absolute top-3 w-0 h-0 border-l-[8px] border-r-[8px] border-b-[16px] border-transparent border-b-sky-500"
-              style={{
-                left: getTodaysLowTrianglePosition(),
-                transform: 'translateX(-50%)',
-              }}
-            >
-              <div className="relative text-[10px] md:text-sm">
-                <div className="absolute mt-4 -left-8">
                   <p className="whitespace-nowrap">Current Price</p>
                   <p className="font-semibold">
                     {formatAsUSD(stockData?.price.regularMarketPrice ?? 0)}
@@ -83,9 +68,9 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
             </div>
           </div>
           <div>
-            <p className="mb-2 text-end text-gray-600">Previous Close</p>
+            <p className="mb-2 text-end text-gray-600">Today's High</p>
             <p className="text-end font-semibold">
-              {formatAsUSD(stockData?.price.regularMarketPreviousClose ?? 0)}
+              {formatAsUSD(stockData?.price.regularMarketDayHigh ?? 0)}
             </p>
           </div>
         </div>
@@ -97,8 +82,22 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-20">
           <div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Market Rank</span>
-              <span>{`# ${stockData?.price.marketCap ?? 'N/A'}`}</span>
+              <span className="text-gray-500">Overall Risk</span>
+              <span
+                className={`px-2 rounded-full ${
+                  stockData?.assetProfile?.overallRisk <= 3
+                    ? 'bg-green-100 text-green-600'
+                    : stockData?.assetProfile?.overallRisk <= 7
+                      ? 'bg-yellow-100 text-yellow-600'
+                      : 'bg-red-100 text-red-600'
+                }`}
+              >
+                {stockData?.assetProfile?.overallRisk <= 3
+                  ? 'Low'
+                  : stockData?.assetProfile?.overallRisk <= 7
+                    ? 'Medium'
+                    : 'High'}
+              </span>
             </div>
             <hr className="border-gray-400 my-4" />
           </div>
@@ -148,7 +147,9 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
           <div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">Total Volume</span>
-              <span>{formatAsUSD(stockData?.price.regularMarketVolume ?? 0)}</span>
+              <span>
+                {formatAsUSD(stockData?.price.regularMarketVolume ?? 0)}
+              </span>
             </div>
             <hr className="border-gray-400 my-4" />
           </div>
@@ -156,7 +157,9 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
           <div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">{`52 Week High`}</span>
-              <span>{formatAsUSD(stockData?.summaryDetail.fiftyTwoWeekHigh ?? 0)}</span>
+              <span>
+                {formatAsUSD(stockData?.summaryDetail.fiftyTwoWeekHigh ?? 0)}
+              </span>
             </div>
             <hr className="border-gray-400 my-4" />
           </div>
@@ -164,7 +167,9 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
           <div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">{`52 Week Low`}</span>
-              <span>{formatAsUSD(stockData?.summaryDetail.fiftyTwoWeekLow ?? 0)}</span>
+              <span>
+                {formatAsUSD(stockData?.summaryDetail.fiftyTwoWeekLow ?? 0)}
+              </span>
             </div>
             <hr className="border-gray-400 my-4" />
           </div>
@@ -172,7 +177,9 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
           <div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">Dividend Rate</span>
-              <span>{formatAsUSD(stockData?.summaryDetail.dividendRate ?? 0)}</span>
+              <span>
+                {formatAsUSD(stockData?.summaryDetail.dividendRate ?? 0)}
+              </span>
             </div>
             <hr className="border-gray-400 my-4" />
           </div>
