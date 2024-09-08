@@ -14,6 +14,13 @@ export async function GET(req: Request, { params }: { params: { symbol: string }
 
   try {
     const stockResult = await yahooFinance.quoteSummary(symbol, queryOptions);
+
+    const percentageChange24h =
+    ((stockResult.price.regularMarketPrice -
+      stockResult.price.regularMarketPreviousClose) /
+      stockResult.price.regularMarketPreviousClose) *
+    100;
+    stockResult.price.percentageChange24h = percentageChange24h
     
     return NextResponse.json(stockResult);
   } catch (error) {

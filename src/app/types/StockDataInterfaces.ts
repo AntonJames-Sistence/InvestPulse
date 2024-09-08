@@ -51,6 +51,7 @@ export interface AssetProfile {
     preMarketChangePercent?: number;
     shortName: string;
     symbol: string;
+    percentageChange24h: number;
   }
   
   // interface for summaryDetail data

@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { formatAsUSD } from '../../utils/formatAsUsd';
 import Image from 'next/image';
 import { StockData } from '../../types/StockDataInterfaces';
+import ReusableTile from '../ReusableTile';
+import SkeletonLoader from '../SkeletonLoader';
 
 interface TradingViewWidgetProps {
   stockData: StockData;
@@ -12,13 +14,15 @@ interface TradingViewWidgetProps {
 const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ stockData }) => {
   const container = useRef<HTMLDivElement>(null);
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
-  const percentageChange24h = ((stockData.price.regularMarketPrice - stockData.price.regularMarketPreviousClose) / stockData.price.regularMarketPreviousClose) * 100;
 
   useEffect(() => {
     generateTradingViewWidget(stockData.price.symbol, isMobile);
   }, [stockData, isMobile]);
 
-  const generateTradingViewWidget = (stockSymbol: string, isMobile: boolean) => {
+  const generateTradingViewWidget = (
+    stockSymbol: string,
+    isMobile: boolean
+  ) => {
     if (!container.current) return;
 
     while (container.current.firstChild) {
@@ -86,19 +90,19 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ stockData }) => {
 
             <div
               className={`flex flex-row bg-${
-                percentageChange24h < 0 ? 'red' : 'green'
+                stockData.price?.percentageChange24h < 0 ? 'red' : 'green'
               }-100 bg-opacity-50 rounded-md px-4 py-1 ml-6 mr-2 text-${
-                percentageChange24h < 0 ? 'red' : 'green'
+                stockData.price?.percentageChange24h < 0 ? 'red' : 'green'
               }-600 self-center`}
             >
               <div
                 className={`triangle-${
-                  percentageChange24h < 0 ? 'red' : 'green'
+                  stockData.price?.percentageChange24h < 0 ? 'red' : 'green'
                 } self-center border-${
-                  percentageChange24h < 0 ? 'red' : 'green'
+                  stockData.price?.percentageChange24h < 0 ? 'red' : 'green'
                 }`}
               ></div>
-              <div>{`${Math.abs(percentageChange24h).toFixed(2)}%`}</div>
+              <div>{`${Math.abs(stockData.price?.percentageChange24h).toFixed(2)}%`}</div>
             </div>
 
             <div className="text-gray-500 text-sm self-center">{`(24H)`}</div>
