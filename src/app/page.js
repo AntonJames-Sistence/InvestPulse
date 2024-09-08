@@ -18,7 +18,7 @@ export default function Home() {
         {/* Left side of the page */}
         <div className="flex flex-col w-full lg:w-5/6">
           <Suspense>
-            {/* <StockDataProvider /> */}
+            <StockDataProvider />
           </Suspense>
           {/* <Sentiment /> */}
           {/* <Tokenomics />

@@ -20,7 +20,7 @@ const TrendingStock: React.FC<TrendingStockProps> = ({
     <ButtonBase
       sx={{
         display: 'block',
-        borderRadius: 7,
+        borderRadius: 6,
         transition: '0.2s',
         mb: 1,
         p: 1,
@@ -38,9 +38,8 @@ const TrendingStock: React.FC<TrendingStockProps> = ({
             sx={{
               width: 40,
               height: 40,
-              borderRadius: 5,
               overflow: 'hidden',
-              mr: 2,
+              mx: 2,
             }}
           >
             <Image
@@ -54,7 +53,7 @@ const TrendingStock: React.FC<TrendingStockProps> = ({
 
           {/* Company Name and Stock Symbol */}
           <Box>
-            <Typography align="left" variant="body1" fontWeight="400">
+            <Typography align="left" variant="body2" fontWeight="400">
               {stockData.price.shortName}
             </Typography>
             <Typography align="left" variant="body2" color="textSecondary">

@@ -29,20 +29,16 @@ const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
   return (
     <>
       {skeletonArray.map((_, index) => (
-        <div
+        <Skeleton
           key={index}
-          
-        >
-          <Skeleton
-            variant={variant}
-            width={width}
-            height={height}
-            sx={{
-              marginBottom: `${spaceBetween}rem`,
-              borderRadius: `${borderRadius}px`
-            }}
-          />
-        </div>
+          variant={variant}
+          width={width}
+          height={height}
+          sx={{
+            marginBottom: `${spaceBetween}rem`,
+            borderRadius: borderRadius,
+          }}
+        />
       ))}
     </>
   );

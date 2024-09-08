@@ -31,7 +31,7 @@ const About: React.FC<AboutProps> = ({ stockData }) => {
     <>
       <div>{stripHTMLTags(stockData.assetProfile?.longBusinessSummary ?? '')}</div>
       <Link
-        href={stockData.assetProfile?.irWebsite}
+        href={stockData.assetProfile?.website}
         underline="hover"
         sx={{ mt: 4, alignSelf: 'self-end' }}
         target="_blank"

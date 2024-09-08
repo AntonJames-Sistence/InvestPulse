@@ -167,7 +167,7 @@ const TrendingStocks: React.FC = () => {
   }
 
   return (
-    <ReusableTile title="Trending Coins (24h)">
+    <ReusableTile title="Trending Stocks">
       <Modal isOpen={openModal} onClose={handleCloseModal}>
         {isLogin ? (
           <LoginForm toggleForm={toggleForm} onClose={handleCloseModal} />

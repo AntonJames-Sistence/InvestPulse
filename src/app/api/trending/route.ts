@@ -28,7 +28,7 @@ import postgres from 'postgres';
 import yahooFinance from 'yahoo-finance2';
 
 export async function GET() {
-  const symbols = ['AAPL', 'GOOG', 'MSFT']; // Add more symbols as needed
+  const symbols = ['AAPL', 'NVDA', 'MSFT']; // Add more symbols as needed
 
   const queryOptions = {
     modules: ['price', 'summaryDetail', 'assetProfile'] as any

@@ -42,20 +42,19 @@ const StockDataProvider: React.FC = () => {
 
   if (loading || !stockData) {
     return (
-      <ReusableTile title="Loading Perfomance">
+      <ReusableTile title="Stock Perfomance">
         <div className="flex flex-col">
           <div className="h-auto flex flex-col bg-white">
             <div className="flex flex-row">
-              <SkeletonLoader variant="circular" width={50} height={50} borderRadius={50} />
+              <SkeletonLoader variant="circular" width={50} height={50} borderRadius={3} />
               <div className="ml-4 flex flex-col justify-end w-full">
-                <SkeletonLoader variant="text" width="20%" height={40} borderRadius={10} />
+                <SkeletonLoader variant="text" width="20%" height={40} borderRadius={4} />
               </div>
             </div>
-            <SkeletonLoader variant="text" width="60%" height={70} borderRadius={15} />
-            <hr className="mb-4 border-gray-400" />
+            <SkeletonLoader variant="text" width="60%" height={70} borderRadius={2} spaceBetween={1} />
             <SkeletonLoader
               variant="rectangular"
-              borderRadius={15}
+              borderRadius={3}
               width="100%"
               height={410}
             />
