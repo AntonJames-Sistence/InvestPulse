@@ -46,7 +46,7 @@ const About: React.FC<AboutProps> = ({ stockData }) => {
     <ReusableTile title={`About ${stockData.price.shortName}`}>
       <hr className="border-gray-200 -mt-4 mb-4 hidden lg:block" />
       {stockData.assetProfile?.longBusinessSummary ? companyDescription : noDescriptionMessage}
-      <hr className="border-gray-200 mt-4 hidden lg:block" />
+      {/* <hr className="border-gray-200 mt-4 hidden lg:block" /> */}
 
       {/* <div className="font-semibold text-2xl mb-4 mt-2">{`Investing in ${stockData.price.shortName}`}</div> */}
 

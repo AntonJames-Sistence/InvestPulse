@@ -82,7 +82,7 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-20">
           <div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Overall Risk</span>
+              <span className="text-gray-500">Overall Investment Risk</span>
               <span
                 className={`px-2 rounded-full ${
                   stockData?.assetProfile?.overallRisk <= 3

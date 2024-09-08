@@ -19,6 +19,7 @@ const StockDataProvider: React.FC = () => {
   const stockSymbol = stock?.toUpperCase() || 'AAPL'; // Default to Apple stock
 
   useEffect(() => {
+    setLoading(true);
     const fetchStockData = async () => {
       const apiUrl = `/api/stock/${stockSymbol}`;
 
