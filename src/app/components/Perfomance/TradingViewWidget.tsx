@@ -78,9 +78,9 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ stockData }) => {
               {stockData.price.symbol}
             </div>
 
-            <div className="bg-gray-600 bg-opacity-70 rounded-lg p-2 ml-auto text-white">
-              {`${stockData.assetProfile.sector}`}
-            </div>
+            <span className="bg-gray-600 bg-opacity-70 rounded-lg p-2 ml-auto text-white flex items-center">
+              {stockData.assetProfile.sector}
+            </span>
           </div>
 
           <div className="flex flex-row">

@@ -24,24 +24,33 @@ const TrendingStocks: React.FC = () => {
   // Modal manipulation states
   const [openModal, setOpenModal] = useState(false);
   const [isLogin, setIsLogin] = useState(!authState.isAuthenticated);
-
+  const symbols = ['AAPL', 'NVDA', 'MSFT'];
 
   useEffect(() => {
     fetchTrendingStocks();
   }, []);
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>, symbol: string) => {
+  const handleClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    symbol: string
+  ) => {
     e.preventDefault();
     router.push(`/?stock=${symbol}`);
   };
 
   const fetchTrendingStocks = async () => {
     try {
-      const response = await fetch('api/trending');
-      const data = await response.json();
-    //   const topTrending = data.slice(0, 4);
-    console.log(data)
-      setTrendingStocks(data);
+      const results = await Promise.all(
+        symbols.map(async (symbol) => {
+          const response = await fetch(`api/stock/${symbol}`);
+
+          if (!response.ok) throw new Error(`Failed to fetch data for ${symbol}`);
+
+          return response.json();
+        })
+      );
+      console.log(results);
+      setTrendingStocks(results);
     } catch (error) {
       console.log(error);
     } finally {
@@ -49,61 +58,61 @@ const TrendingStocks: React.FC = () => {
     }
   };
 
-//   const updateTrendingStocks = async () => {
-//     try {
-//       const response = await fetch('api/trending', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//       });
+  //   const updateTrendingStocks = async () => {
+  //     try {
+  //       const response = await fetch('api/trending', {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //       });
 
-//       if (!response.ok) {
-//         throw new Error(
-//           `Trending API error: ${response.status} - ${response.statusText}`
-//         );
-//       }
-//     } catch (error) {
-//       console.error('Failed to update trending coins:', error);
-//       throw new Error('Failed to update trending coins.');
-//     }
-//   };
+  //       if (!response.ok) {
+  //         throw new Error(
+  //           `Trending API error: ${response.status} - ${response.statusText}`
+  //         );
+  //       }
+  //     } catch (error) {
+  //       console.error('Failed to update trending coins:', error);
+  //       throw new Error('Failed to update trending coins.');
+  //     }
+  //   };
 
-//   const updateNews = async () => {
-//     try {
-//       const response = await fetch('api/news', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//       });
+  //   const updateNews = async () => {
+  //     try {
+  //       const response = await fetch('api/news', {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //       });
 
-//       const data = await response.json();
+  //       const data = await response.json();
 
-//       if (!response.ok) {
-//         throw new Error(`News API error: ${response.status} - ${data.message}`);
-//       }
-//     } catch (error) {
-//       throw new Error(`Failed to update news. ${error}`);
-//     }
-//   };
+  //       if (!response.ok) {
+  //         throw new Error(`News API error: ${response.status} - ${data.message}`);
+  //       }
+  //     } catch (error) {
+  //       throw new Error(`Failed to update news. ${error}`);
+  //     }
+  //   };
 
-//   const handleUpdateDB = async () => {
-//     setLoading(true);
+  //   const handleUpdateDB = async () => {
+  //     setLoading(true);
 
-//     try {
-//       await updateTrendingCoins();
-//     //   await updateNews();
-//       await fetchTrendingCoins();
+  //     try {
+  //       await updateTrendingCoins();
+  //     //   await updateNews();
+  //       await fetchTrendingCoins();
 
-//       toast.success('Trending Coins are up-to-date');
-//     } catch (error) {
-//       toast.error('Failed to update the database.');
-//       console.error(error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
+  //       toast.success('Trending Coins are up-to-date');
+  //     } catch (error) {
+  //       toast.error('Failed to update the database.');
+  //       console.error(error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
   const handleLoginClick = () => {
     setOpenModal(true);
@@ -120,7 +129,7 @@ const TrendingStocks: React.FC = () => {
   if (!trendingStocks.length) {
     return (
       <ReusableTile title="Trending Stocks">
-        {Array.from(new Array(3)).map((_, idx) => (
+        {symbols.map((_, idx) => (
           <Box
             key={idx}
             display="flex"
@@ -148,7 +157,7 @@ const TrendingStocks: React.FC = () => {
             <Skeleton animation="wave" width={80} height={40} />
           </Box>
         ))}
-        <LoadingButton
+        {/* <LoadingButton
           variant="contained"
           size="medium"
           loading={loading}
@@ -161,7 +170,7 @@ const TrendingStocks: React.FC = () => {
           {authState.isAuthenticated
             ? 'Update Prices'
             : 'Login to Update Prices'}
-        </LoadingButton>
+        </LoadingButton> */}
       </ReusableTile>
     );
   }
@@ -179,7 +188,7 @@ const TrendingStocks: React.FC = () => {
         {trendingStocks.map((data, idx) => (
           <TrendingStock key={idx} stockData={data} handleClick={handleClick} />
         ))}
-        <LoadingButton
+        {/* <LoadingButton
           variant="contained"
           size="medium"
           loading={loading}
@@ -192,7 +201,7 @@ const TrendingStocks: React.FC = () => {
           {authState.isAuthenticated
             ? 'Update Prices'
             : 'Login to Update Prices'}
-        </LoadingButton>
+        </LoadingButton> */}
       </Box>
     </ReusableTile>
   );

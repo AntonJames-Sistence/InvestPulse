@@ -1,30 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import postgres from 'postgres';
-
-
-// export async function GET() {
-  // if (!process.env.DATABASE_URL) {
-  //   return new Response(``, {
-  //     status: 400,
-  //     statusText: `Couldn't reach DB, please check your key`,
-  //   });
-  // }
-
-  // const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
-
-  // try {
-  //   // Fetch all stored coins from the database
-  //   const coins: CoinData[] = await sql`SELECT * FROM trending_coins;`;
-
-  //   return Response.json(coins);
-  // } catch (error) {
-  //   return new Response('', {
-  //     status: 400,
-  //     statusText: `Couldn't retrieve stored coins data, ${error}`,
-  //   });
-  // }
-
-// }
 import yahooFinance from 'yahoo-finance2';
 
 export async function GET() {
@@ -35,6 +10,7 @@ export async function GET() {
   };
 
   try {
+    console.log(`Fetching data for symbol ... from trading view`);
     // Use Promise.all to fetch data for multiple symbols in parallel
     const results = await Promise.all(
       symbols.map(async (symbol) => {
@@ -50,8 +26,8 @@ export async function GET() {
       })
     );
 
-    // Return the combined results as a JSON response
-    return NextResponse.json(results);
+    const response = NextResponse.json(results);
+    return response;
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch stock data' }, { status: 500 });
   }

@@ -26,7 +26,7 @@ const TrendingStock: React.FC<TrendingStockProps> = ({
         p: 1,
         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
         '&:hover': {
-          backgroundColor: 'rgba(229, 231, 235, 0.5);',
+          backgroundColor: 'rgba(217, 225, 253, 0.5);',
         },
       }}
       onClick={(e) => handleClick(e, stockData.price.symbol)}
