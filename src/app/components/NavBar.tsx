@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { navLinks } from '../data/navLinks';
 import Image from 'next/image';
-import LoginLogoutButton from './Auth/LoginLogoutButton';
+// import LoginLogoutButton from './Auth/LoginLogoutButton';
 import {
   AppBar,
   Toolbar,
@@ -127,7 +127,6 @@ const NavBar: React.FC = () => {
           </Box>
 
           <Box display="flex">
-            <LoginLogoutButton />
 
             <Box
               sx={{

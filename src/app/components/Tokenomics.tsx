@@ -1,5 +1,4 @@
 import React from 'react';
-import { VictoryPie } from 'victory';
 import ReusableTile from './ReusableTile';
 
 const Tokenomics: React.FC = () => {
@@ -18,7 +17,6 @@ const Tokenomics: React.FC = () => {
 
         <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
           <div className="h-56">
-            <VictoryPie innerRadius={100} data={data} colorScale={colorScale} />
           </div>
           <div className="self-center text-gray-600">
             <div className="flex items-center mb-2">

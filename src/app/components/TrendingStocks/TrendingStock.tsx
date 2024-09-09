@@ -1,20 +1,61 @@
+'use client';
+
 import { StockData } from '../../types/StockDataInterfaces';
 import { Box, Typography, ButtonBase } from '@mui/material';
 import Image from 'next/image';
 import React from 'react';
+import { useRouter } from 'next/navigation';
+import SkeletonLoader from '../SkeletonLoader';
 
 interface TrendingStockProps {
   stockData: StockData;
-  handleClick: (e: React.MouseEvent<HTMLButtonElement>, id: string) => void;
 }
 
-const TrendingStock: React.FC<TrendingStockProps> = ({
-  stockData,
-  handleClick,
-}) => {
+const TrendingStock: React.FC<TrendingStockProps> = ({ stockData }) => {
+  const router = useRouter();
   // Parse and process the price change percentage
   const priceChange = Math.abs(stockData.price.percentageChange24h);
   const isNegative = stockData.price.percentageChange24h < 0;
+
+  const handleStockClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    symbol: string
+  ) => {
+    e.preventDefault();
+    router.push(`/?symbol=${symbol}`);
+  };
+
+  if (!stockData) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={3}
+      >
+        <SkeletonLoader
+          variant="circular"
+          width={40}
+          height={40}
+          borderRadius={50}
+        />
+
+        <SkeletonLoader
+          variant="rectangular"
+          width={'40%'}
+          height={30}
+          borderRadius={3}
+        />
+
+        <SkeletonLoader
+          variant="rectangular"
+          width={'20%'}
+          height={20}
+          borderRadius={3}
+        />
+      </Box>
+    );
+  }
 
   return (
     <ButtonBase
@@ -29,7 +70,7 @@ const TrendingStock: React.FC<TrendingStockProps> = ({
           backgroundColor: 'rgba(217, 225, 253, 0.5);',
         },
       }}
-      onClick={(e) => handleClick(e, stockData.price.symbol)}
+      onClick={(e) => handleStockClick(e, stockData.price.symbol)}
     >
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Box display="flex" alignItems="center">

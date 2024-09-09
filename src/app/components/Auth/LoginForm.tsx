@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import csrfFetch from '../../utils/csrfFetch';
-import { useAuth } from './AuthContext';
+// import { useAuth } from './AuthContext';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 interface LoginFormProps {
@@ -24,7 +24,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { login } = useAuth();
+  // const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +42,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm, onClose }) => {
       if (response.ok) {
         localStorage.setItem('token', data.token);
         sessionStorage.setItem('sessionToken', data.sessionToken);
-        login(data.username);
+        // login(data.username);
         onClose();
       } else {
         setErrorMessage(data.message || 'Error logging in');

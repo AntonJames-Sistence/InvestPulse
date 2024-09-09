@@ -1,94 +1,37 @@
-'use client';
-
 import ReusableTile from '../ReusableTile';
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { Box } from '@mui/material';
 import { StockData } from '../../types/StockDataInterfaces';
 import TrendingStock from './TrendingStock';
-import SkeletonLoader from '../SkeletonLoader';
 
-const TrendingStocks: React.FC = () => {
-  const [trendingStocks, setTrendingStocks] = useState<StockData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const router = useRouter();
+async function fetchTrendingStocks(): Promise<StockData[]> {
   const symbols = ['AAPL', 'NVDA', 'MSFT', 'META'];
 
-  useEffect(() => {
-    fetchTrendingStocks();
-  }, []);
+  // Fetch data from the server
+  const results = await Promise.all(
+    symbols.map(async (symbol) => {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stock/${symbol}`, {
+        next: { revalidate: 10800 }, // Revalidate after 3 hours
+      });
 
-  const handleClick = (
-    e: React.MouseEvent<HTMLButtonElement>,
-    symbol: string
-  ) => {
-    e.preventDefault();
-    router.push(`/?stock=${symbol}`);
-  };
+      if (!response.ok) {
+        return new Error(`Failed to fetch data for ${symbol}`);
+      }
 
-  const fetchTrendingStocks = async () => {
-    try {
-      const results = await Promise.all(
-        symbols.map(async (symbol) => {
-          const response = await fetch(`api/stock/${symbol}`);
+      return response.json();
+    })
+  );
 
-          if (!response.ok)
-            throw new Error(`Failed to fetch data for ${symbol}`);
+  return results;
+}
 
-          return response.json();
-        })
-      );
-      console.log(results);
-      setTrendingStocks(results);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (!trendingStocks || loading) {
-    return (
-      <ReusableTile title="Trending Stocks">
-        {symbols.map((_, idx) => (
-          <Box
-            key={idx}
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            mb={3}
-          >
-            <SkeletonLoader
-              variant="circular"
-              width={40}
-              height={40}
-              borderRadius={50}
-            />
-
-            <SkeletonLoader
-              variant="rectangular"
-              width={'40%'}
-              height={30}
-              borderRadius={3}
-            />
-
-            <SkeletonLoader
-              variant="rectangular"
-              width={'20%'}
-              height={20}
-              borderRadius={3}
-            />
-          </Box>
-        ))}
-      </ReusableTile>
-    );
-  }
+const TrendingStocks = async () => {
+  const trendingStocks = await fetchTrendingStocks();
 
   return (
     <ReusableTile title="Trending Stocks">
       <Box display="flex" flexDirection="column">
         {trendingStocks.map((data, idx) => (
-          <TrendingStock key={idx} stockData={data} handleClick={handleClick} />
+          <TrendingStock key={idx} stockData={data} />
         ))}
       </Box>
     </ReusableTile>

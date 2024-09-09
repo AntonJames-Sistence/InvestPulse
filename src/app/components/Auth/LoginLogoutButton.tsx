@@ -3,7 +3,7 @@ import Modal from '../Modal/Modal';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import { Button, Typography, Box } from '@mui/material';
-import { useAuth } from './AuthContext';
+// import { useAuth } from './AuthContext';
 import { CgLogIn, CgLogOut } from 'react-icons/cg';
 import { useRouter } from 'next/navigation';
 
@@ -12,7 +12,7 @@ const LoginLogoutButton: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   // Toggle between login and signup
   const [isLogin, setIsLogin] = useState(true);
-  const { authState, logout } = useAuth();
+  // const { authState, logout } = useAuth();
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
@@ -23,7 +23,7 @@ const LoginLogoutButton: React.FC = () => {
     localStorage.removeItem('token');
     sessionStorage.removeItem('sessionToken');
     // Update the authentication state
-    logout();
+    // logout();
     // Redirect to the home page or login page
     if (router) {
       router.push('/');
@@ -40,7 +40,7 @@ const LoginLogoutButton: React.FC = () => {
           display: { xs: 'none', sm: 'block' }, // Hide on xs, show on sm and above
         }}
       >
-        {`Welcome back ${authState.user?.username}`}
+        {/* {`Welcome back ${authState.user?.username}`} */}
       </Typography>
       <Button
         variant="contained"
@@ -89,7 +89,8 @@ const LoginLogoutButton: React.FC = () => {
     </Box>
   );
 
-  return authState.isAuthenticated ? logoutButton : loginButton;
+  // return authState.isAuthenticated ? logoutButton : loginButton;
+  return null;
 };
 
 export default LoginLogoutButton;
