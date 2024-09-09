@@ -4,7 +4,7 @@ import { StockData } from '../../types/StockDataInterfaces';
 import TrendingStock from './TrendingStock';
 
 async function fetchTrendingStocks(): Promise<StockData[]> {
-  const symbols = ['AAPL', 'NVDA', 'MSFT', 'META'];
+  const symbols = ['AAPL', 'NVDA', 'MSFT', 'META', 'TSLA'];
 
   // Fetch data from the server
   const results = await Promise.all(

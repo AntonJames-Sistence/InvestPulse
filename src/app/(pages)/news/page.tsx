@@ -12,35 +12,41 @@ import {
 import Image from 'next/image';
 
 interface NewsData {
-  article_id: string;
+  uuid: string;
   title: string;
-  link: string;
   description: string | null;
-  pub_date: string | null;
+  snippet: string | null;
+  url: string;
   image_url: string | null;
-  source_url: string | null;
+  published_at: string | null;
+  source: string;
 }
 
+// Fetch the news data on the server-side
 async function fetchNewsData(): Promise<NewsData[]> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const response = await fetch(`${apiUrl}/api/news`);
+  const response = await fetch(`${apiUrl}/api/news`, {
+    next: { revalidate: 86400 }, // Optionally revalidate every 24 hours
+  });
 
   if (!response.ok) {
     throw new Error('Failed to fetch news data');
   }
 
-  const data: NewsData[] = await response.json();
+  const { data }: { data: NewsData[] } = await response.json();
+  // console.log(data)
   return data;
 }
 
+// Use this as a server-side component
 const NewsPage = async (): Promise<ReactElement> => {
-  const newsData = await fetchNewsData();
+  const newsData = await fetchNewsData(); // Fetch data on the server
 
   return (
     <Container>
       <Grid sx={{ my: '56px' }} container spacing={4}>
         {newsData.map((article: NewsData) => (
-          <Grid item key={article.article_id} xs={12} sm={6} md={4}>
+          <Grid item key={article.uuid} xs={12} sm={6} md={4}>
             <Card
               sx={{
                 width: '100%',
@@ -96,7 +102,7 @@ const NewsPage = async (): Promise<ReactElement> => {
                     WebkitLineClamp: 4, // Adjust the number of lines to truncate here
                   }}
                 >
-                  {article.description}
+                  {article.snippet || article.description}
                 </Typography>
                 <Box
                   sx={{
@@ -106,21 +112,21 @@ const NewsPage = async (): Promise<ReactElement> => {
                     marginTop: 'auto',
                   }}
                 >
+                  <Box
+                    sx={{
+                      alignSelf: 'flex-end',
+                    }}
+                  >
+                    {new Date(article.published_at ?? '').toLocaleDateString()}
+                  </Box>
                   <Link
-                    href={article.link}
+                    href={article.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     underline="hover"
                   >
                     Read more
                   </Link>
-                  <Box
-                    sx={{
-                      alignSelf: 'flex-end',
-                    }}
-                  >
-                    {new Date(article.pub_date ?? '').toLocaleDateString()}
-                  </Box>
                 </Box>
               </CardContent>
             </Card>

@@ -95,7 +95,7 @@ const NavBar: React.FC = () => {
           >
             <Image
               src="/koiny.webp"
-              alt="Koiny logo"
+              alt="Investpulse logo"
               width={40}
               height={40}
               className="rounded-full"
