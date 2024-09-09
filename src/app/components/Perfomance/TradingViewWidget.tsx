@@ -1,11 +1,9 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { formatAsUSD } from '../../utils/formatAsUsd';
 import Image from 'next/image';
 import { StockData } from '../../types/StockDataInterfaces';
-import ReusableTile from '../ReusableTile';
-import SkeletonLoader from '../SkeletonLoader';
 
 interface TradingViewWidgetProps {
   stockData: StockData;
