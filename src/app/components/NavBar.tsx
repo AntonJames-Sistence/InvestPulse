@@ -94,7 +94,7 @@ const NavBar: React.FC = () => {
             }}
           >
             <Image
-              src="/koiny.webp"
+              src="/investpulse.webp"
               alt="Investpulse logo"
               width={40}
               height={40}
@@ -106,7 +106,7 @@ const NavBar: React.FC = () => {
               component="div"
               sx={{ ml: 1, color: 'primary.main' }}
             >
-              Koiny
+              InvestPulse
             </Typography>
           </Link>
 
