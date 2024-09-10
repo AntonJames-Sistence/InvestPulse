@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Box, Alert } from '@mui/material';
 import csrfFetch from '../../utils/csrfFetch';
-import { useAuth } from './AuthContext';
+// import { useAuth } from './AuthContext';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 interface SignupFormProps {
@@ -16,7 +16,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ toggleForm, onClose }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { login } = useAuth();
+  // const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +47,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ toggleForm, onClose }) => {
         localStorage.setItem('token', data.token);
         sessionStorage.setItem('sessionToken', data.sessionToken);
         // Log in the user
-        login(data.username);
+        // login(data.username);
         onClose();
       } else {
         setErrorMessage(data.message || 'Error signing up');

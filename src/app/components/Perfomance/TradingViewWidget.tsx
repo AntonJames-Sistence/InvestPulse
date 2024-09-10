@@ -3,43 +3,24 @@
 import React, { useEffect, useRef } from 'react';
 import { formatAsUSD } from '../../utils/formatAsUsd';
 import Image from 'next/image';
+import { StockData } from '../../types/StockDataInterfaces';
 
 interface TradingViewWidgetProps {
-  coinData: {
-    symbol: string;
-    name: string;
-    description: string;
-    homepage: string;
-    image: string;
-    market_cap_rank: number;
-    current_price: number;
-    ath: number;
-    ath_change_percentage: number;
-    ath_date: Date;
-    atl: number;
-    atl_change_percentage: number;
-    atl_date: Date;
-    market_cap: number;
-    total_volume: number;
-    high_24h: number;
-    low_24h: number;
-    price_change_24h: number;
-    price_change_percentage_24h: number;
-    price_change_percentage_7d: number;
-    price_change_percentage_1y: number;
-    last_updated: Date;
-  };
+  stockData: StockData;
 }
 
-const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ coinData }) => {
+const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ stockData }) => {
   const container = useRef<HTMLDivElement>(null);
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 
   useEffect(() => {
-    generateTradingViewWidget(coinData.symbol, isMobile);
-  }, [coinData, isMobile]);
+    generateTradingViewWidget(stockData.price.symbol, isMobile);
+  }, [stockData, isMobile]);
 
-  const generateTradingViewWidget = (coinSymbol: string, isMobile: boolean) => {
+  const generateTradingViewWidget = (
+    stockSymbol: string,
+    isMobile: boolean
+  ) => {
     if (!container.current) return;
 
     while (container.current.firstChild) {
@@ -55,7 +36,7 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ coinData }) => {
       {
         "width": "100%",
         "height": "${isMobile ? 300 : 410}",
-        "symbol": "BITSTAMP:${coinSymbol.toUpperCase()}USD",
+        "symbol": "NASDAQ:${stockSymbol}",
         "hide_legend": true,
         "interval": "D",
         "timezone": "Etc/UTC",
@@ -82,44 +63,44 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ coinData }) => {
           <div className="flex flex-row mt-7 mb-10">
             <Image
               className="h-10 w-10 bg-white"
-              src={coinData.image}
-              alt={`${coinData.name} logo`}
+              src={`https://logo.clearbit.com/${stockData.assetProfile.website}`}
+              alt={`${stockData.price.shortName} logo`}
               height={100}
               width={100}
               priority={true}
             />
             <div className="text-black text-2xl font-semibold self-center mx-2">
-              {coinData.name}
+              {stockData.price.shortName}
             </div>
-            <div className="text-gray-500 self-center font-semibold mr-2">
-              {coinData.symbol}
+            <div className="text-gray-500 font-semibold mr-2">
+              {stockData.price.symbol}
             </div>
 
-            <div className="flex flex-row bg-gray-600 bg-opacity-70 rounded-lg p-2 ml-10 text-white self-center">
-              {`Rank #${coinData.market_cap_rank}`}
-            </div>
+            <span className="bg-gray-600 bg-opacity-70 rounded-lg p-2 ml-auto text-white flex items-center">
+              {stockData.assetProfile.sector}
+            </span>
           </div>
 
           <div className="flex flex-row">
             <div className="text-black text-3xl font-semibold self-center">
-              {formatAsUSD(coinData?.current_price ?? 0)}
+              {formatAsUSD(stockData.price?.regularMarketPrice ?? 0)}
             </div>
 
             <div
               className={`flex flex-row bg-${
-                coinData.price_change_percentage_24h < 0 ? 'red' : 'green'
+                stockData.price?.percentageChange24h < 0 ? 'red' : 'green'
               }-100 bg-opacity-50 rounded-md px-4 py-1 ml-6 mr-2 text-${
-                coinData.price_change_percentage_24h < 0 ? 'red' : 'green'
+                stockData.price?.percentageChange24h < 0 ? 'red' : 'green'
               }-600 self-center`}
             >
               <div
                 className={`triangle-${
-                  coinData.price_change_percentage_24h < 0 ? 'red' : 'green'
+                  stockData.price?.percentageChange24h < 0 ? 'red' : 'green'
                 } self-center border-${
-                  coinData.price_change_percentage_24h < 0 ? 'red' : 'green'
+                  stockData.price?.percentageChange24h < 0 ? 'red' : 'green'
                 }`}
               ></div>
-              <div>{`${Math.abs(coinData.price_change_percentage_24h)}%`}</div>
+              <div>{`${Math.abs(stockData.price?.percentageChange24h).toFixed(2)}%`}</div>
             </div>
 
             <div className="text-gray-500 text-sm self-center">{`(24H)`}</div>
@@ -127,7 +108,7 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ coinData }) => {
 
           <hr className="my-5 border-gray-400" />
 
-          <div className="mb-10 font-semibold text">{`${coinData.name} Price Chart (USD)`}</div>
+          <div className="mb-10 font-semibold text">{`${stockData.price.shortName} Price Chart (USD)`}</div>
         </div>
 
         <div className="mx-5 mb-5 z-10">

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { navLinks } from '../data/navLinks';
 import Image from 'next/image';
-import LoginLogoutButton from './Auth/LoginLogoutButton';
+// import LoginLogoutButton from './Auth/LoginLogoutButton';
 import {
   AppBar,
   Toolbar,
@@ -94,8 +94,8 @@ const NavBar: React.FC = () => {
             }}
           >
             <Image
-              src="/koiny.webp"
-              alt="KoinY logo"
+              src="/investpulse.webp"
+              alt="Investpulse logo"
               width={40}
               height={40}
               className="rounded-full"
@@ -106,7 +106,7 @@ const NavBar: React.FC = () => {
               component="div"
               sx={{ ml: 1, color: 'primary.main' }}
             >
-              KoinY
+              InvestPulse
             </Typography>
           </Link>
 
@@ -127,8 +127,6 @@ const NavBar: React.FC = () => {
           </Box>
 
           <Box display="flex">
-            <LoginLogoutButton />
-
             <Box
               sx={{
                 display: { xs: 'flex', lg: 'none' },
