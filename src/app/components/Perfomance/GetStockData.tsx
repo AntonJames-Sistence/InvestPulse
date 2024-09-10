@@ -1,6 +1,6 @@
 import { StockData } from '../../types/StockDataInterfaces';
 
-export async function getStockData(symbol: string): Promise<StockData | null> {
+export async function getStockData(symbol: string): Promise<StockData> {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/stock/${symbol}`,
     {
@@ -8,7 +8,7 @@ export async function getStockData(symbol: string): Promise<StockData | null> {
     }
   );
 
-  if (!response.ok) return null;
+  // if (!response.ok) return null;
 
   return response.json();
 }
