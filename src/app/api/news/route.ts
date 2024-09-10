@@ -47,7 +47,8 @@ export const GET = async () => {
 
   // return Response.json(news);
   const api_token = process.env.MARKETAUX_API_TOKEN; // Store your API key securely in environment variables
-  const url = `https://api.marketaux.com/v1/news/all?symbols=TSLA,NVDA,MSFT,META,AAPL&filter_entities=true&language=en&api_token=${api_token}`;
+  // const url = `https://api.marketaux.com/v1/news/all?symbols=TSLA,NVDA,MSFT,META,AAPL&filter_entities=true&language=en&api_token=${api_token}`;
+  const url = `https://api.marketaux.com/v1/news/all?filter_entities=true&language=en&api_token=${api_token}`;
 
   try {
     const response = await fetch(url);

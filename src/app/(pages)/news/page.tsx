@@ -26,7 +26,7 @@ interface NewsData {
 async function fetchNewsData(): Promise<NewsData[]> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const response = await fetch(`${apiUrl}/api/news`, {
-    next: { revalidate: 86400 }, // Optionally revalidate every 24 hours
+    next: { revalidate: 43200 }, // Optionally revalidate every 12 hours
   });
 
   if (!response.ok) {
