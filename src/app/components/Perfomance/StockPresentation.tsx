@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import About from './About';
 import TradingViewWidget from './TradingViewWidget';
 import Performance from './Perfomance';
@@ -42,7 +42,7 @@ const StockPresentation: React.FC = () => {
 
   if (loading || !stockData) {
     return (
-      <ReusableTile title="Stock Perfomance">
+      <ReusableTile title="Loading Stock Perfomance">
         <div className="flex flex-col">
           <div className="h-auto flex flex-col bg-white">
             <div className="flex flex-row">
@@ -97,4 +97,10 @@ const StockPresentation: React.FC = () => {
   );
 };
 
-export default StockPresentation;
+export default function SuspenseStockPresentation() {
+  return (
+    <Suspense fallback={<div>Loading stock data...</div>}>
+      <StockPresentation />
+    </Suspense>
+  );
+}
