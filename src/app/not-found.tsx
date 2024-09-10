@@ -19,16 +19,21 @@ const NotFoundPage: React.FC = () => {
     >
       <ErrorOutlineIcon sx={{ fontSize: 80, mb: 2, color: 'error.main' }} />
 
-      <Typography variant="h1" component="h1" sx={{ fontWeight: 'bold', mb: 2 }}>
+      <Typography
+        variant="h1"
+        component="h1"
+        sx={{ fontWeight: 'bold', mb: 2 }}
+      >
         404
       </Typography>
 
       <Typography variant="h5" component="p" sx={{ mb: 2 }}>
-        Oops! The page you're looking for doesn't exist.
+        {`Oops! The page you're looking for doesn't exist.`}
       </Typography>
 
       <Typography variant="body1" sx={{ mb: 4, textAlign: 'center' }}>
-        It looks like the page you are trying to reach is no longer available or the URL is incorrect.
+        {`It looks like the page you are trying to reach is no longer available or
+        the URL is incorrect.`}
       </Typography>
 
       <Link href="/" passHref>

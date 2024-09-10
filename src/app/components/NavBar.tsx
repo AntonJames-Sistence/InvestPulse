@@ -127,7 +127,6 @@ const NavBar: React.FC = () => {
           </Box>
 
           <Box display="flex">
-
             <Box
               sx={{
                 display: { xs: 'flex', lg: 'none' },

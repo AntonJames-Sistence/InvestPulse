@@ -30,7 +30,7 @@ const StockPresentation: React.FC = () => {
         } else {
           setError('Failed to fetch stock data');
         }
-      } catch (err) {
+      } catch {
         setError('An error occurred while fetching stock data');
       } finally {
         setLoading(false); // End loading
@@ -85,7 +85,7 @@ const StockPresentation: React.FC = () => {
       <ReusableTile title="Stock Perfomance">
         <div>{error}</div>
       </ReusableTile>
-    )
+    );
   }
 
   return (

@@ -3,7 +3,7 @@ import './globals.css';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './theme';
 import NavBar from './components/NavBar';
-import Footer from './components/Footer';
+// import Footer from './components/Footer';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { GoogleAnalytics } from '@next/third-parties/google';
 

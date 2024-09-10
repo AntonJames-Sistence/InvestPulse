@@ -1,7 +1,7 @@
-import Team from './components/Team';
-import Tokenomics from './components/Tokenomics';
+// import Team from './components/Team';
+// import Tokenomics from './components/Tokenomics';
 import { Toaster } from 'react-hot-toast';
-import HomePageNews from './components/HomePageNews';
+// import HomePageNews from './components/HomePageNews';
 import StockPresentation from './components/Perfomance/StockPresentation';
 import TrendingStocks from './components/TrendingStocks/TrendingStocks';
 

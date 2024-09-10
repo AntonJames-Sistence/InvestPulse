@@ -68,7 +68,7 @@ const TrendingStock: React.FC<TrendingStockProps> = ({ stockData }) => {
         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
         '&:hover': {
           backgroundColor: 'rgba(217, 225, 253, 0.5);',
-          scale: '105%'
+          scale: '105%',
         },
       }}
       onClick={(e) => handleStockClick(e, stockData.price.symbol)}
@@ -89,7 +89,6 @@ const TrendingStock: React.FC<TrendingStockProps> = ({ stockData }) => {
               alt={`${stockData.price.shortName} logo`}
               width={40}
               height={40}
-              objectFit="cover"
             />
           </Box>
 

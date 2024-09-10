@@ -9,9 +9,12 @@ async function fetchTrendingStocks(): Promise<StockData[]> {
   // Fetch data from the server
   const results = await Promise.all(
     symbols.map(async (symbol) => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stock/${symbol}`, {
-        next: { revalidate: 10800 }, // Revalidate after 3 hours
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/stock/${symbol}`,
+        {
+          next: { revalidate: 10800 }, // Revalidate after 3 hours
+        }
+      );
 
       if (!response.ok) {
         return new Error(`Failed to fetch data for ${symbol}`);

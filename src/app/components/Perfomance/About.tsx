@@ -1,9 +1,9 @@
 'use client';
 
 import ReusableTile from '../ReusableTile';
-import { FaArrowRightLong } from 'react-icons/fa6';
-import { Link, Button } from '@mui/material';
-import Image from 'next/image';
+// import { FaArrowRightLong } from 'react-icons/fa6';
+import { Link } from '@mui/material';
+// import Image from 'next/image';
 import { stripHTMLTags } from '../../utils/stripHTMLTags';
 import React from 'react';
 import { StockData } from '../../types/StockDataInterfaces';
@@ -29,7 +29,9 @@ const About: React.FC<AboutProps> = ({ stockData }) => {
 
   const companyDescription = (
     <>
-      <div>{stripHTMLTags(stockData.assetProfile?.longBusinessSummary ?? '')}</div>
+      <div>
+        {stripHTMLTags(stockData.assetProfile?.longBusinessSummary ?? '')}
+      </div>
       <Link
         href={stockData.assetProfile?.website}
         underline="hover"
@@ -45,7 +47,9 @@ const About: React.FC<AboutProps> = ({ stockData }) => {
   return (
     <ReusableTile title={`About ${stockData.price.shortName}`}>
       <hr className="border-gray-200 -mt-4 mb-4 hidden lg:block" />
-      {stockData.assetProfile?.longBusinessSummary ? companyDescription : noDescriptionMessage}
+      {stockData.assetProfile?.longBusinessSummary
+        ? companyDescription
+        : noDescriptionMessage}
       {/* <hr className="border-gray-200 mt-4 hidden lg:block" /> */}
 
       {/* <div className="font-semibold text-2xl mb-4 mt-2">{`Investing in ${stockData.price.shortName}`}</div> */}

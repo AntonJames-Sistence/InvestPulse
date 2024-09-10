@@ -2,9 +2,9 @@
 
 import ReusableTile from '../ReusableTile';
 import React from 'react';
-import { formatDate } from '../../utils/formatDate';
+// import { formatDate } from '../../utils/formatDate';
 import { formatAsUSD } from '../../utils/formatAsUsd';
-import { formatPercentage } from '../../utils/formatPercentage';
+// import { formatPercentage } from '../../utils/formatPercentage';
 import Image from 'next/image';
 import { StockData } from '../../types/StockDataInterfaces';
 
@@ -26,25 +26,25 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
     return `${percentage}%`;
   };
 
-  const getTodaysLowTrianglePosition = () => {
-    if (!stockData) return '0%';
+  // const getTodaysLowTrianglePosition = () => {
+  //   if (!stockData) return '0%';
 
-    const low = stockData.price.regularMarketDayLow ?? 0;
-    const high = stockData.price.regularMarketDayHigh ?? 0;
-    const current = stockData.price.regularMarketPrice ?? 0;
+  //   const low = stockData.price.regularMarketDayLow ?? 0;
+  //   const high = stockData.price.regularMarketDayHigh ?? 0;
+  //   const current = stockData.price.regularMarketPrice ?? 0;
 
-    if (high === low) return '0%';
+  //   if (high === low) return '0%';
 
-    const percentage = ((current - low) / (high - low)) * 100;
-    return `${percentage}%`;
-  };
+  //   const percentage = ((current - low) / (high - low)) * 100;
+  //   return `${percentage}%`;
+  // };
 
   return (
     <ReusableTile title={`${stockData?.price.shortName} Performance`}>
       <div className="flex flex-col">
         <div className="flex flex-row text-xs md:text-sm my-10 md:mt-2 md:mb-10 relative">
           <div>
-            <p className="mb-2 text-gray-600">Today's Low</p>
+            <p className="mb-2 text-gray-600">{`Today's Low`}</p>
             <p className="font-semibold">
               {formatAsUSD(stockData?.price.regularMarketDayLow ?? 0)}
             </p>
@@ -59,7 +59,7 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
             >
               <div className="relative text-[10px] md:text-sm">
                 <div className="absolute -mt-12 md:-mt-14 -left-8">
-                  <p className="whitespace-nowrap">Current Price</p>
+                  <p className="whitespace-nowrap">{`Current Price`}</p>
                   <p className="font-semibold">
                     {formatAsUSD(stockData?.price.regularMarketPrice ?? 0)}
                   </p>
@@ -68,7 +68,7 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
             </div>
           </div>
           <div>
-            <p className="mb-2 text-end text-gray-600">Today's High</p>
+            <p className="mb-2 text-end text-gray-600">{`Today's High`}</p>
             <p className="text-end font-semibold">
               {formatAsUSD(stockData?.price.regularMarketDayHigh ?? 0)}
             </p>

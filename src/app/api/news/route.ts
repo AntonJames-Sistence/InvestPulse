@@ -1,28 +1,28 @@
-import { NextRequest, NextResponse } from 'next/server';
-import postgres from 'postgres';
-import { isRelevantArticle } from '../../utils/newsFilter';
+import { NextResponse } from 'next/server';
+// import postgres from 'postgres';
+// import { isRelevantArticle } from '../../utils/newsFilter';
 
 // const newsKey = process.env.NEWSDATA_KEY;
-const placeholderImages = [
-  'https://i.ibb.co/R34fRP2/crpto.webp',
-  'https://i.ibb.co/0rgx9gB/Cryptocurrency-Photo-by-stockphoto-graf.webp',
-];
+// const placeholderImages = [
+//   'https://i.ibb.co/R34fRP2/crpto.webp',
+//   'https://i.ibb.co/0rgx9gB/Cryptocurrency-Photo-by-stockphoto-graf.webp',
+// ];
 
 // Function to get a random placeholder image
-const getRandomPlaceholderImage = () => {
-  const randomIndex = Math.floor(Math.random() * placeholderImages.length);
-  return placeholderImages[randomIndex];
-};
+// const getRandomPlaceholderImage = () => {
+//   const randomIndex = Math.floor(Math.random() * placeholderImages.length);
+//   return placeholderImages[randomIndex];
+// };
 
-interface NewsData {
-  article_id: string;
-  title: string;
-  link: string;
-  description: string | null;
-  pub_date: string | null;
-  image_url: string | null;
-  source_url: string | null;
-}
+// interface NewsData {
+//   article_id: string;
+//   title: string;
+//   link: string;
+//   description: string | null;
+//   pub_date: string | null;
+//   image_url: string | null;
+//   source_url: string | null;
+// }
 
 export const GET = async () => {
   // if (!process.env.DATABASE_URL) {
@@ -46,23 +46,22 @@ export const GET = async () => {
   // }
 
   // return Response.json(news);
-    const api_token = process.env.MARKETAUX_API_TOKEN; // Store your API key securely in environment variables
-    const url = `https://api.marketaux.com/v1/news/all?symbols=TSLA,NVDA,MSFT,META,AAPL&filter_entities=true&language=en&api_token=${api_token}`;
-  
-    try {
-      const response = await fetch(url);
-  
-      if (!response.ok) {
-        throw new Error(`Failed to fetch news: ${response.statusText}`);
-      }
-  
-      const news = await response.json();
-      
-      return NextResponse.json(news); // Return the fetched news as a JSON response
+  const api_token = process.env.MARKETAUX_API_TOKEN; // Store your API key securely in environment variables
+  const url = `https://api.marketaux.com/v1/news/all?symbols=TSLA,NVDA,MSFT,META,AAPL&filter_entities=true&language=en&api_token=${api_token}`;
+
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch news: ${response.statusText}`);
+    }
+
+    const news = await response.json();
+
+    return NextResponse.json(news); // Return the fetched news as a JSON response
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-  
 };
 
 // export async function POST() {
