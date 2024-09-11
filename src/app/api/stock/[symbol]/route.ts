@@ -28,8 +28,12 @@ export async function GET(
         stockResult.price.regularMarketPreviousClose) *
       100;
     stockResult.price.percentageChange24h = percentageChange24h;
+    // stockResult.assetProfile.companyOfficers = [];
 
-    return NextResponse.json(stockResult);
+    // Conver to plain result, because of next.js SSR specifics
+    const plainStockResult = JSON.parse(JSON.stringify(stockResult));
+
+    return NextResponse.json(plainStockResult);
   } catch {
     return NextResponse.json(
       { error: 'Failed to fetch stock data' },

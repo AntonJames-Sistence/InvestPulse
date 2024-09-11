@@ -29,6 +29,7 @@ const StockPresentation: React.FC = () => {
         const data = await response.json();
 
         if (data) {
+          // console.log(data)
           setStockData(data); // Update stock data
         } else {
           setError('Failed to fetch stock data');
