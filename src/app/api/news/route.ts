@@ -26,8 +26,9 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   const api_token = process.env.MARKETAUX_API_TOKEN; // Store your API key securely in environment variables
-  // const url = `https://api.marketaux.com/v1/news/all?symbols=TSLA,NVDA,MSFT,META,AAPL&filter_entities=true&language=en&api_token=${api_token}`;
-  const url = `https://api.marketaux.com/v1/news/all?filter_entities=true&language=en&limit=20&entity_types=index,equity&api_token=${api_token}`;
+  const url = `https://api.marketaux.com/v1/news/all?symbols=TSLA,NVDA,MSFT,META,AAPL&filter_entities=true&language=en&api_token=${api_token}`;
+  // const url = `https://api.marketaux.com/v1/news/all?filter_entities=true&language=en&limit=20&entity_types=index,equity&api_token=${api_token}`;
+  // const url = ``;
 
   try {
     const response = await fetch(url);
