@@ -40,7 +40,7 @@
 // // }
 
 // // Use this as a server-side component
-// const NewsPage = async (): Promise<ReactElement> => {
+// export default function NewsPage() {
 //   // const newsData = await fetchNewsData() || []; // Fetch data on the server
 //   const newsData = [
 //     {
@@ -151,3 +151,6 @@
 // };
 
 // export default NewsPage;
+export default function Page() {
+  return <h1 className="mt-20">Hello, News Page!</h1>;
+}
