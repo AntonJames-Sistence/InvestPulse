@@ -13,13 +13,6 @@ interface TrendingStockProps {
 
 const TrendingStock: React.FC<TrendingStockProps> = ({ stockData }) => {
   const router = useRouter();
-  // Parse and process the price change percentage
-  const percentageChange24h =
-    ((stockData.regularMarketPrice - stockData.regularMarketPreviousClose) /
-      stockData.regularMarketPreviousClose) *
-      100 || 0;
-  const priceChange = Math.abs(percentageChange24h);
-  const isNegative = percentageChange24h < 0;
 
   const handleStockClick = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -60,6 +53,14 @@ const TrendingStock: React.FC<TrendingStockProps> = ({ stockData }) => {
       </Box>
     );
   }
+
+  // Parse and process the price change percentage
+  const percentageChange24h =
+    ((stockData.regularMarketPrice - stockData.regularMarketPreviousClose) /
+      stockData.regularMarketPreviousClose) *
+      100 || 0;
+  const priceChange = Math.abs(percentageChange24h);
+  const isNegative = percentageChange24h < 0;
 
   return (
     <ButtonBase
