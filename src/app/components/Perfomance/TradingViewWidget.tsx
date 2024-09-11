@@ -13,6 +13,11 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ stockData }) => {
   const container = useRef<HTMLDivElement>(null);
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 
+  const percentageChange24h =
+    ((stockData.regularMarketPrice - stockData.regularMarketPreviousClose) /
+      stockData.regularMarketPreviousClose) *
+    100;
+
   useEffect(() => {
     generateTradingViewWidget(stockData.symbol, isMobile);
   }, [stockData, isMobile]);
@@ -88,19 +93,19 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ stockData }) => {
 
             <div
               className={`flex flex-row bg-${
-                stockData.percentageChange24h < 0 ? 'red' : 'green'
+                percentageChange24h < 0 ? 'red' : 'green'
               }-100 bg-opacity-50 rounded-md px-4 py-1 ml-6 mr-2 text-${
-                stockData.percentageChange24h < 0 ? 'red' : 'green'
+                percentageChange24h < 0 ? 'red' : 'green'
               }-600 self-center`}
             >
               <div
                 className={`triangle-${
-                  stockData.percentageChange24h < 0 ? 'red' : 'green'
+                  percentageChange24h < 0 ? 'red' : 'green'
                 } self-center border-${
-                  stockData.percentageChange24h < 0 ? 'red' : 'green'
+                  percentageChange24h < 0 ? 'red' : 'green'
                 }`}
               ></div>
-              <div>{`${Math.abs(stockData.percentageChange24h).toFixed(2)}%`}</div>
+              <div>{`${Math.abs(percentageChange24h).toFixed(2)}%`}</div>
             </div>
 
             <div className="text-gray-500 text-sm self-center">{`(24H)`}</div>

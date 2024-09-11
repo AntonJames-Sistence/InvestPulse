@@ -33,11 +33,6 @@ export async function GET(
       preMarketChangePercent: response.price.preMarketChangePercent,
       shortName: response.price.shortName,
       symbol: response.price.symbol,
-      percentageChange24h:
-        ((response.price.regularMarketPrice -
-          response.price.regularMarketPreviousClose) /
-          response.price.regularMarketPreviousClose) *
-        100,
 
       previousClose: response.summaryDetail.previousClose,
       open: response.summaryDetail.open,
