@@ -16,11 +16,13 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ stockData }) => {
   const percentageChange24h =
     ((stockData.regularMarketPrice - stockData.regularMarketPreviousClose) /
       stockData.regularMarketPreviousClose) *
-    100;
+      100 || 0;
 
   useEffect(() => {
     generateTradingViewWidget(stockData.symbol, isMobile);
   }, [stockData, isMobile]);
+
+  if (!stockData) return <></>;
 
   const generateTradingViewWidget = (
     stockSymbol: string,

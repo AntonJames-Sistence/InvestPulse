@@ -17,7 +17,7 @@ const TrendingStock: React.FC<TrendingStockProps> = ({ stockData }) => {
   const percentageChange24h =
     ((stockData.regularMarketPrice - stockData.regularMarketPreviousClose) /
       stockData.regularMarketPreviousClose) *
-    100;
+      100 || 0;
   const priceChange = Math.abs(percentageChange24h);
   const isNegative = percentageChange24h < 0;
 
