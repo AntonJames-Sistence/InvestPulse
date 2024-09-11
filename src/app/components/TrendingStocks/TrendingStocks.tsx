@@ -1,34 +1,30 @@
 import ReusableTile from '../ReusableTile';
 import { Box } from '@mui/material';
-import { StockData } from '../../types/StockDataInterfaces';
 import TrendingStock from './TrendingStock';
 
-async function fetchTrendingStocks(): Promise<StockData[]> {
+async function fetchTrendingStocks() {
   const symbols = ['AAPL', 'NVDA', 'MSFT', 'META', 'TSLA'];
 
   // Fetch data from the server
   const results = await Promise.all(
     symbols.map(async (symbol) => {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/stock/${symbol}`,
-        {
-          next: { revalidate: 10800 }, // Revalidate after 3 hours
-          // cache: 'no-store', // Revalidate after 3 hours
-        }
-      );
-
-      if (!response.ok) {
-        return new Error(`Failed to fetch data for ${symbol}`);
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/stock/${symbol}`
+        );
+        if (!response.ok) throw new Error(`Failed to fetch data for ${symbol}`);
+        return response.json();
+      } catch (error) {
+        console.error(error);
+        return null;
       }
-
-      return response.json();
     })
   );
 
   return results;
 }
 
-const TrendingStocks = async () => {
+export default async function TrendingStocks() {
   const trendingStocks = await fetchTrendingStocks();
 
   return (
@@ -40,6 +36,4 @@ const TrendingStocks = async () => {
       </Box>
     </ReusableTile>
   );
-};
-
-export default TrendingStocks;
+}
