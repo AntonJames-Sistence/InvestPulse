@@ -40,7 +40,7 @@ async function fetchNewsData(): Promise<NewsData[]> {
 
 // Use this as a server-side component
 export default async function NewsPage() {
-  const newsData = await fetchNewsData() || []; // Fetch data on the server
+  const newsData = await fetchNewsData(); // Fetch data on the server
   // const newsData = [
   //   {
   //     uuid: 'test-id',
