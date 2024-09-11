@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import About from './About';
 import TradingViewWidget from './TradingViewWidget';
 import Performance from './Perfomance';
@@ -8,7 +8,6 @@ import { useSearchParams } from 'next/navigation';
 import ReusableTile from '../ReusableTile';
 import { StockData } from '../../types/StockDataInterfaces';
 import SkeletonLoader from '../SkeletonLoader';
-import { getStockData } from './GetStockData';
 
 const StockPresentation: React.FC = () => {
   const [stockData, setStockData] = useState<StockData | null>(null);
@@ -24,7 +23,11 @@ const StockPresentation: React.FC = () => {
       setError(null); // Clear previous errors
 
       try {
-        const data = await getStockData(stockSymbol); // Fetch data based on the stock symbol
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/stock/${stockSymbol}`
+        );
+        const data = await response.json();
+
         if (data) {
           setStockData(data); // Update stock data
         } else {
@@ -97,10 +100,4 @@ const StockPresentation: React.FC = () => {
   );
 };
 
-export default function SuspenseStockPresentation() {
-  return (
-    <Suspense fallback={<div>Loading stock data...</div>}>
-      <StockPresentation />
-    </Suspense>
-  );
-}
+export default StockPresentation;
