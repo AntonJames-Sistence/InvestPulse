@@ -26,7 +26,8 @@ interface NewsData {
 async function fetchNewsData(): Promise<NewsData[]> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const response = await fetch(`${apiUrl}/api/news`, {
-    next: { revalidate: 43200 },
+    // next: { revalidate: 43200 },
+    cache: 'no-store',
   });
 
   // Important to return empty array, because error of the production caused by not supported type

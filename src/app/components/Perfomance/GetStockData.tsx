@@ -8,7 +8,7 @@ export async function getStockData(symbol: string): Promise<StockData> {
     }
   );
 
-  // if (!response.ok) return null;
+  if (!response.ok) return;
 
   return response.json();
 }

@@ -2,7 +2,7 @@
 // import Tokenomics from './components/Tokenomics';
 // import HomePageNews from './components/HomePageNews';
 import { Toaster } from 'react-hot-toast';
-import SuspenseStockPresentation from './components/Perfomance/StockPresentation';
+import SuspenseStockPresentation from './components/Perfomance/SuspenseStockPresentation';
 import TrendingStocks from './components/TrendingStocks/TrendingStocks';
 
 export default function Home() {

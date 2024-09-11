@@ -37,9 +37,23 @@ export async function GET() {
     }
     // Parse the response body
     const responseBody = await response.json(); // Assuming the API returns JSON
-    // console.log('Fetched news data:', responseBody);
 
-    return NextResponse.json(responseBody.data); // Return the fetched news as a JSON response
+    const sanitizedData = responseBody.data.map((article) => ({
+      uuid: article.uuid,
+      title: article.title,
+      description: article.description || 'No description available',
+      snippet: article.snippet || '',
+      url: article.url,
+      image_url: article.image_url || '',
+      language: article.language,
+      published_at: article.published_at,
+      source: article.source,
+      relevance_score: article.relevance_score || 0,
+    }));
+
+    // console.log(sanitizedData);
+
+    return NextResponse.json(sanitizedData); // Return the fetched news as a JSON response
   } catch {
     return NextResponse.json(
       { error: 'Internal Server Error' },
