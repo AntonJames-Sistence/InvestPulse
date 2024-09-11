@@ -8,6 +8,7 @@ import { useSearchParams } from 'next/navigation';
 import ReusableTile from '../ReusableTile';
 import { StockData } from '../../types/StockDataInterfaces';
 import SkeletonLoader from '../SkeletonLoader';
+import { getStockData } from './GetStockData';
 
 const StockPresentation: React.FC = () => {
   const [stockData, setStockData] = useState<StockData | null>(null);
@@ -23,10 +24,7 @@ const StockPresentation: React.FC = () => {
       setError(null); // Clear previous errors
 
       try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/stock/${stockSymbol}`
-        );
-        const data = await response.json();
+        const data = await getStockData(stockSymbol);
 
         if (data) {
           // console.log(data)

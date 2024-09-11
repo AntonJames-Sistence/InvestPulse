@@ -25,12 +25,12 @@ interface NewsData {
 async function fetchNewsData(): Promise<NewsData[]> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const response = await fetch(`${apiUrl}/api/news`, {
-    next: { revalidate: 43200 },
-    // cache: 'no-store',
+    // next: { revalidate: 43200 },
+    cache: 'no-store',
   });
 
   // Important to return empty array, because error of the production caused by not supported type
-  if (!response.ok) return [];
+  if (!response.ok) return null;
 
   const data = await response.json();
   // console.log(data);
@@ -40,19 +40,9 @@ async function fetchNewsData(): Promise<NewsData[]> {
 
 // Use this as a server-side component
 export default async function NewsPage() {
-  const newsData = await fetchNewsData(); // Fetch data on the server
-  // const newsData = [
-  //   {
-  //     uuid: 'test-id',
-  //     title: 'Test Title',
-  //     description: 'Test description',
-  //     snippet: 'Test snippet',
-  //     url: 'https://example.com',
-  //     image_url: 'https://example.com/image.jpg',
-  //     published_at: '2024-09-11T14:35:10.000000Z',
-  //     source: 'example.com',
-  //   },
-  // ];
+  const newsData = (await fetchNewsData()) || []; // Fetch data on the server
+
+  if (!newsData) return null;
 
   return (
     <Container>

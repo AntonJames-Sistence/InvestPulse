@@ -1,9 +1,9 @@
-// export async function getStockData(symbol: string){
-//   const response = await fetch(
-//     `${process.env.NEXT_PUBLIC_API_URL}/api/stock/${symbol}`
-//   );
+export async function getStockData(symbol: string){
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/stock/${symbol}`
+  );
 
-//   if (!response.ok) return;
+  if (!response.ok) return null;
 
-//   return response.json();
-// }
+  return response.json();
+}

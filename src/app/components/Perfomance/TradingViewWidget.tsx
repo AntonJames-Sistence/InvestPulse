@@ -1,131 +1,122 @@
-'use client';
-
-import React, { useEffect, useRef } from 'react';
+import { Box, Typography, Avatar, Divider, Chip } from '@mui/material';
 import { formatAsUSD } from '../../utils/formatAsUsd';
 import Image from 'next/image';
 import { StockData } from '../../types/StockDataInterfaces';
+import GenerateView from './GenerateView';
 
 interface TradingViewWidgetProps {
   stockData: StockData;
 }
 
 const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ stockData }) => {
-  const container = useRef<HTMLDivElement>(null);
-  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
-
   const percentageChange24h =
     ((stockData.regularMarketPrice - stockData.regularMarketPreviousClose) /
       stockData.regularMarketPreviousClose) *
       100 || 0;
-
-  useEffect(() => {
-    generateTradingViewWidget(stockData.symbol, isMobile);
-  }, [stockData, isMobile]);
+  const isNegative = percentageChange24h < 0;
 
   if (!stockData) return <></>;
 
-  const generateTradingViewWidget = (
-    stockSymbol: string,
-    isMobile: boolean
-  ) => {
-    if (!container.current) return;
-
-    while (container.current.firstChild) {
-      container.current.removeChild(container.current.firstChild);
-    }
-
-    const script = document.createElement('script');
-    script.src =
-      'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
-    script.type = 'text/javascript';
-    script.async = true;
-    script.innerHTML = `
-      {
-        "width": "100%",
-        "height": "${isMobile ? 300 : 410}",
-        "symbol": "NASDAQ:${stockSymbol}",
-        "hide_legend": true,
-        "interval": "D",
-        "timezone": "Etc/UTC",
-        "theme": "light",
-        "style": "3",
-        "locale": "en",
-        "enable_publishing": false,
-        "backgroundColor": "rgba(255, 255, 255, 1)",
-        "gridColor": "rgba(0, 0, 0, 0.06)",
-        "save_image": false,
-        "calendar": false,
-        "hide_volume": true,
-        "hide_top_toolbar": true,
-        "support_host": "https://www.tradingview.com"
-      }`;
-
-    container.current.appendChild(script);
-  };
-
   return (
-    <div className="flex flex-col mb-4 lg:mb-8">
-      <div className="h-auto flex flex-col bg-white rounded-lg">
-        <div className="flex flex-col justify-between mx-5">
-          <div className="flex flex-row mt-7 mb-10">
+    <Box display="flex" flexDirection="column" mb={4}>
+      <Box
+        display="flex"
+        flexDirection="column"
+        bgcolor="background.paper"
+        borderRadius={2}
+        p={3}
+        boxShadow={1}
+      >
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="space-between"
+          mx={2}
+        >
+          {/* Stock Information */}
+          <Box display="flex" alignItems="center" mt={2} mb={5}>
             <Image
-              className="h-10 w-10 bg-white"
               src={`https://logo.clearbit.com/${stockData.website}`}
               alt={`${stockData.shortName} logo`}
-              height={100}
-              width={100}
-              priority={true}
+              width={40}
+              height={40}
             />
-            <div className="text-black text-2xl font-semibold self-center mx-2">
+            <Typography variant="h5" fontWeight="600" ml={2}>
               {stockData.shortName}
-            </div>
-            <div className="text-gray-500 font-semibold mr-2">
+            </Typography>
+            <Typography variant="subtitle1" color="textSecondary" ml={2}>
               {stockData.symbol}
-            </div>
+            </Typography>
 
-            <span className="bg-gray-600 bg-opacity-70 rounded-lg p-2 ml-auto text-white flex items-center">
-              {stockData.sector}
-            </span>
-          </div>
+            <Chip
+              label={stockData.sector}
+              color="primary"
+              sx={{
+                ml: 'auto',
+                fontWeight: 'bold',
+                backgroundColor: '#4A4A4A',
+                color: 'white',
+              }}
+            />
+          </Box>
 
-          <div className="flex flex-row">
-            <div className="text-black text-3xl font-semibold self-center">
+          {/* Price and Percentage Change */}
+          <Box display="flex" alignItems="center">
+            <Typography variant="h4" fontWeight="bold">
               {formatAsUSD(stockData.regularMarketPrice ?? 0)}
-            </div>
+            </Typography>
 
-            <div
-              className={`flex flex-row bg-${
-                percentageChange24h < 0 ? 'red' : 'green'
-              }-100 bg-opacity-50 rounded-md px-4 py-1 ml-6 mr-2 text-${
-                percentageChange24h < 0 ? 'red' : 'green'
-              }-600 self-center`}
+            {/* Price Change Indicator */}
+            <Box
+              display="flex"
+              alignItems="center"
+              bgcolor={
+                isNegative ? 'rgba(255, 0, 0, 0.1)' : 'rgba(0, 255, 0, 0.1)'
+              }
+              color={isNegative ? 'rgba(255, 0, 0, 0.8)' : 'green'}
+              borderRadius={2}
+              width={100}
+              px={2}
+              py={0.5}
+              mx={4}
             >
-              <div
-                className={`triangle-${
-                  percentageChange24h < 0 ? 'red' : 'green'
-                } self-center border-${
-                  percentageChange24h < 0 ? 'red' : 'green'
-                }`}
-              ></div>
-              <div>{`${Math.abs(percentageChange24h).toFixed(2)}%`}</div>
-            </div>
+              {/* Arrow Indicator */}
+              <Box
+                component="span"
+                sx={{
+                  width: 0,
+                  height: 0,
+                  borderLeft: '5px solid transparent',
+                  borderRight: '5px solid transparent',
+                  borderTop: isNegative ? '5px solid red' : 'none',
+                  borderBottom: isNegative ? 'none' : '5px solid green',
+                  mr: 1,
+                }}
+              />
+              {/* Percentage Change */}
+              <Typography>{`${Math.abs(percentageChange24h).toFixed(2)}%`}</Typography>
+            </Box>
 
-            <div className="text-gray-500 text-sm self-center">{`(24H)`}</div>
-          </div>
+            <Typography variant="body2" color="textSecondary">
+              (24H)
+            </Typography>
+          </Box>
 
-          <hr className="my-5 border-gray-400" />
+          {/* Divider */}
+          <Divider sx={{ my: 3 }} />
 
-          <div className="mb-10 font-semibold text">{`${stockData.shortName} Price Chart (USD)`}</div>
-        </div>
+          {/* Chart Title */}
+          <Typography variant="subtitle1" fontWeight="bold" mb={4}>
+            {`${stockData.shortName} Price Chart (USD)`}
+          </Typography>
+        </Box>
 
-        <div className="mx-5 mb-5 z-10">
-          <div
-            className="tradingview-widget-container self-center"
-            ref={container}
-          ></div>
-        </div>
-      </div>
-    </div>
+        {/* TradingView Widget */}
+        <Box mx={2} mb={4}>
+          <GenerateView stockSymbol={stockData.symbol} />
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
