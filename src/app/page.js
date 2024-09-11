@@ -1,8 +1,9 @@
 // import dynamic from 'next/dynamic';
-'use client';
+// 'use client';
 // import Team from './components/Team';
 // import Tokenomics from './components/Tokenomics';
 // import HomePageNews from './components/HomePageNews';
+import { Suspense } from 'react';
 import { Toaster } from 'react-hot-toast';
 import TrendingStocks from './components/TrendingStocks/TrendingStocks';
 import StockPresentation from './components/Perfomance/StockPresentation';
@@ -20,7 +21,9 @@ export default function Home() {
       <div className="flex flex-col lg:flex-row self-center w-full mt-20 px-2 lg:px-16">
         {/* Left side of the page */}
         <div className="flex flex-col w-full lg:w-5/6">
-          <StockPresentation />
+          <Suspense>
+            <StockPresentation />
+          </Suspense>
 
           {/* <Sentiment /> */}
           {/* <Tokenomics />
