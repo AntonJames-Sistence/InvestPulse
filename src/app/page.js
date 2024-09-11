@@ -1,15 +1,16 @@
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
+'use client';
 // import Team from './components/Team';
 // import Tokenomics from './components/Tokenomics';
 // import HomePageNews from './components/HomePageNews';
 import { Toaster } from 'react-hot-toast';
 import TrendingStocks from './components/TrendingStocks/TrendingStocks';
-// import StockPresentation from './components/Perfomance/StockPresentation';
+import StockPresentation from './components/Perfomance/StockPresentation';
 // Dynamically import StockPresentation with no SSR (client-side only)
-const StockPresentation = dynamic(
-  () => import('./components/Perfomance/StockPresentation'),
-  { ssr: false } // Disable SSR for this component
-);
+// const StockPresentation = dynamic(
+//   () => import('./components/Perfomance/StockPresentation'),
+//   { ssr: false } // Disable SSR for this component
+// );
 
 export default function Home() {
   return (
