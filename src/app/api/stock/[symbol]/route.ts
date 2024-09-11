@@ -20,18 +20,46 @@ export async function GET(
 
   try {
     // console.log(`Fetching data for symbol: ${symbol}`);
-    const stockResult = await yahooFinance.quoteSummary(symbol, queryOptions);
+    const response = await yahooFinance.quoteSummary(symbol, queryOptions);
 
-    const percentageChange24h =
-      ((stockResult.price.regularMarketPrice -
-        stockResult.price.regularMarketPreviousClose) /
-        stockResult.price.regularMarketPreviousClose) *
-      100;
-    stockResult.price.percentageChange24h = percentageChange24h;
-    // stockResult.assetProfile.companyOfficers = [];
+    const plainStockResult = {
+      regularMarketPrice: response.price.regularMarketPrice,
+      regularMarketDayLow: response.price.regularMarketDayLow,
+      regularMarketDayHigh: response.price.regularMarketDayHigh,
+      regularMarketChange: response.price.regularMarketChange,
+      regularMarketVolume: response.price.regularMarketVolume,
+      regularMarketPreviousClose: response.price.regularMarketPreviousClose,
+      preMarketPrice: response.price.preMarketPrice,
+      preMarketChangePercent: response.price.preMarketChangePercent,
+      shortName: response.price.shortName,
+      symbol: response.price.symbol,
+      percentageChange24h:
+        ((response.price.regularMarketPrice -
+          response.price.regularMarketPreviousClose) /
+          response.price.regularMarketPreviousClose) *
+        100,
+
+      previousClose: response.summaryDetail.previousClose,
+      open: response.summaryDetail.open,
+      dayLow: response.summaryDetail.dayLow,
+      dayHigh: response.summaryDetail.dayHigh,
+      volume: response.summaryDetail.volume,
+      marketCap: response.summaryDetail.marketCap,
+      fiftyTwoWeekHigh: response.summaryDetail.fiftyTwoWeekHigh,
+      fiftyTwoWeekLow: response.summaryDetail.fiftyTwoWeekLow,
+      dividendRate: response.summaryDetail.dividendRate,
+
+      sector: response.assetProfile.sector,
+      overallRisk: response.assetProfile.overallRisk,
+      address1: response.assetProfile.address1,
+      country: response.assetProfile.country,
+      industry: response.assetProfile.industry,
+      website: response.assetProfile.website,
+      description: response.assetProfile.longBusinessSummary,
+    };
 
     // Conver to plain result, because of next.js SSR specifics
-    const plainStockResult = JSON.parse(JSON.stringify(stockResult));
+    // const plainStockResult = JSON.parse(JSON.stringify(stockResult));
 
     return NextResponse.json(plainStockResult);
   } catch {

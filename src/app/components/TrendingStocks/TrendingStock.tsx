@@ -14,8 +14,8 @@ interface TrendingStockProps {
 const TrendingStock: React.FC<TrendingStockProps> = ({ stockData }) => {
   const router = useRouter();
   // Parse and process the price change percentage
-  const priceChange = Math.abs(stockData.price.percentageChange24h);
-  const isNegative = stockData.price.percentageChange24h < 0;
+  const priceChange = Math.abs(stockData.percentageChange24h);
+  const isNegative = stockData.percentageChange24h < 0;
 
   const handleStockClick = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -71,7 +71,7 @@ const TrendingStock: React.FC<TrendingStockProps> = ({ stockData }) => {
           scale: '105%',
         },
       }}
-      onClick={(e) => handleStockClick(e, stockData.price.symbol)}
+      onClick={(e) => handleStockClick(e, stockData.symbol)}
     >
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Box display="flex" alignItems="center">
@@ -85,8 +85,8 @@ const TrendingStock: React.FC<TrendingStockProps> = ({ stockData }) => {
             }}
           >
             <Image
-              src={`https://logo.clearbit.com/${stockData.assetProfile.website}`}
-              alt={`${stockData.price.shortName} logo`}
+              src={`https://logo.clearbit.com/${stockData.website}`}
+              alt={`${stockData.shortName} logo`}
               width={40}
               height={40}
             />
@@ -95,10 +95,10 @@ const TrendingStock: React.FC<TrendingStockProps> = ({ stockData }) => {
           {/* Company Name and Stock Symbol */}
           <Box>
             <Typography align="left" variant="body2" fontWeight="400">
-              {stockData.price.shortName}
+              {stockData.shortName}
             </Typography>
             <Typography align="left" variant="body2" color="textSecondary">
-              {`(${stockData.price.symbol})`}
+              {`(${stockData.symbol})`}
             </Typography>
           </Box>
         </Box>

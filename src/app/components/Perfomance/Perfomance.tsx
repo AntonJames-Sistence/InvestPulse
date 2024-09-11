@@ -16,9 +16,9 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
   const getTodaysHighTrianglePosition = () => {
     if (!stockData) return '0%';
 
-    const low = stockData.price.regularMarketDayLow ?? 0;
-    const high = stockData.price.regularMarketDayHigh ?? 0;
-    const current = stockData.price.regularMarketPrice ?? 0;
+    const low = stockData.regularMarketDayLow ?? 0;
+    const high = stockData.regularMarketDayHigh ?? 0;
+    const current = stockData.regularMarketPrice ?? 0;
 
     if (high === low) return '0%';
 
@@ -40,13 +40,13 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
   // };
 
   return (
-    <ReusableTile title={`${stockData?.price.shortName} Performance`}>
+    <ReusableTile title={`${stockData?.shortName} Performance`}>
       <div className="flex flex-col">
         <div className="flex flex-row text-xs md:text-sm my-10 md:mt-2 md:mb-10 relative">
           <div>
             <p className="mb-2 text-gray-600">{`Today's Low`}</p>
             <p className="font-semibold">
-              {formatAsUSD(stockData?.price.regularMarketDayLow ?? 0)}
+              {formatAsUSD(stockData?.regularMarketDayLow ?? 0)}
             </p>
           </div>
           <div className="h-3 mx-4 w-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 rounded-lg self-center mx-2 lg:mx-14 relative">
@@ -61,7 +61,7 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
                 <div className="absolute -mt-12 md:-mt-14 -left-8">
                   <p className="whitespace-nowrap">{`Current Price`}</p>
                   <p className="font-semibold">
-                    {formatAsUSD(stockData?.price.regularMarketPrice ?? 0)}
+                    {formatAsUSD(stockData?.regularMarketPrice ?? 0)}
                   </p>
                 </div>
               </div>
@@ -70,7 +70,7 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
           <div>
             <p className="mb-2 text-end text-gray-600">{`Today's High`}</p>
             <p className="text-end font-semibold">
-              {formatAsUSD(stockData?.price.regularMarketDayHigh ?? 0)}
+              {formatAsUSD(stockData?.regularMarketDayHigh ?? 0)}
             </p>
           </div>
         </div>
@@ -85,16 +85,16 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
               <span className="text-gray-500">Overall Investment Risk</span>
               <span
                 className={`px-2 rounded-full ${
-                  stockData?.assetProfile?.overallRisk <= 3
+                  stockData.overallRisk <= 3
                     ? 'bg-green-100 text-green-600'
-                    : stockData?.assetProfile?.overallRisk <= 7
+                    : stockData.overallRisk <= 7
                       ? 'bg-yellow-100 text-yellow-600'
                       : 'bg-red-100 text-red-600'
                 }`}
               >
-                {stockData?.assetProfile?.overallRisk <= 3
+                {stockData.overallRisk <= 3
                   ? 'Low'
-                  : stockData?.assetProfile?.overallRisk <= 7
+                  : stockData.overallRisk <= 7
                     ? 'Medium'
                     : 'High'}
               </span>
@@ -108,13 +108,13 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
               <div className="flex items-center">
                 <Image
                   className="h-5 w-5 inline-block mr-2"
-                  src={`https://logo.clearbit.com/${stockData.assetProfile.website}`}
-                  alt={stockData?.price.symbol}
+                  src={`https://logo.clearbit.com/${stockData.website}`}
+                  alt={stockData.symbol}
                   height={50}
                   width={50}
                   priority={true}
                 />
-                <div>{stockData?.price.symbol.toUpperCase()}</div>
+                <div>{stockData.symbol.toUpperCase()}</div>
               </div>
             </div>
             <hr className="border-gray-400 my-4" />
@@ -123,7 +123,7 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
           <div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">Market Cap</span>
-              <span>{formatAsUSD(stockData?.price.marketCap ?? 0)}</span>
+              <span>{formatAsUSD(stockData.marketCap ?? 0)}</span>
             </div>
             <hr className="border-gray-400 my-4" />
           </div>
@@ -133,12 +133,12 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
               <span className="text-gray-500">Price Change In 24h</span>
               <span
                 className={`${
-                  (stockData?.price.regularMarketChange ?? 0) >= 0
+                  (stockData.regularMarketChange ?? 0) >= 0
                     ? 'text-green-500'
                     : 'text-red-500'
                 }`}
               >
-                {formatAsUSD(stockData?.price.regularMarketChange ?? 0)}
+                {formatAsUSD(stockData.regularMarketChange ?? 0)}
               </span>
             </div>
             <hr className="border-gray-400 my-4" />
@@ -147,9 +147,7 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
           <div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">Total Volume</span>
-              <span>
-                {formatAsUSD(stockData?.price.regularMarketVolume ?? 0)}
-              </span>
+              <span>{formatAsUSD(stockData.regularMarketVolume ?? 0)}</span>
             </div>
             <hr className="border-gray-400 my-4" />
           </div>
@@ -157,9 +155,7 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
           <div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">{`52 Week High`}</span>
-              <span>
-                {formatAsUSD(stockData?.summaryDetail.fiftyTwoWeekHigh ?? 0)}
-              </span>
+              <span>{formatAsUSD(stockData.fiftyTwoWeekHigh ?? 0)}</span>
             </div>
             <hr className="border-gray-400 my-4" />
           </div>
@@ -167,9 +163,7 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
           <div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">{`52 Week Low`}</span>
-              <span>
-                {formatAsUSD(stockData?.summaryDetail.fiftyTwoWeekLow ?? 0)}
-              </span>
+              <span>{formatAsUSD(stockData.fiftyTwoWeekLow ?? 0)}</span>
             </div>
             <hr className="border-gray-400 my-4" />
           </div>
@@ -177,9 +171,7 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
           <div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">Dividend Rate</span>
-              <span>
-                {formatAsUSD(stockData?.summaryDetail.dividendRate ?? 0)}
-              </span>
+              <span>{formatAsUSD(stockData.dividendRate ?? 0)}</span>
             </div>
             <hr className="border-gray-400 my-4" />
           </div>

@@ -17,42 +17,38 @@ const About: React.FC<AboutProps> = ({ stockData }) => {
     <>
       {`Company description is currently unavailable. For the latest updates and detailed information, please visit the official webpage:`}
       <Link
-        href={stockData.assetProfile?.website}
+        href={stockData.website}
         underline="hover"
         target="_blank"
         rel="noopener noreferrer"
       >
-        {stockData.assetProfile?.website}
+        {stockData.website}
       </Link>
     </>
   );
 
   const companyDescription = (
     <>
-      <div>
-        {stripHTMLTags(stockData.assetProfile?.longBusinessSummary ?? '')}
-      </div>
+      <div>{stripHTMLTags(stockData.description ?? '')}</div>
       <Link
-        href={stockData.assetProfile?.website}
+        href={stockData.website}
         underline="hover"
         sx={{ mt: 4, alignSelf: 'self-end' }}
         target="_blank"
         rel="noopener noreferrer"
       >
-        {`Learn more about ${stockData.price.shortName}`}
+        {`Learn more about ${stockData.shortName}`}
       </Link>
     </>
   );
 
   return (
-    <ReusableTile title={`About ${stockData.price.shortName}`}>
+    <ReusableTile title={`About ${stockData.shortName}`}>
       <hr className="border-gray-200 -mt-4 mb-4 hidden lg:block" />
-      {stockData.assetProfile?.longBusinessSummary
-        ? companyDescription
-        : noDescriptionMessage}
+      {stockData.description ? companyDescription : noDescriptionMessage}
       {/* <hr className="border-gray-200 mt-4 hidden lg:block" /> */}
 
-      {/* <div className="font-semibold text-2xl mb-4 mt-2">{`Investing in ${stockData.price.shortName}`}</div> */}
+      {/* <div className="font-semibold text-2xl mb-4 mt-2">{`Investing in ${stockData.shortName}`}</div> */}
 
       {/* <div className="flex flex-col lg:flex-row">
         <div className="w-full lg:h-40 w-[47%] bg-gradient-to-br from-blue-500 to-green-500 rounded-xl flex mr-8">
@@ -72,7 +68,7 @@ const About: React.FC<AboutProps> = ({ stockData }) => {
             <Button
               variant="contained"
               size="small"
-              href={stockData.assetProfile?.irWebsite || 'https://www.investing.com'}
+              href={stockData.irWebsite || 'https://www.investing.com'}
               target="_blanc"
               endIcon={<FaArrowRightLong />}
               sx={{ borderRadius: '50px', m: 'auto', ml: 0, mb: 0 }}

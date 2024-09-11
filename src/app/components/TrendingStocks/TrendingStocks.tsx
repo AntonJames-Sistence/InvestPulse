@@ -13,6 +13,7 @@ async function fetchTrendingStocks(): Promise<StockData[]> {
         `${process.env.NEXT_PUBLIC_API_URL}/api/stock/${symbol}`,
         {
           next: { revalidate: 10800 }, // Revalidate after 3 hours
+          // cache: 'no-store', // Revalidate after 3 hours
         }
       );
 
