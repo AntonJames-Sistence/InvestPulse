@@ -29,8 +29,7 @@ export async function GET(
       100;
     stockResult.price.percentageChange24h = percentageChange24h;
 
-    const response = NextResponse.json(stockResult);
-    return response;
+    return NextResponse.json(stockResult);
   } catch {
     return NextResponse.json(
       { error: 'Failed to fetch stock data' },

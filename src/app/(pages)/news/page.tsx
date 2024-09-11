@@ -25,16 +25,14 @@ interface NewsData {
 // Fetch the news data on the server-side
 async function fetchNewsData(): Promise<NewsData[]> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const response = await fetch(`${apiUrl}/api/news`, {
-    next: { revalidate: 43200 }, // Optionally revalidate every 12 hours
-  });
+  const response = await fetch(`${apiUrl}/api/news`, { cache: 'no-store' });
 
   if (!response.ok) {
     throw new Error('Failed to fetch news data');
   }
 
-  const { data }: { data: NewsData[] } = await response.json();
-  // console.log(data)
+  const data = await response.json();
+
   return data;
 }
 

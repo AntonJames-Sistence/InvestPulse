@@ -24,7 +24,28 @@ import { NextResponse } from 'next/server';
 //   source_url: string | null;
 // }
 
-export const GET = async () => {
+export async function GET() {
+  const api_token = process.env.MARKETAUX_API_TOKEN; // Store your API key securely in environment variables
+  // const url = `https://api.marketaux.com/v1/news/all?symbols=TSLA,NVDA,MSFT,META,AAPL&filter_entities=true&language=en&api_token=${api_token}`;
+  const url = `https://api.marketaux.com/v1/news/all?filter_entities=true&language=en&limit=20&entity_types=index,equity&api_token=${api_token}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch news: ${response.statusText}`);
+    }
+    // Parse the response body
+    const responseBody = await response.json(); // Assuming the API returns JSON
+    // console.log('Fetched news data:', responseBody);
+
+    return NextResponse.json(responseBody.data); // Return the fetched news as a JSON response
+  } catch {
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
+
   // if (!process.env.DATABASE_URL) {
   //   return NextResponse.json({ message: "Couldn't reach DB" }, { status: 500 });
   // }
@@ -46,24 +67,7 @@ export const GET = async () => {
   // }
 
   // return Response.json(news);
-  const api_token = process.env.MARKETAUX_API_TOKEN; // Store your API key securely in environment variables
-  // const url = `https://api.marketaux.com/v1/news/all?symbols=TSLA,NVDA,MSFT,META,AAPL&filter_entities=true&language=en&api_token=${api_token}`;
-  const url = `https://api.marketaux.com/v1/news/all?filter_entities=true&language=en&api_token=${api_token}`;
-
-  try {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch news: ${response.statusText}`);
-    }
-
-    const news = await response.json();
-
-    return NextResponse.json(news); // Return the fetched news as a JSON response
-  } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-};
+}
 
 // export async function POST() {
 //   if (!process.env.DATABASE_URL) {
