@@ -45,10 +45,8 @@ export async function GET() {
       snippet: article.snippet || '',
       url: article.url,
       image_url: article.image_url || '',
-      language: article.language,
       published_at: article.published_at,
       source: article.source,
-      relevance_score: article.relevance_score || 0,
     }));
 
     // console.log(sanitizedData);
