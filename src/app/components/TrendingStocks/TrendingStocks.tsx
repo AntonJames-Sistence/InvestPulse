@@ -11,7 +11,7 @@ async function fetchTrendingStocks() {
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/stock/${symbol}`,
-          { next: { revalidate: 10800 } } // revalidate every 3 hours
+          { next: { revalidate: 3600 } } // revalidate every 1 hour
         );
         if (!response.ok) throw new Error(`Failed to fetch data for ${symbol}`);
         return response.json();

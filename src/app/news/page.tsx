@@ -23,8 +23,8 @@ interface NewsData {
 async function fetchNewsData(): Promise<NewsData[]> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const response = await fetch(`${apiUrl}/api/news`, {
-    // next: { revalidate: 43200 },
-    cache: 'no-store',
+    next: { revalidate: 3600 },
+    // cache: 'no-store',
   });
 
   // Important to return empty array, because error of the production caused by not supported type
@@ -113,18 +113,17 @@ export default async function NewsPage() {
                     marginTop: 'auto',
                   }}
                 >
-                <Typography
-                  variant="caption"
-                  color="textSecondary"
-                >
-                  Source: {article.source}
-                </Typography>
-                  <Box
-                    sx={{
-                      alignSelf: 'flex-end',
-                    }}
-                  >
-                    {`${article.fetchedAt}`}
+                  <Box>
+                    <Typography variant="caption" color="textSecondary">
+                      {article.source}
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      color="textSecondary"
+                      sx={{ display: 'block', fontWeight: 'bold' }}
+                    >
+                      {article.fetchedAt}
+                    </Typography>
                   </Box>
                   <Link
                     href={article.link}
