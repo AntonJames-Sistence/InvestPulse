@@ -1,4 +1,4 @@
-import { Box, Typography, Avatar, Divider, Chip } from '@mui/material';
+import { Box, Typography, Divider, Chip } from '@mui/material';
 import { formatAsUSD } from '../../utils/formatAsUsd';
 import Image from 'next/image';
 import { StockData } from '../../types/StockDataInterfaces';
@@ -9,13 +9,13 @@ interface TradingViewWidgetProps {
 }
 
 const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ stockData }) => {
+  if (!stockData) return null;
+
   const percentageChange24h =
     ((stockData.regularMarketPrice - stockData.regularMarketPreviousClose) /
       stockData.regularMarketPreviousClose) *
       100 || 0;
   const isNegative = percentageChange24h < 0;
-
-  if (!stockData) return <></>;
 
   return (
     <Box display="flex" flexDirection="column" mb={4}>
@@ -54,7 +54,7 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ stockData }) => {
               sx={{
                 ml: 'auto',
                 fontWeight: 'bold',
-                backgroundColor: '#4A4A4A',
+                backgroundColor: 'rgba(75, 85, 99, 0.8)',
                 color: 'white',
               }}
             />

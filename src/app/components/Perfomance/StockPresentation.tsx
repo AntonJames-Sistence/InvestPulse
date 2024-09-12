@@ -9,6 +9,7 @@ import ReusableTile from '../ReusableTile';
 import { StockData } from '../../types/StockDataInterfaces';
 import SkeletonLoader from '../SkeletonLoader';
 import { getStockData } from './GetStockData';
+import { Divider } from '@mui/material';
 
 const StockPresentation: React.FC = () => {
   const [stockData, setStockData] = useState<StockData | null>(null);
@@ -44,41 +45,58 @@ const StockPresentation: React.FC = () => {
 
   if (loading || !stockData) {
     return (
-      <ReusableTile title="Loading Stock Perfomance">
-        <div className="flex flex-col">
-          <div className="h-auto flex flex-col bg-white">
-            <div className="flex flex-row">
-              <SkeletonLoader
-                variant="circular"
-                width={50}
-                height={50}
-                borderRadius={3}
-              />
-              <div className="ml-4 flex flex-col justify-end w-full">
-                <SkeletonLoader
-                  variant="text"
-                  width="20%"
-                  height={40}
-                  borderRadius={4}
-                />
-              </div>
-            </div>
+      <div className="flex flex-col bg-white rounded-lg p-2 lg:p-4 mb-4 lg:mb-8">
+        <div className="flex w-full justify-between">
+          <div className="flex w-full">
+            <SkeletonLoader
+              variant="circular"
+              width={50}
+              height={50}
+              borderRadius={10}
+              marginRight={1}
+            />
             <SkeletonLoader
               variant="text"
-              width="60%"
-              height={70}
+              width="30%"
+              height={60}
               borderRadius={2}
-              spaceBetween={1}
-            />
-            <SkeletonLoader
-              variant="rectangular"
-              borderRadius={3}
-              width="100%"
-              height={410}
+              marginBottom={1}
             />
           </div>
+
+          <SkeletonLoader
+            variant="text"
+            width="10%"
+            height={50}
+            borderRadius={10}
+            marginBottom={1}
+          />
         </div>
-      </ReusableTile>
+        <SkeletonLoader
+          variant="text"
+          width="60%"
+          height={60}
+          borderRadius={2}
+          marginBottom={1}
+        />
+
+        <Divider sx={{ mb: 2 }} />
+
+        <SkeletonLoader
+          variant="text"
+          width="30%"
+          height={40}
+          borderRadius={2}
+          marginBottom={1}
+        />
+
+        <SkeletonLoader
+          variant="rectangular"
+          borderRadius={3}
+          width="100%"
+          height={510}
+        />
+      </div>
     );
   }
 

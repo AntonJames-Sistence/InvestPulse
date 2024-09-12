@@ -11,8 +11,9 @@ interface SkeletonLoaderProps {
   width?: string | number;
   height?: string | number;
   count?: number;
-  spaceBetween?: number;
+  marginBottom?: number;
   borderRadius?: number;
+  marginRight?: number;
 }
 
 const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
@@ -20,8 +21,9 @@ const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
   width = '100%',
   height = 60,
   count = 1,
-  spaceBetween = 0,
+  marginBottom = 0,
   borderRadius = 0,
+  marginRight = 0,
 }) => {
   // Create an array to render multiple skeletons
   const skeletonArray = Array.from({ length: count });
@@ -35,8 +37,9 @@ const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
           width={width}
           height={height}
           sx={{
-            marginBottom: `${spaceBetween}rem`,
+            marginBottom: `${marginBottom}rem`,
             borderRadius: borderRadius,
+            marginRight: `${marginRight}rem`,
           }}
         />
       ))}

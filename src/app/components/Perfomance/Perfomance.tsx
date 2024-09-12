@@ -13,8 +13,10 @@ interface PerformanceProps {
 }
 
 const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
+  if (!stockData) return null;
+
   const getTodaysHighTrianglePosition = () => {
-    if (!stockData) return '0%';
+    // if (!stockData) return '0%';
 
     const low = stockData.regularMarketDayLow ?? 0;
     const high = stockData.regularMarketDayHigh ?? 0;
@@ -25,8 +27,6 @@ const Performance: React.FC<PerformanceProps> = ({ stockData }) => {
     const percentage = ((current - low) / (high - low)) * 100;
     return `${percentage}%`;
   };
-
-  if (!stockData) return <></>;
 
   // const getTodaysLowTrianglePosition = () => {
   //   if (!stockData) return '0%';

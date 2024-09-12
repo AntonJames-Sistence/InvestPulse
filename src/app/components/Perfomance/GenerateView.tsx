@@ -1,15 +1,16 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import { Box } from '@mui/system';
+import React, { useEffect, useRef, useState } from 'react';
+import SkeletonLoader from '../SkeletonLoader';
 
 interface GenerateViewProps {
   stockSymbol: string;
 }
 
-const GenerateView: React.FC<GenerateViewProps> = ({
-  stockSymbol,
-}) => {
+const GenerateView: React.FC<GenerateViewProps> = ({ stockSymbol }) => {
   const container = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(false);
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 
   const generateTradingViewWidget = (symbol: string, isMobile: boolean) => {
@@ -46,14 +47,33 @@ const GenerateView: React.FC<GenerateViewProps> = ({
         "support_host": "https://www.tradingview.com"
       }`;
 
+    // script.onload = () => setLoading(false);
     container.current.appendChild(script);
   };
 
   useEffect(() => {
+    setLoading(true);
     generateTradingViewWidget(stockSymbol, isMobile);
+    setLoading(false);
   }, [stockSymbol, isMobile]);
 
-  return <div className="tradingview-widget-container self-center" ref={container}></div>;
+  if (loading) {
+    return (
+      <SkeletonLoader
+        variant="rectangular"
+        borderRadius={3}
+        width="100%"
+        height={`${isMobile ? 300 : 410}`}
+      />
+    );
+  }
+
+  return (
+    <Box
+      className="tradingview-widget-container self-center"
+      ref={container}
+    ></Box>
+  );
 };
 
 export default GenerateView;

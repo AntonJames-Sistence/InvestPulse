@@ -10,8 +10,9 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: "InvestPulse",
-  description: "Investpulse is the only tool you need for stock market tracking",
+  title: 'InvestPulse',
+  description:
+    'Investpulse is the only tool you need for stock market tracking',
 };
 
 export default function RootLayout({ children }) {
