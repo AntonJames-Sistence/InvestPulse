@@ -1,5 +1,3 @@
-// import dynamic from 'next/dynamic';
-// 'use client';
 // import Team from './components/Team';
 // import Tokenomics from './components/Tokenomics';
 // import HomePageNews from './components/HomePageNews';

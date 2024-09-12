@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { navLinks } from '../data/navLinks';
@@ -26,18 +26,10 @@ const NavBar: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const path = usePathname();
   const navRef = useRef<HTMLDivElement>(null);
+  const menuRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
   const toggleDrawer = () => {
     setIsDrawerOpen((prev) => !prev);
-  };
-
-  const handleMenuButtonKeyDown = (
-    event: React.KeyboardEvent<HTMLButtonElement>
-  ) => {
-    if (event.key === 'Enter') {
-      // Doesn't work, should fix this later
-      toggleDrawer();
-    }
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -46,24 +38,44 @@ const NavBar: React.FC = () => {
     }
   };
 
-  const handleKeyPress = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') {
+  const setMenuRef = useCallback(
+    (el: HTMLAnchorElement | null, index: number) => {
+      menuRefs.current[index] = el;
+    },
+    []
+  );
+
+  const handleMenuKeyDown = (event: KeyboardEvent) => {
+    const focusedIndex = menuRefs.current.findIndex(
+      (el) => el === document.activeElement
+    );
+
+    if (event.code === 'ArrowDown') {
+      event.preventDefault();
+      const nextIndex = (focusedIndex + 1) % menuRefs.current.length;
+      menuRefs.current[nextIndex]?.focus();
+    } else if (event.code === 'ArrowUp') {
+      event.preventDefault();
+      const prevIndex =
+        (focusedIndex - 1 + menuRefs.current.length) % menuRefs.current.length;
+      menuRefs.current[prevIndex]?.focus();
+    } else if (event.code === 'Escape') {
       setIsDrawerOpen(false);
     }
   };
 
   useEffect(() => {
     if (isDrawerOpen) {
+      document.addEventListener('keydown', handleMenuKeyDown);
       document.addEventListener('mousedown', handleClickOutside);
-      document.addEventListener('keydown', handleKeyPress);
     } else {
+      document.removeEventListener('keydown', handleMenuKeyDown);
       document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyPress);
     }
 
     return () => {
+      document.removeEventListener('keydown', handleMenuKeyDown);
       document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyPress);
     };
   }, [isDrawerOpen]);
 
@@ -81,52 +93,59 @@ const NavBar: React.FC = () => {
         <Toolbar
           sx={{
             display: 'flex',
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             width: '100%',
           }}
         >
-          <Link
-            href="/"
-            style={{
+          <Box
+            sx={{
+              width: { xs: '100%', lg: '95%' },
               display: 'flex',
+              justifyContent: 'space-between',
               alignItems: 'center',
-              marginRight: '5rem',
             }}
           >
-            <Image
-              src="/investpulse.webp"
-              alt="Investpulse logo"
-              width={40}
-              height={40}
-              className="rounded-full"
-              priority
-            />
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{ ml: 1, color: 'primary.main' }}
+            <Link
+              href="/"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+              aria-label="InvestPulse Home"
             >
-              InvestPulse
-            </Typography>
-          </Link>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' } }}>
-            {navLinks.map((navlink) => (
-              <Button
-                key={navlink.href}
-                href={navlink.href}
-                sx={{
-                  color:
-                    path === navlink.href ? 'primary.main' : 'text.primary',
-                  mx: 1,
-                }}
+              <Image
+                src="/investpulse.webp"
+                alt="Investpulse logo"
+                width={40}
+                height={40}
+                className="rounded-full"
+                priority
+              />
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{ ml: 1, color: 'primary.main' }}
               >
-                {navlink.title}
-              </Button>
-            ))}
-          </Box>
+                InvestPulse
+              </Typography>
+            </Link>
 
-          <Box display="flex">
+            <Box sx={{ display: { xs: 'none', lg: 'flex' } }}>
+              {navLinks.map((navlink) => (
+                <Button
+                  key={navlink.href}
+                  href={navlink.href}
+                  sx={{
+                    color:
+                      path === navlink.href ? 'primary.main' : 'text.primary',
+                    mx: 1,
+                  }}
+                >
+                  {navlink.title}
+                </Button>
+              ))}
+            </Box>
+
             <Box
               sx={{
                 display: { xs: 'flex', lg: 'none' },
@@ -138,7 +157,6 @@ const NavBar: React.FC = () => {
                 color="inherit"
                 aria-label="menu"
                 onClick={toggleDrawer}
-                onKeyDown={handleMenuButtonKeyDown}
                 tabIndex={0}
                 sx={{ ml: 2 }}
               >
@@ -162,12 +180,13 @@ const NavBar: React.FC = () => {
         }}
       >
         <List>
-          {navLinks.map((navlink) => (
+          {navLinks.map((navlink, index) => (
             <ListItem key={navlink.href}>
               <ListItemButton
                 component={Link}
                 href={navlink.href}
                 onClick={toggleDrawer}
+                ref={(el) => setMenuRef(el, index)}
               >
                 {navlink.icon}
                 <ListItemText primary={navlink.title} sx={{ ml: 2 }} />
