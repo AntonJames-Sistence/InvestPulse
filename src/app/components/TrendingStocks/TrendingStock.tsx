@@ -14,11 +14,7 @@ interface TrendingStockProps {
 const TrendingStock: React.FC<TrendingStockProps> = ({ stockData }) => {
   const router = useRouter();
 
-  const handleStockClick = (
-    e: React.MouseEvent<HTMLButtonElement>,
-    symbol: string
-  ) => {
-    e.preventDefault();
+  const handleStockAction = (symbol: string) => {
     router.push(`/?symbol=${symbol}`);
   };
 
@@ -75,8 +71,18 @@ const TrendingStock: React.FC<TrendingStockProps> = ({ stockData }) => {
           backgroundColor: 'rgba(217, 225, 253, 0.5);',
           scale: '105%',
         },
+        '&:focus': {
+          outline: '2px solid #007bff', // Add a focus outline
+          outlineOffset: '2px',
+        },
       }}
-      onClick={(e) => handleStockClick(e, stockData.symbol)}
+      onClick={() => handleStockAction(stockData.symbol)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          handleStockAction(stockData.symbol);
+        }
+      }}
+      aria-label={`View details for ${stockData.shortName} (${stockData.symbol})`}
     >
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Box display="flex" alignItems="center">
