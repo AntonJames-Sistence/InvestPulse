@@ -1,115 +1,101 @@
+import puppeteer from 'puppeteer';
 import { NextResponse } from 'next/server';
-// import postgres from 'postgres';
-// import { isRelevantArticle } from '../../utils/newsFilter';
-
-// const newsKey = process.env.NEWSDATA_KEY;
-// const placeholderImages = [
-//   'https://i.ibb.co/R34fRP2/crpto.webp',
-//   'https://i.ibb.co/0rgx9gB/Cryptocurrency-Photo-by-stockphoto-graf.webp',
-// ];
-
-// Function to get a random placeholder image
-// const getRandomPlaceholderImage = () => {
-//   const randomIndex = Math.floor(Math.random() * placeholderImages.length);
-//   return placeholderImages[randomIndex];
-// };
-
-// interface NewsData {
-//   article_id: string;
-//   title: string;
-//   link: string;
-//   description: string | null;
-//   pub_date: string | null;
-//   image_url: string | null;
-//   source_url: string | null;
-// }
 
 export async function GET() {
-  const api_token = process.env.MARKETAUX_API_TOKEN; // Store your API key securely in environment variables
-  const url = `https://api.marketaux.com/v1/news/all?symbols=TSLA,NVDA,MSFT,META,AAPL&filter_entities=true&language=en&api_token=${api_token}`;
+  const url = 'https://finance.yahoo.com/topic/latest-news/';
 
   try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch news: ${response.statusText}`);
-    }
-    // Parse the response body
-    const responseBody = await response.json(); // Assuming the API returns JSON
-    // console.log(responseBody)
+    // Launch a headless browser
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(url, {
+      waitUntil: 'networkidle2',
+    });
 
-    // console.log(sanitizedData);
+    // Wait for the content to load
+    await page.waitForSelector('li.js-stream-content');
 
-    return NextResponse.json(responseBody.data); // Return the fetched news as a JSON response
-  } catch {
+    // Scroll 2000px
+    await page.evaluate(() => {
+      window.scrollBy(0, 2000);
+    });
+
+    // Wait for a moment to allow new content to load after scrolling
+    await page.evaluate(
+      () => new Promise((resolve) => setTimeout(resolve, 2000))
+    );
+
+    // Fetch current time, day, and year
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+
+    // Extract data from the page
+    const newsItems = await page.evaluate(() => {
+      const articles = Array.from(
+        document.querySelectorAll('li.js-stream-content')
+      );
+
+      return articles
+        .map((article) => {
+          const titleElement = article.querySelector('h3 a');
+          const linkElement = article.querySelector('h3 a');
+          const summaryElement = article.querySelector('p');
+          const imageElement = article.querySelector('img');
+          const sourceElement = article.querySelector('span');
+
+          // Skip if any of the required fields are missing
+          if (
+            !titleElement ||
+            !summaryElement ||
+            !imageElement ||
+            !sourceElement
+          ) {
+            return null;
+          }
+
+          // Get image URL from 'srcset' or 'data-src' if 'src' is a placeholder
+          let imageUrl = imageElement?.getAttribute('src');
+          if (imageUrl.includes('spaceball.gif')) {
+            imageUrl =
+              imageElement?.getAttribute('data-src') ||
+              imageElement?.getAttribute('srcset');
+          }
+
+          // If no valid image URL, skip the article
+          if (!imageUrl) {
+            return null;
+          }
+
+          return {
+            title: titleElement?.textContent.trim(),
+            link: linkElement?.getAttribute('href'),
+            description: summaryElement?.textContent.trim(),
+            imageUrl,
+            source: sourceElement?.textContent.trim(),
+          };
+        })
+        .filter((item) => item !== null); // Filter out null (skipped) articles
+    });
+
+    // Attach the fetched time details to each article
+    const enrichedNewsItems = newsItems.map((item) => ({
+      ...item,
+      fetchedAt: formattedDate, // Adding the formatted date for each article
+    }));
+
+    await browser.close();
+
+    // Return the fetched and enriched news items as JSON
+    return NextResponse.json(enrichedNewsItems);
+  } catch (error) {
+    console.error('Error fetching news:', error);
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }
     );
   }
-
-  // if (!process.env.DATABASE_URL) {
-  //   return NextResponse.json({ message: "Couldn't reach DB" }, { status: 500 });
-  // }
-
-  // // Get the size parameter from the query string
-  // const { searchParams } = new URL(req.url);
-  // const size = searchParams.get('size');
-  // // Connect to DB
-  // const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
-
-  // // Fetch the news articles with the limit if size is provided, else fetch all
-  // let news: NewsData[];
-  // if (size && Number.isInteger(parseInt(size)) && parseInt(size) > 0) {
-  //   news = await sql<
-  //     NewsData[]
-  //   >`SELECT * FROM news ORDER BY pub_date DESC LIMIT ${size};`;
-  // } else {
-  //   news = await sql<NewsData[]>`SELECT * FROM news ORDER BY pub_date DESC;`;
-  // }
-
-  // return Response.json(news);
 }
-
-// export async function POST() {
-//   if (!process.env.DATABASE_URL) {
-//     return NextResponse.json({ message: "Couldn't reach DB" }, { status: 500 });
-//   }
-
-//   const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
-//   const url = `https://newsdata.io/api/1/latest?apikey=${newsKey}&q=cryptocurrency&language=en`;
-
-//   const response = await fetch(url);
-
-//   if (!response.ok) {
-//     throw new Error('Failed to fetch trending coins');
-//   }
-
-//   const data = await response.json();
-
-//   for (const article of data.results) {
-//     // Make sure we have title, description and link to the article
-//     if (!article.title || !article.description || !article.link) continue;
-
-//     // Check if the article is relevant based on the keywords
-//     if (!isRelevantArticle(article.title, article.description)) continue;
-
-//     // Make sure uniqueness of the article, by title, because id doesn't guarantee it
-//     const existingRecord =
-//       await sql`SELECT * FROM news WHERE title = ${article.title};`;
-//     if (existingRecord.length > 0) continue;
-
-//     // Check if image is available and it starts with https enabling usage of next/image if not, use the placeholder image
-//     const imageUrl =
-//       article.image_url && article.image_url.startsWith('https')
-//         ? article.image_url
-//         : getRandomPlaceholderImage();
-
-//     // Insert only when all requirements are fulfilled
-//     await sql`
-//                 INSERT INTO news (article_id, title, link, description, pub_date, image_url, source_url)
-//                 VALUES (${article.article_id}, ${article.title}, ${article.link}, ${article.description}, ${article.pubDate}, ${imageUrl}, ${article.source_url});
-//             `;
-//   }
-
-//   return NextResponse.json({ message: 'News are up to date' }, { status: 200 });
-// }

@@ -11,14 +11,12 @@ import {
 import Image from 'next/image';
 
 interface NewsData {
-  uuid: string;
   title: string;
-  description: string | null;
-  snippet: string | null;
-  url: string;
-  image_url: string | null;
-  published_at: string | null;
+  description: string;
+  imageUrl: string;
   source: string;
+  fetchedAt: string;
+  link: string;
 }
 
 // Fetch the news data on the server-side
@@ -41,14 +39,14 @@ async function fetchNewsData(): Promise<NewsData[]> {
 // Use this as a server-side component
 export default async function NewsPage() {
   const newsData = (await fetchNewsData()) || []; // Fetch data on the server
-
+  // console.log(newsData)
   if (!newsData) return null;
 
   return (
     <Container>
       <Grid sx={{ my: '56px' }} container spacing={4}>
         {newsData.map((article: NewsData) => (
-          <Grid item key={article.uuid} xs={12} sm={6} md={4}>
+          <Grid item key={article.title} xs={12} sm={6} md={4}>
             <Card
               sx={{
                 width: '100%',
@@ -60,11 +58,11 @@ export default async function NewsPage() {
                 transition: 'box-shadow 0.3s ease-in-out',
               }}
             >
-              {article.image_url && (
+              {article.imageUrl && (
                 <Image
                   className="h-48 w-full object-cover"
                   alt={article.title}
-                  src={article.image_url}
+                  src={article.imageUrl}
                   height={200}
                   width={400}
                 />
@@ -104,8 +102,9 @@ export default async function NewsPage() {
                     WebkitLineClamp: 4, // Adjust the number of lines to truncate here
                   }}
                 >
-                  {article.snippet || article.description}
+                  {article.description}
                 </Typography>
+
                 <Box
                   sx={{
                     display: 'flex',
@@ -114,15 +113,21 @@ export default async function NewsPage() {
                     marginTop: 'auto',
                   }}
                 >
+                <Typography
+                  variant="caption"
+                  color="textSecondary"
+                >
+                  Source: {article.source}
+                </Typography>
                   <Box
                     sx={{
                       alignSelf: 'flex-end',
                     }}
                   >
-                    {new Date(article.published_at ?? '').toLocaleDateString()}
+                    {`${article.fetchedAt}`}
                   </Box>
                   <Link
-                    href={article.url}
+                    href={article.link}
                     target="_blank"
                     rel="noopener noreferrer"
                     underline="hover"

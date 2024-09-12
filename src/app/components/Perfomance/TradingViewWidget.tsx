@@ -78,7 +78,7 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ stockData }) => {
               width={100}
               px={2}
               py={0.5}
-              mx={4}
+              ml={4}
             >
               {/* Arrow Indicator */}
               <Box
@@ -97,7 +97,7 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ stockData }) => {
               <Typography>{`${Math.abs(percentageChange24h).toFixed(2)}%`}</Typography>
             </Box>
 
-            <Typography variant="body2" color="textSecondary">
+            <Typography variant="body2" color="textSecondary" sx={{ ml: 1 }}>
               (24H)
             </Typography>
           </Box>
