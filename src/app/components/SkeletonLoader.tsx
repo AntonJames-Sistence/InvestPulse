@@ -38,7 +38,7 @@ const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
           height={height}
           sx={{
             marginBottom: `${marginBottom}rem`,
-            borderRadius: borderRadius,
+            borderRadius: `${borderRadius}px`,
             marginRight: `${marginRight}rem`,
           }}
         />

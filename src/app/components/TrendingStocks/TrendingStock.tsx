@@ -41,14 +41,14 @@ const TrendingStock: React.FC<TrendingStockProps> = ({ stockData }) => {
           variant="rectangular"
           width={'40%'}
           height={30}
-          borderRadius={3}
+          borderRadius={10}
         />
 
         <SkeletonLoader
           variant="rectangular"
           width={'20%'}
           height={20}
-          borderRadius={3}
+          borderRadius={15}
         />
       </Box>
     );

@@ -52,14 +52,14 @@ const StockPresentation: React.FC = () => {
               variant="circular"
               width={50}
               height={50}
-              borderRadius={10}
+              borderRadius={50}
               marginRight={1}
             />
             <SkeletonLoader
               variant="text"
               width="30%"
               height={60}
-              borderRadius={2}
+              borderRadius={15}
               marginBottom={1}
             />
           </div>
@@ -68,7 +68,7 @@ const StockPresentation: React.FC = () => {
             variant="text"
             width="10%"
             height={50}
-            borderRadius={10}
+            borderRadius={50}
             marginBottom={1}
           />
         </div>
@@ -76,23 +76,23 @@ const StockPresentation: React.FC = () => {
           variant="text"
           width="60%"
           height={60}
-          borderRadius={2}
+          borderRadius={15}
           marginBottom={1}
         />
 
         <Divider sx={{ mb: 2 }} />
 
         <SkeletonLoader
-          variant="text"
+          variant="rectangular"
           width="30%"
           height={40}
-          borderRadius={2}
+          borderRadius={15}
           marginBottom={1}
         />
 
         <SkeletonLoader
           variant="rectangular"
-          borderRadius={3}
+          borderRadius={15}
           width="100%"
           height={510}
         />
