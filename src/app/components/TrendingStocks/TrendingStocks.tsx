@@ -10,7 +10,8 @@ async function fetchTrendingStocks() {
     symbols.map(async (symbol) => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/stock/${symbol}`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/stock/${symbol}`,
+          {next: { revalidate: 10800 }} // revalidate every 3 hours
         );
         if (!response.ok) throw new Error(`Failed to fetch data for ${symbol}`);
         return response.json();
