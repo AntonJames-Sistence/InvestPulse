@@ -6,7 +6,7 @@ import React from 'react';
 import { formatAsUSD } from '../../utils/formatAsUsd';
 // import { formatPercentage } from '../../utils/formatPercentage';
 import Image from 'next/image';
-import { StockData } from '../../types/StockDataInterfaces';
+import { StockData } from '../../types/StockDataInterface';
 
 interface PerformanceProps {
   stockData: StockData;

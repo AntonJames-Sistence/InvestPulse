@@ -1,6 +1,6 @@
 // import Team from './components/Team';
 // import Tokenomics from './components/Tokenomics';
-// import HomePageNews from './components/HomePageNews';
+import HomePageNews from './components/HomePageNews';
 import { Suspense } from 'react';
 import { Toaster } from 'react-hot-toast';
 import TrendingStocks from './components/TrendingStocks/TrendingStocks';
@@ -26,7 +26,7 @@ export default function Home() {
         {/* Right side of the page */}
         <div className="flex flex-col lg:ml-4 w-full lg:w-1/3">
           <TrendingStocks />
-          {/* <HomePageNews /> */}
+          <HomePageNews />
         </div>
       </div>
     </main>

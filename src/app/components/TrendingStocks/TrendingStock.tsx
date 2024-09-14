@@ -1,6 +1,6 @@
 'use client';
 
-import { StockData } from '../../types/StockDataInterfaces';
+import { StockData } from '../../types/StockDataInterface';
 import { Box, Typography, ButtonBase } from '@mui/material';
 import Image from 'next/image';
 import React from 'react';

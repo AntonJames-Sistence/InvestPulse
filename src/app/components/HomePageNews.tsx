@@ -15,34 +15,14 @@ import {
 } from '@mui/material';
 import { Link as MuiLink } from '@mui/material';
 import ReusableTile from './ReusableTile';
-import { setCache, getCache } from '../utils/cacheUtils';
-import ImageWithFallback from '../utils/ImageWithFallback';
-
-interface NewsData {
-  article_id: string;
-  title: string;
-  link: string;
-  description: string | null;
-  pub_date: string | null;
-  image_url: string | null;
-  source_url: string | null;
-}
-
-const CACHE_KEY = 'newsDataCache';
-const CACHE_EXPIRY = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
+// import ImageWithFallback from '../utils/ImageWithFallback';
+import { NewsData } from '../types/NewsDataInterface';
 
 const HomePageNews: React.FC = () => {
   const [newsData, setNewsData] = useState<NewsData[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Try to get data from local storage first
-    const cachedNewsData = getCache<NewsData[]>(CACHE_KEY, CACHE_EXPIRY);
-    if (cachedNewsData) {
-      setNewsData(cachedNewsData);
-      setLoading(false);
-      return;
-    }
     // Fetch data from the server
     getNewsData();
   }, []);
@@ -50,17 +30,15 @@ const HomePageNews: React.FC = () => {
   const getNewsData = async () => {
     // Fetch news and limit size to 3
     try {
-      const response = await fetch(`/api/news?size=3`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      const response = await fetch(`${apiUrl}/api/news`, {
+        // next: { revalidate: 43200 },
+        cache: 'no-store',
       });
 
+      if (!response.ok) return null;
       const data = await response.json();
-      setNewsData(data);
-      // Caching to local storage
-      setCache(CACHE_KEY, data);
+      setNewsData(data.slice(0, 3));
     } catch (error) {
       console.error(`Couldn't get news data ${error}`);
     } finally {
@@ -70,7 +48,7 @@ const HomePageNews: React.FC = () => {
 
   if (loading) {
     return (
-      <ReusableTile title="Hot News">
+      <ReusableTile title="Loading News">
         <Grid container spacing={4} direction="column">
           {Array.from(new Array(3)).map((_, idx) => (
             <Grid item key={idx}>
@@ -125,33 +103,26 @@ const HomePageNews: React.FC = () => {
   }
 
   return (
-    <ReusableTile title="Hot News">
+    <ReusableTile title="Latest News">
       <Grid container spacing={4} direction="column">
         {newsData.map((article: NewsData) => (
-          <Grid item key={article.article_id}>
+          <Grid item key={article.title}>
             <Card
               sx={{
+                width: '100%',
                 display: 'flex',
                 flexDirection: 'column',
+                borderRadius: 10,
                 justifyContent: 'space-between',
+                transition: 'box-shadow 0.3s ease-in-out',
               }}
             >
-              {article.image_url && (
-                <ImageWithFallback
-                  className="h-48 w-full object-cover"
-                  alt={article.title}
-                  src={article.image_url}
-                  fallbackSrc={'https://i.ibb.co/R34fRP2/crpto.webp'}
-                  height={200}
-                  width={200}
-                />
-              )}
               <CardContent
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  width: '100%',
+                  height: '100%',
                 }}
               >
                 <Typography
@@ -163,7 +134,7 @@ const HomePageNews: React.FC = () => {
                     WebkitBoxOrient: 'vertical',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
-                    WebkitLineClamp: 2,
+                    WebkitLineClamp: 2, // Adjust the number of lines to truncate here
                   }}
                 >
                   {article.title}
@@ -178,19 +149,32 @@ const HomePageNews: React.FC = () => {
                     WebkitBoxOrient: 'vertical',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
-                    WebkitLineClamp: 3,
+                    WebkitLineClamp: 4, // Adjust the number of lines to truncate here
                   }}
                 >
                   {article.description}
                 </Typography>
+
                 <Box
                   sx={{
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'flex-end',
-                    marginTop: '1rem',
+                    marginTop: 4,
                   }}
                 >
+                  <Box>
+                    <Typography variant="caption" color="textSecondary">
+                      {article.source}
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      color="textSecondary"
+                      sx={{ display: 'block', fontWeight: 'bold' }}
+                    >
+                      {article.fetchedAt}
+                    </Typography>
+                  </Box>
                   <MuiLink
                     href={article.link}
                     target="_blank"
@@ -199,14 +183,6 @@ const HomePageNews: React.FC = () => {
                   >
                     Read more
                   </MuiLink>
-                  <Typography
-                    sx={{
-                      color: (theme) => theme.palette.text.secondary,
-                      alignSelf: 'flex-end',
-                    }}
-                  >
-                    {new Date(article.pub_date ?? '').toLocaleDateString()}
-                  </Typography>
                 </Box>
               </CardContent>
             </Card>
@@ -229,7 +205,7 @@ const HomePageNews: React.FC = () => {
             sx={{ m: 'auto', borderRadius: '10px' }}
             startIcon={<FaNewspaper />}
           >
-            News Page
+            View All News
           </Button>
         </Link>
       </Box>

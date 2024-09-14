@@ -6,7 +6,7 @@ import { Link } from '@mui/material';
 // import Image from 'next/image';
 import { stripHTMLTags } from '../../utils/stripHTMLTags';
 import React from 'react';
-import { StockData } from '../../types/StockDataInterfaces';
+import { StockData } from '../../types/StockDataInterface';
 
 interface AboutProps {
   stockData: StockData;

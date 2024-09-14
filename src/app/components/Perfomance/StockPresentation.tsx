@@ -6,7 +6,7 @@ import TradingViewWidget from './TradingViewWidget';
 import Performance from './Perfomance';
 import { useSearchParams } from 'next/navigation';
 import ReusableTile from '../ReusableTile';
-import { StockData } from '../../types/StockDataInterfaces';
+import { StockData } from '../../types/StockDataInterface';
 import SkeletonLoader from '../SkeletonLoader';
 import { getStockData } from './GetStockData';
 import { Divider } from '@mui/material';

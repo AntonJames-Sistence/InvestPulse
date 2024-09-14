@@ -9,15 +9,7 @@ import {
   Box,
 } from '@mui/material';
 // import Image from 'next/image';
-
-interface NewsData {
-  title: string;
-  description: string;
-  imageUrl: string;
-  source: string;
-  fetchedAt: string;
-  link: string;
-}
+import { NewsData } from '../types/NewsDataInterface';
 
 // Fetch the news data on the server-side
 async function fetchNewsData(): Promise<NewsData[]> {

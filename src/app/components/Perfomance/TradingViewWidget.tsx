@@ -1,7 +1,7 @@
 import { Box, Typography, Divider, Chip } from '@mui/material';
 import { formatAsUSD } from '../../utils/formatAsUsd';
 import Image from 'next/image';
-import { StockData } from '../../types/StockDataInterfaces';
+import { StockData } from '../../types/StockDataInterface';
 import GenerateView from './GenerateView';
 
 interface TradingViewWidgetProps {
