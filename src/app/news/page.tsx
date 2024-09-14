@@ -23,7 +23,7 @@ interface NewsData {
 async function fetchNewsData(): Promise<NewsData[]> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const response = await fetch(`${apiUrl}/api/news`, {
-    next: { revalidate: 3600 },
+    next: { revalidate: 43200 },
     // cache: 'no-store',
   });
 
@@ -50,7 +50,6 @@ export default async function NewsPage() {
             <Card
               sx={{
                 width: '100%',
-                height: '500px',
                 display: 'flex',
                 flexDirection: 'column',
                 borderRadius: 10,
@@ -58,15 +57,6 @@ export default async function NewsPage() {
                 transition: 'box-shadow 0.3s ease-in-out',
               }}
             >
-              {article.imageUrl && (
-                <img
-                  className="h-48 w-full object-cover"
-                  alt={article.title}
-                  src={article.imageUrl}
-                  height={200}
-                  width={400}
-                />
-              )}
               <CardContent
                 sx={{
                   display: 'flex',
@@ -110,7 +100,7 @@ export default async function NewsPage() {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'flex-end',
-                    marginTop: 'auto',
+                    marginTop: 4,
                   }}
                 >
                   <Box>
