@@ -8,7 +8,7 @@ import {
   Divider,
   Box,
 } from '@mui/material';
-import Image from 'next/image';
+// import Image from 'next/image';
 
 interface NewsData {
   title: string;
@@ -59,7 +59,7 @@ export default async function NewsPage() {
               }}
             >
               {article.imageUrl && (
-                <Image
+                <img
                   className="h-48 w-full object-cover"
                   alt={article.title}
                   src={article.imageUrl}

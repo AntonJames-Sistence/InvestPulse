@@ -1,13 +1,30 @@
-import puppeteer from 'puppeteer';
 import { NextResponse } from 'next/server';
+
+/* eslint-disable @typescript-eslint/no-require-imports */
+let puppeteer;
+let browser;
+
+if (process.env.NODE_ENV === 'production') {
+  puppeteer = require('puppeteer-core');
+  browser = require('chrome-aws-lambda');
+} else {
+  puppeteer = require('puppeteer');
+}
 
 export async function GET() {
   const url = 'https://finance.yahoo.com/topic/latest-news/';
 
   try {
-    // Launch a headless browser
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
+    const browserInstance =
+      process.env.NODE_ENV === 'production'
+        ? await puppeteer.launch({
+            args: browser.args,
+            executablePath: await browser.executablePath,
+            headless: browser.headless,
+          })
+        : await puppeteer.launch({ headless: 'new' });
+
+    const page = await browserInstance.newPage();
     await page.goto(url, {
       waitUntil: 'networkidle2',
     });
@@ -87,7 +104,8 @@ export async function GET() {
       fetchedAt: formattedDate, // Adding the formatted date for each article
     }));
 
-    await browser.close();
+    await browserInstance.close();
+    // console.log(enrichedNewsItems)
 
     // Return the fetched and enriched news items as JSON
     return NextResponse.json(enrichedNewsItems);

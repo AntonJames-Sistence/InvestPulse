@@ -14,6 +14,7 @@ module.exports = {
       {
         protocol: 'https', // this allow all the images to be shown, not good for security
         hostname: '**',
+        pathname: '**',
       },
     ],
   },
