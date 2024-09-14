@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { Link as MuiLink } from '@mui/material';
 import ReusableTile from './ReusableTile';
-// import ImageWithFallback from '../utils/ImageWithFallback';
+import Image from 'next/image';
 import { NewsData } from '../types/NewsDataInterface';
 
 const HomePageNews: React.FC = () => {
@@ -117,6 +117,15 @@ const HomePageNews: React.FC = () => {
                 transition: 'box-shadow 0.3s ease-in-out',
               }}
             >
+              {article.imageUrl && (
+                <Image
+                  className="h-48 w-full object-cover"
+                  alt={article.title}
+                  src={article.imageUrl}
+                  height={200}
+                  width={400}
+                />
+              )}
               <CardContent
                 sx={{
                   display: 'flex',

@@ -8,15 +8,15 @@ import {
   Divider,
   Box,
 } from '@mui/material';
-// import Image from 'next/image';
+import Image from 'next/image';
 import { NewsData } from '../types/NewsDataInterface';
 
 // Fetch the news data on the server-side
 async function fetchNewsData(): Promise<NewsData[]> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const response = await fetch(`${apiUrl}/api/news`, {
-    next: { revalidate: 43200 },
-    // cache: 'no-store',
+    // next: { revalidate: 43200 },
+    cache: 'no-store',
   });
 
   // Important to return empty array, because error of the production caused by not supported type
@@ -49,6 +49,15 @@ export default async function NewsPage() {
                 transition: 'box-shadow 0.3s ease-in-out',
               }}
             >
+              {article.imageUrl && (
+                <Image
+                  className="h-48 w-full object-cover"
+                  alt={article.title}
+                  src={article.imageUrl}
+                  height={200}
+                  width={400}
+                />
+              )}
               <CardContent
                 sx={{
                   display: 'flex',
