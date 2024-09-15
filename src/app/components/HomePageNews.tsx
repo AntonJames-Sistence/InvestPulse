@@ -32,8 +32,8 @@ const HomePageNews: React.FC = () => {
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL;
       const response = await fetch(`${apiUrl}/api/news`, {
-        // next: { revalidate: 43200 },
-        cache: 'no-store',
+        next: { revalidate: 43200 },
+        // cache: 'no-store',
       });
 
       if (!response.ok) return null;

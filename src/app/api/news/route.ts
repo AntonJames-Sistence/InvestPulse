@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const url = 'https://investpulse-news.onrender.com/scrape';
+  const url = 'https://investpulse-news-scraper.onrender.com/scrape';
 
   try {
     // Fetch the response from scrape endpoint
